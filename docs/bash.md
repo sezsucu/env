@@ -631,4 +631,73 @@ nohup daeomonscript.sh <0&-1>/dev/null 2>&1 &
 nohup daeomonscript.sh >>/path/to/daeomonscript.log 2>&1 <&-  &
 ```
 
+* To return va value from a function
+```bash
+function min()
+{
+    if [ $1 -lt $2 ]; then
+        echo $1
+    else
+        echo $2
+}
+
+ONE=$(min 1 10)
+echo $ONE
+```
+
+* To trap a signal
+```bash
+trap ' echo "Received a signal: $?" ' EXIT HUP INT QUIT TERM
+sleep 120
+```
+
+* To list all signals that can be trapped or killed
+```bash
+trap -l
+kill -l
+```
+
+* To call a function when trapping a signal. Notice that you can never trap SIGKILL.
+```bash
+function trappedOne
+{
+    if [ "$1" = "USR2" ]; then
+        echo "Bye!"
+        exit 0
+    else
+        echo "Not that easy with $1 signal"
+    fi
+}
+
+trap "trappedOne ABRT" ABRT
+trap "trappedOne EXIT" EXIT
+trap "trappedOne HUP"  HUP
+trap "trappedOne INT"  INT
+trap "trappedOne TERM" TERM
+trap "trappedOne USR1" USR1   
+trap "trappedOne USR2" USR2
+
+
+while (( 1 )); do
+    :  # just wait
+done
+```
+
+To kill a running script written as above 
+```bash
+jobs
+# find the job number, say it is 1
+kill -TERM %1
+# Not that easy with TERM signal
+kill -USR1 %1
+# Not that easy with USR1 signal
+kill -USR2 %2
+# Bye
+# Not that easy with EXIT signal
+```
+
+* To remove an alias
+```bash
+\rm *.class
+``` 
 
