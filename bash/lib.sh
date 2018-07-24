@@ -330,7 +330,7 @@ function displayEnv ()
         MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
     else
         IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d t -f2 | cut -d : -f2 | cut -b -12 | head -1`
-        #CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
+        CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
         CPU_MODEL=`grep "model name" /proc/cpuinfo | cut -d : -f2 | head -1`;
         CPU_COUNT=`grep "processor" /proc/cpuinfo | cut -d : -f2 | tail -1`;
         CPU_COUNT=$(echo "$[$CPU_COUNT+1]" );
