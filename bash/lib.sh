@@ -90,7 +90,6 @@ function findGrep()
     else
         findExecute "${2:-*}" "grep -c -H '${1:-}'"
     fi
-    # find . -name "${2:-*}" | xargs grep -H '${1:-}'
 }
 
 # case insensitive version of findGrep
@@ -99,7 +98,6 @@ function findGrep()
 function findGrepi()
 {
     findExecute "${2:-*}" "grep -c -H -i '${1:-}'"
-    # find . -name "${2:-*}" | xargs grep -H -i '${1:-}'
 }
 
 # find all files that are over the given size
@@ -221,7 +219,7 @@ function resetTitle()
 function setTitle()
 {
     case "$TERM" in
-        *term | rxvt)
+        *term | rxvt | xterm-256color)
             echo -n -e "\033]0;$*\007" ;;
         *)
             ;;
