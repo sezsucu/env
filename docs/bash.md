@@ -17,6 +17,12 @@
 * `zgrep`: to find text in compressed files
 * `zcat`: like cat, but for compressed files
 * `awk`: a great utility to process text files and extract columns
+* `time`: to time commands
+* `kill`: to kill a job with pid or job number
+* `trap`: to trap a signal
+* `date`: to show current time and date 
+* `diff`: to compare two files
+* `ln`: to make symbolic links
 
 ## Minor Things To Remember
 * To avoid alias
@@ -700,4 +706,32 @@ kill -USR2 %2
 ```bash
 \rm *.class
 ``` 
+
+* To time a command
+```bash
+time commandName
+```
+
+* To format dates
+```bash
+ISO_8601='%Y-%m-%dT%H:%M:%S%z'
+ISO_8601_ALT='%Y-%m-%d %H:%M:%S %Z'
+FILENAME_DATE='%Y%m%d%H%M%S'
+
+date "+$ISO_8601"
+date "+$ISO_8601"
+mv log.file.log "log.file.$(date +$FILENAME_DATE).log"
+```
+
+* Get the epoch seconds of now
+```bash
+date '+%s'
+# Epoch seconds are the number of seconds since midnight on January 1, 1970
+
+```
+
+* To create a symbolic link
+```bash
+ln -s /path/to/source.file /path/to/symbolick.link.file
+```
 

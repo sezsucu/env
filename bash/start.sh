@@ -48,6 +48,8 @@ if [ ! -d $envDataDir ]; then
     mkdir $envDataDir/emacs
 fi
 
+ISO_DATE_FMT='%Y-%m-%d %H:%M:%S %Z'
+
 # functions, utilities, etc..
 source $envHomeDir/bash/lib.sh
 

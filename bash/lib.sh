@@ -278,6 +278,30 @@ function generateTags()
     eval find . -name "*.cxx" -o -name "*.hxx" -o -name "*.cpp" -o -name "*.cc" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.c" | xargs $ETAGS_COMMAND --append --declarations --language=c++
 }
 
+function toEpoch()
+{
+    if [ "$envPlatform" = "Mac" ]; then
+        date -j -f "$ISO_DATE_FMT" "$*" +"%s"
+    elif [ "$envPlatform" = "Linux" ]; then
+        date -d "$*" '+%s'
+    else
+        echo "Not Supported"
+        exit 1
+    fi
+}
+
+function fromEpoch()
+{
+    if [ "$envPlatform" = "Mac" ]; then
+        date -u -r $1 "+$ISO_DATE_FMT"
+    elif [ "$envPlatform" = "Linux" ]; then
+        date -u -d "@$1" "+$ISO_DATE_FMT"
+    else
+        echo "Not Supported"
+        exit 1
+    fi
+}
+
 function displayEnv ()
 {
     local IP_ADDRESS="";
@@ -295,38 +319,38 @@ function displayEnv ()
     local KERNEL=`uname -r`
     local LOAD=`w | grep up | awk '{print $10" "$11" "$12}'`
     if [ "$envPlatform" = "Mac" ]; then
-	DISTRO="Mac"
-	IP_ADDRESS=`ifconfig | grep 'inet ' | grep -v '127.0.0.1' | cut -c 7-17 | head -1`
-	CPU_MODEL=`/usr/sbin/system_profiler SPHardwareDataType | grep "Processor Name" | cut -d : -f2`
-	CPU_SPEED=`/usr/sbin/system_profiler SPHardwareDataType | grep "Processor Speed" | cut -d : -f2`
-	CPU_SPEED=" @ $CPU_SPEED";
-	CPU_COUNT=`/usr/sbin/system_profiler SPHardwareDataType | grep "Total Number Of Cores" | cut -d : -f2`
+        DISTRO="Mac"
+        IP_ADDRESS=`ifconfig | grep 'inet ' | grep -v '127.0.0.1' | cut -c 7-17 | head -1`
+        CPU_MODEL=`/usr/sbin/system_profiler SPHardwareDataType | grep "Processor Name" | cut -d : -f2`
+        CPU_SPEED=`/usr/sbin/system_profiler SPHardwareDataType | grep "Processor Speed" | cut -d : -f2`
+        CPU_SPEED=" @ $CPU_SPEED";
+        CPU_COUNT=`/usr/sbin/system_profiler SPHardwareDataType | grep "Total Number Of Cores" | cut -d : -f2`
 
-	MEM_FREE=`top -l 1 | grep PhysMem | awk '{printf $10}' | cut -d M -f1`
-	MEM_USED=`top -l 1 | grep PhysMem | awk '{printf $8}' | cut -d M -f1`
-	MEM_TOTAL=$(echo "$[$MEM_USED+$MEM_TOTAL+0]" );
-	MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
+        MEM_FREE=`top -l 1 | grep PhysMem | awk '{printf $10}' | cut -d M -f1`
+        MEM_USED=`top -l 1 | grep PhysMem | awk '{printf $8}' | cut -d M -f1`
+        MEM_TOTAL=$(echo "$[$MEM_USED+$MEM_TOTAL+0]" );
+        MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
     else
-	IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d t -f2 | cut -d : -f2 | cut -b -12 | head -1`
-	#CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
-	CPU_MODEL=`grep "model name" /proc/cpuinfo | cut -d : -f2 | head -1`;
-	CPU_COUNT=`grep "processor" /proc/cpuinfo | cut -d : -f2 | tail -1`;
-	CPU_COUNT=$(echo "$[$CPU_COUNT+1]" );
+        IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d t -f2 | cut -d : -f2 | cut -b -12 | head -1`
+        #CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
+        CPU_MODEL=`grep "model name" /proc/cpuinfo | cut -d : -f2 | head -1`;
+        CPU_COUNT=`grep "processor" /proc/cpuinfo | cut -d : -f2 | tail -1`;
+        CPU_COUNT=$(echo "$[$CPU_COUNT+1]" );
 
-	MEM_FREE=`cat /proc/meminfo | grep MemFree | cut -d: -f2 | cut -dk -f1`;
-	MEM_TOTAL=`cat /proc/meminfo | grep MemTotal | cut -d: -f2 | cut -dk -f1`;
-	MEM_TOTAL=$(echo "$[$MEM_TOTAL*1/1024]");
-	MEM_FREE=$(echo "$[$MEM_FREE*1/1024]" );
-	MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
+        MEM_FREE=`cat /proc/meminfo | grep MemFree | cut -d: -f2 | cut -dk -f1`;
+        MEM_TOTAL=`cat /proc/meminfo | grep MemTotal | cut -d: -f2 | cut -dk -f1`;
+        MEM_TOTAL=$(echo "$[$MEM_TOTAL*1/1024]");
+        MEM_FREE=$(echo "$[$MEM_FREE*1/1024]" );
+        MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
 
-	DISTRO="Unknown Distro"
-	DISTRO_VER="Unknown Distro"
-	test -r "/etc/slackware-version" && DISTRO_VER=`cat /etc/slackware-version` && DISTRO="Slackware"
-	test -r "/etc/debian_version" && DISTRO_VER=`cat /etc/debian_version` && DISTRO="Debian"
-	test -r "/etc/redhat-release" && DISTRO_VER=`cat /etc/redhat-release` && DISTRO="Redhat"
-	test -r "/etc/SuSE-release" && DISTRO_VER=`cat /etc/SuSE-release` && DISTRO="SuSe"
-	test -r "/etc/gentoo-release" && DISTRO_VER=`cat /etc/gentoo-release` && DISTRO="Gentoo"
-	test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
+        DISTRO="Unknown Distro"
+        DISTRO_VER="Unknown Distro"
+        test -r "/etc/slackware-version" && DISTRO_VER=`cat /etc/slackware-version` && DISTRO="Slackware"
+        test -r "/etc/debian_version" && DISTRO_VER=`cat /etc/debian_version` && DISTRO="Debian"
+        test -r "/etc/redhat-release" && DISTRO_VER=`cat /etc/redhat-release` && DISTRO="Redhat"
+        test -r "/etc/SuSE-release" && DISTRO_VER=`cat /etc/SuSE-release` && DISTRO="SuSe"
+        test -r "/etc/gentoo-release" && DISTRO_VER=`cat /etc/gentoo-release` && DISTRO="Gentoo"
+        test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
     fi
 
     if [ ! -z "$SSH_CONNECTION" ]; then
