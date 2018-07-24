@@ -276,6 +276,7 @@ function generateTags()
     eval find . -name "*.cxx" -o -name "*.hxx" -o -name "*.cpp" -o -name "*.cc" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.c" | xargs $ETAGS_COMMAND --append --declarations --language=c++
 }
 
+
 function toEpoch()
 {
     if [ "$envPlatform" = "Mac" ]; then
@@ -299,6 +300,31 @@ function fromEpoch()
         exit 1
     fi
 }
+
+
+#function toEpoch()
+#{
+#    if [ "$envPlatform" = "Mac" ]; then
+#        date -j -f "$ISO_DATE_FMT" "$*" +"%s"
+#    elif [ "$envPlatform" = "Linux" ]; then
+#        date -d "$*" '+%s'
+#    else
+#        echo "Not Supported"
+#        exit 1
+#    fi
+#}
+#
+#function fromEpoch()
+#{
+#    if [ "$envPlatform" = "Mac" ]; then
+#        date -u -r $1 "+$ISO_DATE_FMT"
+#    elif [ "$envPlatform" = "Linux" ]; then
+#        date -u -d "@$1" "+$ISO_DATE_FMT"
+#    else
+#        echo "Not Supported"
+#        exit 1
+#    fi
+#}
 
 function displayEnv ()
 {
@@ -352,7 +378,7 @@ function displayEnv ()
     fi
 
     if [ ! -z "$SSH_CONNECTION" ]; then
-	MYIP=`echo $SSH_CONNECTION | awk '{print $1}'`;
+	    MYIP=`echo $SSH_CONNECTION | awk '{print $1}'`;
     fi
 
     printf "%14s: $Red $MYIP $NC \n" "My Ip" ;

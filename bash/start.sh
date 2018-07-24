@@ -60,6 +60,7 @@ else
     . $envHomeDir/bash/linux/aliasesForLinux.sh
 fi
 
+export TZ=Etc/UTC
 # [Other Environment Variables]
 export HOSTNAME=`hostname`
 export PAGER=less
