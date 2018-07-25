@@ -277,54 +277,49 @@ function generateTags()
 }
 
 
-function toEpoch()
+function toEpochF()
 {
+    if [ $# -eq 0 ]; then
+        echo "Usage: toEpochF '%Y-%m-%d %H:%M:%S %Z' '2018-07-25 14:36:02 UTC'"
+        echo 'Convert the given date to epoch seconds since 1970'
+    else
+        local format=$1
+        shift
+        if [ "$envPlatform" = "Mac" ]; then
+            date -j -f "$format" "$*" +"%s"
+        elif [ "$envPlatform" = "Linux" ]; then
+            date -d "$*" '+%s'
+        else
+            echo "Not Supported"
+            exit 1
+        fi
+    fi
+}
+
+function fromEpochF()
+{
+    local format=$1
+    shift
     if [ "$envPlatform" = "Mac" ]; then
-        date -j -f "$ISO_DATE_FMT" "$*" +"%s"
+        date -r $1 "+$format"
     elif [ "$envPlatform" = "Linux" ]; then
-        date -d "$*" '+%s'
+        date -d "@$1" "+$format"
     else
         echo "Not Supported"
         exit 1
     fi
+}
+
+
+function toEpoch()
+{
+    toEpochF "$ISO_DATE_FMT" $*
 }
 
 function fromEpoch()
 {
-    if [ "$envPlatform" = "Mac" ]; then
-        date -u -r $1 "+$ISO_DATE_FMT"
-    elif [ "$envPlatform" = "Linux" ]; then
-        date -u -d "@$1" "+$ISO_DATE_FMT"
-    else
-        echo "Not Supported"
-        exit 1
-    fi
+    fromEpochF "$ISO_DATE_FMT" $*
 }
-
-
-#function toEpoch()
-#{
-#    if [ "$envPlatform" = "Mac" ]; then
-#        date -j -f "$ISO_DATE_FMT" "$*" +"%s"
-#    elif [ "$envPlatform" = "Linux" ]; then
-#        date -d "$*" '+%s'
-#    else
-#        echo "Not Supported"
-#        exit 1
-#    fi
-#}
-#
-#function fromEpoch()
-#{
-#    if [ "$envPlatform" = "Mac" ]; then
-#        date -u -r $1 "+$ISO_DATE_FMT"
-#    elif [ "$envPlatform" = "Linux" ]; then
-#        date -u -d "@$1" "+$ISO_DATE_FMT"
-#    else
-#        echo "Not Supported"
-#        exit 1
-#    fi
-#}
 
 function displayEnv ()
 {

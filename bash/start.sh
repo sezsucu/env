@@ -49,6 +49,7 @@ if [ ! -d $envDataDir ]; then
 fi
 
 ISO_DATE_FMT='%Y-%m-%d %H:%M:%S %Z'
+export TZ=Etc/UTC
 
 # functions, utilities, etc..
 source $envHomeDir/bash/lib.sh
@@ -60,7 +61,6 @@ else
     . $envHomeDir/bash/linux/aliasesForLinux.sh
 fi
 
-export TZ=Etc/UTC
 # [Other Environment Variables]
 export HOSTNAME=`hostname`
 export PAGER=less
