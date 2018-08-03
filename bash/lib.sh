@@ -454,8 +454,6 @@ function git_prompt()
                 fi
                 response="${response}?$untracked_count"
             fi
-        else
-            response="${response}✔"
         fi
         echo "($response)"
     else
