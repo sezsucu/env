@@ -390,6 +390,73 @@ function git_prompt()
     local repo=$(git rev-parse --show-toplevel 2> /dev/null)
     if [[ -e $repo ]]; then
         local response=`git branch 2>/dev/null | grep '^*' | colrm 1 2`
+        local git_status=$(LC_ALL=C git status --untracked-files=normal --porcelain)
+        if [[ "$?" -ne 0 ]]; then
+            echo "(error)";
+            return
+        fi
+        # below code is from (modified from original version)
+        # https://github.com/magicmonty/bash-git-prompt/blob/master/LICENSE.txt
+        local staged_count=0
+        local modified_count=0
+        local conflict_count=0
+        local untracked_count=0
+        local status=''
+        local line=''
+        while IFS='' read -r line || [[ -n "$line" ]]; do
+            status=${line:0:2}
+            while [[ -n $status ]]; do
+                case "$status" in
+                    \?\?)
+                            ((untracked_count++));
+                            local file=${line:3}
+                            if [[ $file =~ ^\..* ]]; then
+                                ((untracked_count--));
+                            fi
+                            break ;;
+                    U?) ((conflict_count++)); break;;
+                    ?U) ((conflict_count++)); break;;
+                    DD) ((conflict_count++)); break;;
+                    AA) ((conflict_count++)); break;;
+                    #two character matches, first loop
+                    ?M) ((modified_count++)) ;;
+                    ?D) ((modified_count++)) ;;
+                    ?\ ) ;;
+                    #single character matches, second loop
+                    U) ((conflict_count++)) ;;
+                    \ ) ;;
+                    *) ((staged_count++)) ;;
+                esac
+                status=${status:0:(${#status}-1)}
+            done
+        done <<< "$git_status"
+        if [[ $modified_count > 0 || $conflict_count > 0 || $staged_count > 0 || $untracked_count > 0 ]]; then
+            response="$response|"
+            local putSpace=0
+            [[ $conflict_count > 0 ]] && response="${response}x$conflict_count" && putSpace=1
+            if [[ $modified_count > 0 ]]; then
+                if [[ $putSpace == 1 ]]; then
+                    response="$response "
+                fi
+                response="${response}+$modified_count"
+                putSpace=1
+            fi
+            if [[ $staged_count > 0 ]]; then
+                if [[ $putSpace == 1 ]]; then
+                    response="$response "
+                fi
+                response="${response}*$staged_count"
+                putSpace=1
+            fi
+            if [[ $untracked_count > 0 ]]; then
+                if [[ $putSpace == 1 ]]; then
+                    response="$response "
+                fi
+                response="${response}?$untracked_count"
+            fi
+        else
+            response="$response✔"
+        fi
         echo "($response)"
     else
         echo ''
