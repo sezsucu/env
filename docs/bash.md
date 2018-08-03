@@ -1,3 +1,6 @@
+## [Awesome Bash](https://github.com/awesome-lists/awesome-bash)
+A curated list of bash scripts and resources
+
 ## Reminders
 * `type`: builtin command
 * `which`: to find which command would be executed

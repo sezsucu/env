@@ -37,6 +37,19 @@ if [ "$unameStr" = "Darwin" ]; then
     envPlatform="Mac";
 fi
 
+source $envHomeDir/bash/settings.sh
+if [ -f /etc/timezone ]; then
+  LOCAL_TIME_ZONE=`cat /etc/timezone`
+elif [ -h /etc/localtime ]; then
+    LOCAL_TIME_ZONE=`readlink /etc/localtime`
+    if [[ $LOCAL_TIME_ZONE =~ ^\/var\/db ]]; then
+        LOCAL_TIME_ZONE=`readlink /etc/localtime | sed "s/\/var\/db\/timezone\/zoneinfo\///"`
+    else
+        LOCAL_TIME_ZONE=`readlink /etc/localtime | sed "s/\/usr\/share\/zoneinfo\///"`
+    fi
+fi
+
+
 # setup the data dir used for temp data files
 # bash: history file
 # ssh: authorized_keys file
@@ -131,14 +144,26 @@ setupColors;
 resetTitle;
 
 # [Prompt]
-case $TERM in
-    xterm*)
-	PS1="\n\[$Blue\]\u@\[$Red\]\h\[$NC\][\t]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
-        ;;
-    *)
+envHasGit=`command -v git`
+if [ $envHasGit ]; then
+    case $TERM in
+        xterm*)
+        PS1="\n\[$Blue\]\u\[$NC\][\$(time_here)]\[$Red\]\$(git_prompt)\[$NC\]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
+            ;;
+        *)
+            PS1="\n\[$Blue\]\u\[$NC\][\$(time_here)]\[$Red\]\$(git_prompt)\[$NC\]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
+            ;;
+    esac
+else
+    case $TERM in
+        xterm*)
         PS1="\n\[$Blue\]\u@\[$Red\]\h\[$NC\][\t]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
-        ;;
-esac
+            ;;
+        *)
+            PS1="\n\[$Blue\]\u@\[$Red\]\h\[$NC\][\t]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
+            ;;
+    esac
+fi
 
 case "$-" in
     *i*) # interactive

@@ -159,8 +159,6 @@ setupConsoleColors()
 setupXtermColors()
 {
 
-    #`xmodmap -e "keysym BackSpace = Delete" -e "keysym Delete = BackSpace"`
-
     NC="$(tput sgr0)"       # No Color
 
     Blue="$(tput bold ; tput setaf 4)"
@@ -212,7 +210,8 @@ function setupDisplay ()
 function resetTitle()
 {
     #export PROMPT_COMMAND='echo -ne "\033]0;${USER}@[`uname -m`]${HOSTNAME}: ${PWD}\007"'
-    export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+    #export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+    export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}\007"'
 }
 
 # You can use this function from shell to custom set the title
@@ -386,3 +385,13 @@ function displayEnv ()
     printf "%14s: $Purple $LOAD $NC \n" "Load";
 }
 
+function git_prompt()
+{
+    local repo=$(git rev-parse --show-toplevel 2> /dev/null)
+    if [[ -e $repo ]]; then
+        local response=`git branch 2>/dev/null | grep '^*' | colrm 1 2`
+        echo "($response)"
+    else
+        echo ''
+    fi
+}
