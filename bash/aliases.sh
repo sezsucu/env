@@ -37,4 +37,5 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 alias emacs='emacs --load ${envHomeDir}/etc/emacs/config.el'
 
 alias date_here='TZ=$LOCAL_TIME_ZONE date  "+$ISO_DATE_FMT"'
+alias date_utc='TZ=Etc/UTC date -u "+$ISO_DATE_FMT"'
 alias time_here='TZ=$LOCAL_TIME_ZONE date  "+%H:%M:%S"'

@@ -297,15 +297,20 @@ function toEpochF()
 
 function fromEpochF()
 {
-    local format=$1
-    shift
-    if [ "$envPlatform" = "Mac" ]; then
-        date -r $1 "+$format"
-    elif [ "$envPlatform" = "Linux" ]; then
-        date -d "@$1" "+$format"
+    if [ $# -eq 0 ]; then
+        echo "Usage: fromEpochF '%Y-%m-%d %H:%M:%S %Z' 1533823979"
+        echo "Convert epoch seconds since 1970 to date with the given format, always in UTC"
     else
-        echo "Not Supported"
-        exit 1
+        local format=$1
+        shift
+        if [ "$envPlatform" = "Mac" ]; then
+            TZ=Etc/UTC date -r $1 "+$format"
+        elif [ "$envPlatform" = "Linux" ]; then
+            TZ=Etc/UTC date -d "@$1" "+$format"
+        else
+            echo "Not Supported"
+            exit 1
+        fi
     fi
 }
 
