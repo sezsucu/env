@@ -349,10 +349,11 @@ function displayEnv ()
         CPU_SPEED=" @ $CPU_SPEED";
         CPU_COUNT=`/usr/sbin/system_profiler SPHardwareDataType | grep "Total Number Of Cores" | cut -d : -f2`
 
-        MEM_FREE=`top -l 1 | grep PhysMem | awk '{printf $10}' | cut -d M -f1`
-        MEM_USED=`top -l 1 | grep PhysMem | awk '{printf $8}' | cut -d M -f1`
-        MEM_TOTAL=$(echo "$[$MEM_USED+$MEM_TOTAL+0]" );
-        MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
+        MEM_FREE=`\top -l 1 | grep PhysMem | awk '{printf $6}' | cut -d M -f1`
+        MEM_USED=`\top -l 1 | grep PhysMem | awk '{printf $8}' | cut -d M -f1`
+        MEM_TOTAL=`sysctl hw.memsize | awk '{printf $2}'`
+        #MEM_TOTAL=$(echo "$[$MEM_USED+$MEM_TOTAL+0]" );
+        #MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
     else
         IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d t -f2 | cut -d : -f2 | cut -b -12 | head -1`
         CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
@@ -376,8 +377,8 @@ function displayEnv ()
         test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
     fi
 
-    if [ ! -z "$SSH_CONNECTION" ]; then
-	    MYIP=`echo $SSH_CONNECTION | awk '{print $1}'`;
+    if [ ! -z "${SSH_CONNECTION+x}" ]; then
+	    MY_CLIENT_IP=`echo $SSH_CONNECTION | awk '{print $1}'`;
     fi
 
     printf "%14s: $Red $MYIP $NC \n" "My Ip" ;
