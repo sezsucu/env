@@ -738,3 +738,18 @@ date '+%s'
 ln -s /path/to/source.file /path/to/symbolick.link.file
 ```
 
+* To get the process id
+```bash
+echo $$
+```
+
+* Numeric tests in if expressions
+```bash
+if (( number < (1024*1024) )); then
+    echo "$number is less than 102323"
+fi
+
+if [[ $number -lt 1048576 ]]; then
+    echo "$number is less than 102323"
+fi
+```

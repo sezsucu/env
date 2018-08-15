@@ -325,70 +325,23 @@ function fromEpoch()
     fromEpochF "$ISO_DATE_FMT" $*
 }
 
-function displayEnv ()
+# Given a number it converts it to a more pleasant to read display format
+# e.g. Kilobyte, Megabyte or Gigabytes
+function bytesToDisplay
 {
-    local IP_ADDRESS="";
-    local MYIP="";
-    local CPU_MODEL="";
-    local CPU_SEED="";
-    local CPU_COUNT="";
-    local MEM_FREE="";
-    local MEM_USED="";
-    local MEM_TOTAL="";
-    local MEM_FREE="";
-    local MEM_FREE_PCNT="";
-    local DISTRO="";
-    local DISTRO_VER="";
-    local KERNEL=`uname -r`
-    local LOAD=`w | grep up | awk '{print $10" "$11" "$12}'`
-    if [ "$envPlatform" = "Mac" ]; then
-        DISTRO="Mac"
-        IP_ADDRESS=`ifconfig | grep 'inet ' | grep -v '127.0.0.1' | cut -c 7-17 | head -1`
-        CPU_MODEL=`/usr/sbin/system_profiler SPHardwareDataType | grep "Processor Name" | cut -d : -f2`
-        CPU_SPEED=`/usr/sbin/system_profiler SPHardwareDataType | grep "Processor Speed" | cut -d : -f2`
-        CPU_SPEED=" @ $CPU_SPEED";
-        CPU_COUNT=`/usr/sbin/system_profiler SPHardwareDataType | grep "Total Number Of Cores" | cut -d : -f2`
-
-        MEM_FREE=`\top -l 1 | grep PhysMem | awk '{printf $6}' | cut -d M -f1`
-        MEM_USED=`\top -l 1 | grep PhysMem | awk '{printf $8}' | cut -d M -f1`
-        MEM_TOTAL=`sysctl hw.memsize | awk '{printf $2}'`
-        #MEM_TOTAL=$(echo "$[$MEM_USED+$MEM_TOTAL+0]" );
-        #MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
+    local number=$1
+    if (( number < 1024 )); then
+        echo $number
+    elif (( number < (1024*1024) )); then
+        number=$((number/1024))
+        echo "$number KBs"
+    elif (( number < (1024*1024*1024) )); then
+        number=$((number/(1024*1024)))
+        echo "$number MBs"
     else
-        IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d t -f2 | cut -d : -f2 | cut -b -12 | head -1`
-        CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
-        CPU_MODEL=`grep "model name" /proc/cpuinfo | cut -d : -f2 | head -1`;
-        CPU_COUNT=`grep "processor" /proc/cpuinfo | cut -d : -f2 | tail -1`;
-        CPU_COUNT=$(echo "$[$CPU_COUNT+1]" );
-
-        MEM_FREE=`cat /proc/meminfo | grep MemFree | cut -d: -f2 | cut -dk -f1`;
-        MEM_TOTAL=`cat /proc/meminfo | grep MemTotal | cut -d: -f2 | cut -dk -f1`;
-        MEM_TOTAL=$(echo "$[$MEM_TOTAL*1/1024]");
-        MEM_FREE=$(echo "$[$MEM_FREE*1/1024]" );
-        MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
-
-        DISTRO="Unknown Distro"
-        DISTRO_VER="Unknown Distro"
-        test -r "/etc/slackware-version" && DISTRO_VER=`cat /etc/slackware-version` && DISTRO="Slackware"
-        test -r "/etc/debian_version" && DISTRO_VER=`cat /etc/debian_version` && DISTRO="Debian"
-        test -r "/etc/redhat-release" && DISTRO_VER=`cat /etc/redhat-release` && DISTRO="Redhat"
-        test -r "/etc/SuSE-release" && DISTRO_VER=`cat /etc/SuSE-release` && DISTRO="SuSe"
-        test -r "/etc/gentoo-release" && DISTRO_VER=`cat /etc/gentoo-release` && DISTRO="Gentoo"
-        test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
+        number=$((number/(1024*1024*1024)))
+        echo "$number GBs"
     fi
-
-    if [ ! -z "${SSH_CONNECTION+x}" ]; then
-	    MY_CLIENT_IP=`echo $SSH_CONNECTION | awk '{print $1}'`;
-    fi
-
-    printf "%14s: $Red $MYIP $NC \n" "My Ip" ;
-    printf "%14s: $Blue $DISTRO $DISTRO_VER $NC \n" "Distro" ;
-    printf "%14s: $Blue $CPU_COUNT x $CPU_MODEL $CPU_SPEED $NC \n" "CPU" ;
-    printf "%14s: $Blue $IP_ADDRESS $NC \n" "IP Address";
-    printf "%14s: $Purple $KERNEL $NC \n" "Kernel";
-    printf "%14s: $Red $MEM_TOTAL MBs $NC \n" "Total Memory";
-    printf "%14s: $Red $MEM_FREE MBs ($MEM_FREE_PCNT %%) $NC \n" "Free Memory";
-    printf "%14s: $Purple $LOAD $NC \n" "Load";
 }
 
 function git_prompt()
