@@ -6,7 +6,7 @@
 # envPlatform: Mac or Linux
 
 # Never use an uninitialised variable
-set -u
+# set -u
 
 # Find where we are installed at
 INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
