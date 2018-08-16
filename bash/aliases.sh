@@ -14,11 +14,10 @@ alias ..="cd .."
 
 # disk usage
 alias dus='du -sh'
-alias du='du -h'
 
 #displays top 15 largest files
 alias largeFiles='find . -ls | sort -nrk7 | head -15'
-alias largeDirs='du -S . | sort -nr | head -15'
+#alias largeDirs='du -S . | sort -nr | head -15'
 
 # make sure we don't mess things up
 alias cp='cp -i'

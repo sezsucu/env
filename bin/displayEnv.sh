@@ -1,19 +1,27 @@
 #!/usr/bin/env bash
 
+# A script to gather some overall data about the host machine
+# Including
+# IP Address of the machine
+# Client IP (if connected by ssh)
+# Distro (if Linux)
+# CPU Count, CPU Model, CPU Speed
+# Total Memory, Free Memory and Free Memory Percentage in terms of Total Memory
+# CPU Load
+# Kernel Version
+
 source "$envHomeDir/bash/lib.sh"
 
 setupColors
 
 
-
 IP_ADDRESS="";
 MY_CLIENT_IP="";
 CPU_MODEL="";
-CPU_SEED="";
+CPU_SPEED="";
 CPU_COUNT="";
 MEM_FREE="";
 MEM_TOTAL="";
-MEM_FREE="";
 MEM_FREE_PCNT="";
 DISTRO="";
 DISTRO_VER="";
@@ -68,11 +76,12 @@ if [ ! -z "${SSH_CONNECTION+x}" ]; then
     MY_CLIENT_IP=`echo $SSH_CONNECTION | awk '{print $1}'`;
 fi
 
+printf "%14s: $Blue $IP_ADDRESS $NC \n" "IP Address";
 printf "%14s: $Red ${MY_CLIENT_IP:-local} $NC \n" "Client Ip" ;
+printf "\n" ;
 printf "%14s: $Blue $DISTRO $DISTRO_VER $NC \n" "Distro" ;
 printf "%14s: $Blue $CPU_COUNT x $CPU_MODEL $CPU_SPEED $NC \n" "CPU" ;
-printf "%14s: $Blue $IP_ADDRESS $NC \n" "IP Address";
-printf "%14s: $Purple $KERNEL $NC \n" "Kernel";
 printf "%14s: $Red $MEM_TOTAL $NC \n" "Total Memory";
 printf "%14s: $Red $MEM_FREE ($MEM_FREE_PCNT %%) $NC \n" "Free Memory";
 printf "%14s: $Purple $LOAD $NC \n" "Load";
+printf "%14s: $Purple $KERNEL $NC \n" "Kernel";
