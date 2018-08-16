@@ -16,8 +16,8 @@ alias ..="cd .."
 alias dus='du -sh'
 
 #displays top 15 largest files
-#alias largeFiles='find . -ls | awk "{$1=''; $2='' print \$7, \$5, \$8, \$9, \$10; for(i=11;i<NF;i++){ printf " %s", \$i }}" | sort -nr | head -15'
-alias largeFiles='find . -ls | awk "{printf \$7; \$1 = \"\"; \$2 = \"\"; \$3 = \"\"; \$4 = \"\"; \$6 = \"\"; \$7 = \"\"; print \$0;}" | tr -s " "  | sort -nr | head -15 '
+#alias largeFiles='find . -ls | sort -nrk7 | head -15'
+alias largeFiles='find . -ls | awk "{printf \$7; \$1 = \"\"; \$2 = \"\"; \$3 = \"\"; \$4 = \"\"; \$6 = \"\"; \$7 = \"\"; print \$0;}" | sort -nr | tr -s " " | head -15 '
 #alias largeDirs='du -S . | sort -nr | head -15'
 
 # make sure we don't mess things up
