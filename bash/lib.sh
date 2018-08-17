@@ -329,7 +329,12 @@ function fromEpochF()
 
 function toEpoch()
 {
-    toEpochF "$ISO_DATE_FMT" $*
+    local lastArg="${@: -1}"
+    if [[ $lastArg =~ [a-zA-z]+ && $lastArg != 'UTC' && "$envPlatform" = "Mac" ]]; then
+        TZ=$LOCAL_TIME_ZONE date -j -f "$ISO_DATE_FMT" "$*" +"%s"
+    else
+        toEpochF "$ISO_DATE_FMT" $*
+    fi
 }
 
 function fromEpoch()
