@@ -39,7 +39,8 @@ function enableCore()
 # ex: findFiles "*~"
 function findFiles()
 {
-    eval find . -name \"${1:-}\"  ;
+    #eval find . -name \"${1:-}\" -ls | awk "{\$1 = \"\"; \$2 = \"\"; \$3 = \"\"; \$4 = \"\"; \$6 = \"\"; print \$0;}" | tr -s " " ;
+    eval find . -name \"${1:-}\"
 }
 
 # find a file with pattern $1 in name and Execute $2 on it:

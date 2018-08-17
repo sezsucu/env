@@ -26,6 +26,7 @@ A curated list of bash scripts and resources
 * `date`: to show current time and date 
 * `diff`: to compare two files
 * `ln`: to make symbolic links
+* `xargs`: to construct argument list and execute utility
 
 ## Minor Things To Remember
 * To avoid alias
@@ -752,4 +753,20 @@ fi
 if [[ $number -lt 1048576 ]]; then
     echo "$number is less than 102323"
 fi
+```
+
+* To pipe output of find to ls
+
+
+But this won't work really well with file names that include whitespace. 
+In order to solve that you need to change the delimiter used by xargs, but
+that won't work on Mac Os X, where the only alternative is to set the delimiter
+to '\0' character using `-0` option, and consequently you need to modify the find command to print '\0'
+using `-print0`. In Linux, it is much easier using `-d '\n'` command option.
+```bash
+# on mac os x
+find . -name *\.MOV* -print0 | xargs -0 ls -lh
+
+# on linux
+find . -name *\.MOV* | xargs -d '\n' ls -lh
 ```
