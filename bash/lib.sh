@@ -55,10 +55,13 @@ function findExecute()
 function findGrepExecute()
 {
     eval find . \\\( -path .\/.git -o -path .\/.idea -o -path .\/.svn -o -path .\/.DS_Store \\\) -prune -o -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\+ ;
+    #eval find . -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\; ;
 }
 
-# Find files with a given pattern $2 in name which is younger than $1 minutes
+# Find files with a given pattern $2 in name which is younger than $1 minutes (default) or days
 # ex: findRecentlyModified 180
+# ex: findRecentlyModified 180m # 180 minutes, same as without m
+# ex: findRecentlyModified 10d # 10 days
 # ex: findRecentlyModified 180 "*.cc"
 function findRecentlyModified()
 {
@@ -67,21 +70,17 @@ function findRecentlyModified()
         echo 'Usage: findRecentlyModified 180 or findRecentlyModified 180 "*.cc"'
         echo 'Find files with a given pattern $2 (defaults to all files) in name which is younger than $1 minutes'
     else
-        eval find . -type f -name \"${2:-*}\" -mmin -$1 ;
-    fi
-}
-
-# find files with a given pattern $2 in name which is younger than $1 days
-# ex: findRecentlyModifiedInDays 2
-# ex: findRecentlyModifiedInDays 2 "*.cc"
-function findRecentlyModifiedInDays()
-{
-    if [ $# -eq 0 ]
-      then
-        echo 'Usage: findRecentlyModifiedInDays 2 or findRecentlyModifiedInDays 2 "*.cc"'
-        echo 'Find files with a given pattern $2 (defaults to all files) in name which is younger than $1 days'
-    else
-        eval find . -type f -name \"${2:-*}\" -mtime -$1 ;
+        local time=$1
+        local length=${#time}
+        if [[ $time =~ ^[0-9]+[dD]$ ]]; then
+            ((length--))
+            time=${time:0:length}
+            ((time*1440))
+        elif [[ $time =~ ^[0-9]+[mM]$ ]]; then
+            ((length--))
+            time=${time:0:length}
+        fi
+        eval find . -type f -name \"${2:-*}\" -mmin -$time ;
     fi
 }
 
@@ -95,7 +94,8 @@ function findGrep()
         echo 'Usage: findGrep "envvar" or findGrep "envvar "*.sh"'
         echo 'Find a file with pattern $2 (defaults to all files) in name and grep files that contain $1'
     else
-        findGrepExecute "${2:-*}" "grep -c -H '${1:-}'"
+        #findGrepExecute "${2:-*}" "grep -c -H '${1:-}'"
+        findGrepExecute "${2:-*}" "grep -H '${1:-}'"
     fi
 }
 
@@ -104,7 +104,8 @@ function findGrep()
 # ex: findGrepi "envvar" "*.sh"
 function findGrepi()
 {
-    findGrepExecute "${2:-*}" "grep -c -H -i '${1:-}'"
+    #findGrepExecute "${2:-*}" "grep -c -H -i '${1:-}'"
+    findGrepExecute "${2:-*}" "grep -H -i '${1:-}'"
 }
 
 # find all files that are over the given size
