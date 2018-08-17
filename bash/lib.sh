@@ -75,7 +75,11 @@ function findRecentlyModified()
         if [[ $time =~ ^[0-9]+[dD]$ ]]; then
             ((length--))
             time=${time:0:length}
-            ((time*1440))
+            ((time*=1440))
+        elif [[ $time =~ ^[0-9]+[hH]$ ]]; then
+            ((length--))
+            time=${time:0:length}
+            ((time*=60))
         elif [[ $time =~ ^[0-9]+[mM]$ ]]; then
             ((length--))
             time=${time:0:length}
