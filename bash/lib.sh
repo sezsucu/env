@@ -48,7 +48,13 @@ function findFiles()
 # to remove all Emacs backup files: findExecute "*~" 'rm -f'
 function findExecute()
 {
-    eval find . -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\;  ;
+    # eval find . -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\;  ;
+    eval find . -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\; ;
+}
+
+function findGrepExecute()
+{
+    eval find . \\\( -path .\/.git -o -path .\/.idea -o -path .\/.svn -o -path .\/.DS_Store \\\) -prune -o -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\+ ;
 }
 
 # Find files with a given pattern $2 in name which is younger than $1 minutes
@@ -89,7 +95,7 @@ function findGrep()
         echo 'Usage: findGrep "envvar" or findGrep "envvar "*.sh"'
         echo 'Find a file with pattern $2 (defaults to all files) in name and grep files that contain $1'
     else
-        findExecute "${2:-*}" "grep -c -H '${1:-}'"
+        findGrepExecute "${2:-*}" "grep -c -H '${1:-}'"
     fi
 }
 
@@ -98,7 +104,7 @@ function findGrep()
 # ex: findGrepi "envvar" "*.sh"
 function findGrepi()
 {
-    findExecute "${2:-*}" "grep -c -H -i '${1:-}'"
+    findGrepExecute "${2:-*}" "grep -c -H -i '${1:-}'"
 }
 
 # find all files that are over the given size

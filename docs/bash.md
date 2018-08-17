@@ -757,7 +757,6 @@ fi
 
 * To pipe output of find to ls
 
-
 But this won't work really well with file names that include whitespace. 
 In order to solve that you need to change the delimiter used by xargs, but
 that won't work on Mac Os X, where the only alternative is to set the delimiter
