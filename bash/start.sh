@@ -148,10 +148,10 @@ envHasGit=`command -v git`
 if [ $envHasGit ]; then
     case $TERM in
         xterm*)
-        PS1="\n\[$Blue\]\u\[$NC\][\$(time_here)]\[$Red\]\$(git_prompt)\[$NC\]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
+        PS1="\n\[$Blue\]\u\[$NC\][\$(localTime)]\[$Red\]\$(git_prompt)\[$NC\]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
             ;;
         *)
-            PS1="\n\[$Blue\]\u\[$NC\][\$(time_here)]\[$Red\]\$(git_prompt)\[$NC\]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
+            PS1="\n\[$Blue\]\u\[$NC\][\$(localTime)]\[$Red\]\$(git_prompt)\[$NC\]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
             ;;
     esac
 else
