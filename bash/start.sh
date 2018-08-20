@@ -75,7 +75,7 @@ else
 fi
 
 # [Other Environment Variables]
-export HOSTNAME=`hostname`
+#export HOSTNAME=`hostname`
 export PAGER=less
 export LESSCHARSET='utf-8'
 
