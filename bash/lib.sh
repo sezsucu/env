@@ -239,25 +239,38 @@ function setTitle()
 }
 
 # Usage:
-# compress final.tar.gz File1 File2 File3
-# compress final.tar.gz Directory1 Directory2 File1 ...
-function compress () {
+# pack final.tar.gz File1 File2 File3
+# pack final.tar.gz Directory1 Directory2 File1 ...
+function pack () {
    local file=$1
    shift
-   case $file in
-      *.tar)     tar cvf $file $*  ;;
-      *.tar.bz2) tar cjf $file $*  ;;
-      *.tar.gz)  tar czf $file $*  ;;
-      *.tgz)     tar czf $file $*  ;;
-      *.zip)     zip $file $*      ;;
-      *)         echo "File type not recognized" ;;
-   esac
+   if [[ $# == 1 && -f $1 ]]; then
+       case $file in
+          *.tar)     tar cvf $file $*  ;;
+          *.tar.bz2) tar cjf $file $*  ;;
+          *.tar.gz)  tar czf $file $*  ;;
+          *.tgz)     tar czf $file $*  ;;
+          *.zip)     zip $file $*      ;;
+          *.bz2)     bzip2 -c $1 > $file ;;
+          *.gz)      gzip -c $1 > $file  ;;
+          *)         echo "File type not recognized" ;;
+       esac
+   else
+       case $file in
+          *.tar)     tar cvf $file $*  ;;
+          *.tar.bz2) tar cjf $file $*  ;;
+          *.tar.gz)  tar czf $file $*  ;;
+          *.tgz)     tar czf $file $*  ;;
+          *.zip)     zip $file $*      ;;
+          *)         echo "File type not recognized" ;;
+       esac
+   fi
 }
 
 # Usage:
-# xtract test.tar.gz
-# xxtract test.bz2
-function xtract()
+# unpack test.tar.gz
+# unpack test.bz2
+function unpack()
 {
      if [ -f $1 ] ; then
          case $1 in
