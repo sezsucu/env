@@ -987,3 +987,20 @@ grep -v '^#' /etc/passwd | awk 'BEGIN {FS=":"; OFS="\t"; } { print $1, "->",  $7
 egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' /etc/hosts
 ```
 
+* To remove whitespace from a line in a file
+```bash
+# read will read whitespace into REPLY
+while read ; do echo \|"$REPLY"\|; done < fileName.txt
+
+# this will remove any leading or trailing whitespace
+while read REPLY; do echo \|"$REPLY"\|; done < fileName.txt
+```
+
+* To compress whitespace
+```bash
+# will compress multiple consecutive whitespaces into a single whitespace
+cat fileName.txt | tr -s ' ' ' '
+```
+
+
+
