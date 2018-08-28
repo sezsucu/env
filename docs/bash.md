@@ -1002,5 +1002,42 @@ while read REPLY; do echo \|"$REPLY"\|; done < fileName.txt
 cat fileName.txt | tr -s ' ' ' '
 ```
 
+* Security tips
+```bash
+# set a secure path, avoid aliases
+\export PATH=$(getconf PATH)
+# clear all aliases
+\unalias -a
+# clear the hash table
+hash -r
+# turn off core dumps
+ulimit -S -c 0
+# set a good IFS
+IFS=$' \t\n'
+# set a good umask
+UMASK=022
+umask $UMASK
+# create a random temp directory 
+# and set the trap to remove it once program is done
+until [ -n "$tempDir" -a ! -d "$tempDir" ];
+do
+    tempDir="/tmp/myProgram_${RANDOM}${RANDOM}${RANDOM}"
+done
+mkdir -p -m 0700 $tempDir || (echo "Failed to create '$tempDir': $?"; exit 1)
+# setup trap so tempDir is removed when we exit the program
+rmTmpDir="\\rm -rf $tempDir"
+trap "rmTmpDir" ABRT EXIT HUP INT QUIT
+```
 
+* To create a random number
+```bash
+echo "This is a random number ${RANDOM}"
+```
 
+* To process all the paths in PATH environment variable
+```bash
+echo $PATH | tr ":" "\n" | while read i
+do
+    echo $i
+done
+```

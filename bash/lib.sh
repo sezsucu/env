@@ -10,12 +10,14 @@ prependPath()
     local hasThisPath=f
     local envVar=""
     eval envVar=\"\$$1\"
-    for i in $(echo $envVar | tr ":" "\n")
+    #for i in $(echo $envVar | tr ":" "\n")
+    # the one below handles white space better
+    echo $envVar | tr ":" "\n" | while read i
     do
-	if [ "$i" = "$2" ]; then
-	    hasThisPath=t
-	    break;
-	fi
+        if [ "$i" = "$2" ]; then
+            hasThisPath=t
+            break;
+        fi
     done
     # if $2 path exists and $1 does not have this path
     if [ -d "$2" -a "$hasThisPath" = "f" ]; then
