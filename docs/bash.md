@@ -17,6 +17,7 @@ A curated list of bash scripts and resources
 * `tr`: translate characters
 * `wc`: word, line, character count
 * `grep`: to find text in files
+* `egrep`: like grep but can handle extended regular expressions
 * `zgrep`: to find text in compressed files
 * `zcat`: like cat, but for compressed files
 * `awk`: a great utility to process text files and extract columns
@@ -27,6 +28,8 @@ A curated list of bash scripts and resources
 * `diff`: to compare two files
 * `ln`: to make symbolic links
 * `xargs`: to construct argument list and execute utility
+* `sed`: find and replace in a file
+* `getopts`: to process command line arguments
 
 ## Minor Things To Remember
 * To avoid alias
@@ -321,8 +324,8 @@ str//pattern/replacement
 * To get file name or directory name of a path
 ```bash
 pathName="/tmp/blah/doo/foo"
-dir="$( dirname "$pathName" )"
-fileName="$( basename "$pathName" )" 
+dir="$(dirname "$pathName")"
+fileName="$(basename "$pathName")" 
 ```
 
 * To build a comma separated list of values
@@ -769,3 +772,218 @@ find . -name *\.MOV* -print0 | xargs -0 ls -lh
 # on linux
 find . -name *\.MOV* | xargs -d '\n' ls -lh
 ```
+
+* To redirect output of a function
+
+```bash
+function usage()
+{
+    # blah blah blah
+} >& 2
+```
+
+* if expressions and and and or
+```bash
+var=20
+if [[ $var > 10 && $var < 20 ]]; then
+    echo "Between 10 and 20";
+fi
+if [[ $var > 10 || $var < 20 ]]; then
+    echo "Greater than 10 or less than 20";
+fi
+```
+
+* To get the file size of a file
+```bash
+FN="/path/to/file"
+# just a hack to get the first number
+set -- $(ls -s "$FN")
+fileSize=$1
+```
+
+* To get the free space of a disk
+```bash
+set -- $(df / | grep '^/dev/')
+freeSpace=$4
+```
+
+* Arithmetic operations
+```bash
+X=1
+Y=2
+let X++
+let X+=Y
+```
+
+* Formatted printing
+```bash
+name="Joe"
+age=30
+printf "Hello %s, you are %d years old\n" $name $age
+```
+
+* Piping output of a command to bash function
+```bash
+find . -name "*.sh" -print | \
+( while read path; do
+    echo $path
+  done
+) 
+```
+
+* To remove the extension from file name
+```bash
+fileName=$(basename "fileName.xlx" .xlx)
+```
+
+* To get the first character of a string
+```bash
+str="abc"
+if [[ ${str:0:1} == 'a' ]]; then
+    echo "starts with a"
+fi
+```
+
+* To find and replace the first occurrence of a word in all lines of a file
+```bash
+sed 's/unix/linux' notes.txt
+```
+
+* To find and replace the second occurrence of a word in all lines of a file
+```bash
+sed 's/unix/linux/g' notes.txt
+```
+
+* To find and replace all occurrences of a word in a file
+```bash
+sed 's/unix/linux/g' notes.txt
+```
+
+* To process command line arguments
+```bash
+while getopts 'ab:' OPTION
+do
+    case $OPTION in
+        a) # process a option
+            ;;
+        b) # process b option
+            value="$OPTARG"
+            ;;
+        ?) echo "You didn't use it correctly :)"
+            exit 1
+            ;;
+    esac
+done
+# After this $* holds the rest of the arguments
+shift $(($OPTIND - 1))
+```
+
+* To display hashed program entries
+```bash
+# help hash for more info
+hash
+   4	/bin/df
+   1	/usr/bin/more
+   1	/usr/bin/git
+   3	/bin/ls   
+```
+
+* To display your own error messages: Put a leading ':' in front of the options string
+```bash
+while getopts ':ab:' OPTION
+do
+    case $OPTION in
+        a) # process a option
+            ;;
+        b) # process b option
+            value="$OPTARG"
+            ;;
+        \:) printf "Missing option for %s :)\n" $OPTARG
+            exit 2
+            ;;
+        \?) printf "Unknown option %s \n" $OPTARG
+            exit 2
+            ;;
+    esac >&2
+done
+# After this $* holds the rest of the arguments
+shift $(($OPTIND - 1))
+```
+
+* To put output of a program into an array
+```bash
+lsOutput=$(ls -ld "/path/to/file")
+
+declare -a fileInfo
+fileInfo=($lsOutput)
+
+printf "The size of the file is %d \n" ${fileInfo[4]}
+```
+
+* To get the number of items in an array
+```bash
+ls -l "/path/to/file" | { read -a array; echo ${#array[@]};  }
+```
+
+* Arrays
+```bash
+declare -a myArray
+myArray=(one two three)
+
+echo ${myArray[0]}
+echo ${myArray[1]}
+echo ${myArray[2]}
+```
+
+* Parsing output of ls using read
+```bash
+ls -l "/path/to/file" | { read permissions linkCount owner group fileSize cMonth cDate cTime fileName ; 
+                          echo $fileName; }
+                          
+ls -l "/path/to/file" | { read -a array; echo ${array[8]};  }
+```
+
+* To read the whole array
+```bash
+# because of mac os limitations we use the following
+declare -a arr
+while IFS= read -r line; do
+    arr+=("$line");
+done
+# To print the file contents
+for (( i=0 ; i < ${#arr[@]} ; i++ )); do
+    echo $i ${arr[$i]}
+done
+```
+
+* To check the first character of a string
+```bash
+str="Abcdefghijklmnopqrs"
+if [[ ${str:0:1} == 'A' ]]; then
+    echo 'Yes first character is A'
+fi
+# prints fghijklmnopqrs
+echo ${str:5}
+for ((i=0; i < ${#str}; i++))
+do
+    aChar=${str:i:1}
+    printf "$aChar "
+done
+printf "\n"
+```
+
+* To print specific fields from /etc/passwd
+```bash
+cut -d':' -f1,6,7 /etc/passwd
+# to find the most popular shell
+grep -v '^#' /etc/passwd | cut -d':' -f7 | sort | uniq -c | sort -rn
+# to rearrange fields
+grep -v '^#' /etc/passwd | awk 'BEGIN {FS=":"; OFS="\t"; } { print $1, "->",  $7,$6; }'
+```
+
+* To grep the matching parts only 
+```bash
+# just grep the ip addresses (not lines)
+egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' /etc/hosts
+```
+

@@ -14,7 +14,6 @@ source "$envHomeDir/bash/lib.sh"
 
 setupColors
 
-
 IP_ADDRESS="";
 MY_CLIENT_IP="";
 CPU_MODEL="";
