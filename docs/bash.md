@@ -1041,3 +1041,9 @@ do
     echo $i
 done
 ```
+
+* To check if your system provides a secure temporary directory
+```bash
+echo "|$TMPDIR|"
+```
+
