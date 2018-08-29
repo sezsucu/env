@@ -30,6 +30,10 @@ A curated list of bash scripts and resources
 * `xargs`: to construct argument list and execute utility
 * `sed`: find and replace in a file
 * `getopts`: to process command line arguments
+* `test`: to evaluate a test condition
+* `mkdir`: to create a directory
+* `od`: to display a binary file in a given format
+* `strings`: to display ASCII strings in a binary file
 
 ## Minor Things To Remember
 * To avoid alias
@@ -1046,4 +1050,51 @@ done
 ```bash
 echo "|$TMPDIR|"
 ```
+
+* To evaluate an expression at a later time 
+```bash
+check='test -d $DIR_NAME -a -r $DIR_NAME -a -w $DIR_NAME -a -x $DIR_NAME'
+if ! eval $check; then
+    echo "Not directory or readable or writable or searchable"
+fi
+```
+
+* To make a temporary file name
+```bash
+# creates a directory with a random name (replacing X with random characters) 
+mktemp -d /tmp/prefixName.XXXXXXXXX
+
+# creates a randomly named file
+mktemp /tmp/prefixName.XXXXXXXXX
+```
+
+* To crete a random string from /dev/urandom
+```bash
+cat /dev/urandom | od -x | tr -d ' ' | head -1
+```
+
+* To display a file in a user specified format
+```bash
+# output the given binary file in hexadecimal shorts
+od -x < binaryFile.bin
+```
+
+* To display ASCII strings in a file
+```bash
+strings < binaryFile.bin
+```
+
+* To change file permissions
+```bash
+# make it executable
+chmod +x /path/to/file
+# make it readable, executable and writable for the owner only
+chmod 700 /path/to/file
+# make it readable for user, other and group
+chmod ugo+r /path/to/file
+# same as above, a means ugo
+chmod a+r /path/to/file
+```
+
+
 
