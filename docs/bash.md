@@ -34,6 +34,7 @@ A curated list of bash scripts and resources
 * `mkdir`: to create a directory
 * `od`: to display a binary file in a given format
 * `strings`: to display ASCII strings in a binary file
+* `fold`: to fold long lines for a given width
 
 ## Minor Things To Remember
 * To avoid alias
@@ -1096,5 +1097,40 @@ chmod ugo+r /path/to/file
 chmod a+r /path/to/file
 ```
 
+* To change sudo privileges
+```bash
+# edit /etc/sudoers
+# you can set it up for no password using 
+# allows 4 aliases: user, runas, host, command
+```
 
+* To generate ssh key pairs
+```bash
+ssh-keygen -v -t rsa -b 4096 -C 'My New Key'
+```
 
+* To display a file with long lines fitted into a given width
+```bash
+fold -w80 /path/to/file
+```
+
+* To ssh without password
+```bash
+# create key-pair using ssh-keygen
+ssh-keygen -v -t rsa -b 4096 -C 'My New Key'
+# append ~/.ssh/id_rsa.pub into ~/.ssh/authorized_keys file
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+# make sure that ~/.ssh is readable by you only
+# drwx------   4 username  group 128 Aug 30 22:52 .ssh
+# make sure that ~/.ssh/id_rsa is readable by you only
+# 8 -rw-------  1 username  group   3.2K Aug 30 22:55 id_rsa
+# run ssh-agent
+eval `ssh-agent`
+# check if everything is running smoothly
+set | grep SSH
+# should see SSH_AGENT_PID and SSH_AUTH_SOCK
+# add ssh identity
+ssh-add 
+# how to kill the ssh-agent
+# eval `ssh-agent -k`
+```
