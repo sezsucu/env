@@ -317,7 +317,6 @@ function toEpochF()
             date -d "$*" '+%s'
         else
             echo "Not Supported"
-            exit 1
         fi
     fi
 }
@@ -336,7 +335,6 @@ function fromEpochF()
             TZ=Etc/UTC date -d "@$1" "+$format"
         else
             echo "Not Supported"
-            exit 1
         fi
     fi
 }
@@ -373,6 +371,27 @@ function bytesToDisplay
     else
         number=$((number/(1024*1024*1024)))
         echo "$number GBs"
+    fi
+}
+
+function download()
+{
+    if [ $# -eq 0 ]; then
+        echo "Usage: download 'url'"
+    else
+        if [ `command -v curl` ]; then
+            curl -O $*
+            if [ $? -ne 0 ]; then
+                curl -o downloaded.data $*
+                if [$? -eq 0 ]; then
+                    echo "Downloaded data to downloaded.data file"
+                fi
+            fi
+        elif [ `command -v wget` ]; then
+            wget $*
+        else
+            echo "Couldn't find a tool to download url with"
+        fi
     fi
 }
 
