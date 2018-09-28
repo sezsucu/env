@@ -1135,3 +1135,7 @@ ssh-add
 # eval `ssh-agent -k`
 ```
 
+* [To download urls](https://linuxacademy.com/howtoguides/posts/show/topic/13852-understanding-curl-and-http-headers)
+```bash
+# Install curl
+```

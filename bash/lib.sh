@@ -374,27 +374,6 @@ function bytesToDisplay
     fi
 }
 
-function download()
-{
-    if [ $# -eq 0 ]; then
-        echo "Usage: download 'url'"
-    else
-        if [ `command -v curl` ]; then
-            curl -O $*
-            if [ $? -ne 0 ]; then
-                curl -L -o downloaded.data $*
-                if [ $? -eq 0 ]; then
-                    echo "Downloaded data to downloaded.data file"
-                fi
-            fi
-        elif [ `command -v wget` ]; then
-            wget $*
-        else
-            echo "Couldn't find a tool to download url with"
-        fi
-    fi
-}
-
 function git_prompt()
 {
     local repo=$(git rev-parse --show-toplevel 2> /dev/null)
