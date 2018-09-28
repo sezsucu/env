@@ -382,7 +382,7 @@ function download()
         if [ `command -v curl` ]; then
             curl -O $*
             if [ $? -ne 0 ]; then
-                curl -o downloaded.data $*
+                curl -L -o downloaded.data $*
                 if [ $? -eq 0 ]; then
                     echo "Downloaded data to downloaded.data file"
                 fi
