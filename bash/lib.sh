@@ -383,7 +383,7 @@ function download()
             curl -O $*
             if [ $? -ne 0 ]; then
                 curl -o downloaded.data $*
-                if [$? -eq 0 ]; then
+                if [ $? -eq 0 ]; then
                     echo "Downloaded data to downloaded.data file"
                 fi
             fi
