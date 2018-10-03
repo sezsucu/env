@@ -39,6 +39,8 @@ alias localDate='TZ=$LOCAL_TIME_ZONE date  "+$ISO_DATE_FMT"'
 alias utcDate='TZ=Etc/UTC date -u "+$ISO_DATE_FMT"'
 alias localTime='TZ=$LOCAL_TIME_ZONE date  "+%H:%M:%S"'
 
+alias jobs='jobs -l'
+
 if [ `command -v curl` ]; then
     alias download='curl -L -C - -O --retry 5'
     alias responseHeaders='curl -D - -so /dev/nul'

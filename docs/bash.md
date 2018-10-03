@@ -20,6 +20,8 @@ A curated list of bash scripts and resources
 * `egrep`: like grep but can handle extended regular expressions
 * `zgrep`: to find text in compressed files
 * `zcat`: like cat, but for compressed files
+* `head`: to display the beginning of a file
+* `tail`: to display the end of a file
 * `awk`: a great utility to process text files and extract columns
 * `time`: to time commands
 * `kill`: to kill a job with pid or job number
@@ -35,6 +37,24 @@ A curated list of bash scripts and resources
 * `od`: to display a binary file in a given format
 * `strings`: to display ASCII strings in a binary file
 * `fold`: to fold long lines for a given width
+* `lpr`: to print 
+* `lpq`: to display the print job queue
+* `lprm`: to remove a print job from the queue
+* `script`: to record a login session
+* `who`: to display who is logged in
+* `w`: to display who is logged in and what they are doing
+* `uptime`: to show how long the system was running
+* `finger`: to lookup user information, last logins etc...
+* `pwd`: to show the current directory
+* `chmod`: to change file permissions
+* `passwd`: to change password
+* `tty`: to display user's terminal name
+* `jobs`: to list active jobs
+* `at`: to run a job for later execution
+* `atq`: to list the jobs to be executed later
+* `atrm`: to remove a job from the at queue
+* `cal`: display a calendar
+
 
 ## Minor Things To Remember
 * To avoid alias
@@ -1139,3 +1159,144 @@ ssh-add
 ```bash
 # Install curl
 ```
+
+* Important manual sections
+    - user commands: 1
+    - system calls: 2
+    - subroutines: 3
+    - devices: 4
+    - file formats: 5
+    - games: 6
+    - miscellaneous: 7
+    - system administration: 8
+    - kernel: 9
+    - new: 10
+    
+```bash
+# shows passwd from section 5
+man 5 passwd
+# shows passwd from section 1
+man passwd
+```
+
+* Essential directories
+    - /bin: essential commands
+    - /dev: device files (disk drives, terminals, printers)
+    - /etc: machine-local system config files
+    - /etc/opt: add-on software config files
+    - /etc/X11: X Window System config files
+    - /home: user home directories
+    - /Users: user home directories on Mac OS X
+    - /lib: shared libraries
+    - /lib/modules: loadable kernel modules
+    - /mnt: mount point for temporary file systems
+    - /opt: add-on software packages
+    - /proc: kernel and process info 
+    - /root: home directory of root 
+    - /sys: device pseudofilesystem
+    - /tmp: temporary files
+    - /usr/bin: most user commands
+    - /usr/include: C header files
+    - /usr/lib: libraries
+    - /usr/local: locally important files
+    - /usr/sbin: system admin files
+    - /usr/share: architecture independent data
+    - /usr/share/doc: documentation
+    - /usr/share/info: gnu info 
+    - /usr/share/man: manuals
+    - /usr/src: source code
+    - /var: variable data
+    - /var/log: log data
+    - /var/spool: spooled application data
+
+* setuid and setgid permissions: when an executable file has setuid permission set, running it
+takes the privileges of the file's owner
+
+* Hard links can only be created within the same file system, soft links can not be easily moved around
+```bash
+echo "abc" > real.txt
+ln real.txt hard.txt
+ln -s real.txt soft.txt
+more hard.txt
+> abc
+more soft.txt
+> abc
+mv soft.txt /tmp
+more /tmp/soft.txt
+> /tmp/soft.txt: No such file or directory
+mv hard.txt /tmp
+more /tmp/hard.txt
+> abc
+```
+
+* To disregard output use /dev/null
+```bash
+cat big_data_file.txt > /dev/null
+```
+
+* You can start with a command without the command name
+```bash
+# will work just fine
+<input.txt >output.txt cat
+```
+
+* To run a command for later execution. Notice that TZ variable effects at utility too,
+so if you set TZ to UTC your time will change too.
+```bash
+at 11:53 am
+ls > ~/fileList.txt
+[CTRL-D]
+job 4 at Thu Oct  4 11:53:00 2017
+# see the queue
+atq
+4	Thu Oct  4 11:53:00 2017
+# remove the job
+atrm 4
+```
+
+* To enable atd daemon on mac os x
+```bash
+# as root
+sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.atrun.plist
+# to disable it later
+# sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.atrun.plist
+```
+
+* To show a calendar of a month
+```bash
+# for current month
+cal
+    October 2018
+Su Mo Tu We Th Fr Sa
+    1  2  3  4  5  6
+ 7  8  9 10 11 12 13
+14 15 16 17 18 19 20
+21 22 23 24 25 26 27
+28 29 30 31
+
+# for a specific Month
+cal November 2015
+   November 2015
+Su Mo Tu We Th Fr Sa
+ 1  2  3  4  5  6  7
+ 8  9 10 11 12 13 14
+15 16 17 18 19 20 21
+22 23 24 25 26 27 28
+29 30
+```
+
+* To number each line
+```bash
+cat -n file.txt | more
+```
+
+* To squeeze blank lines into single blank lines
+```bash
+cat -s file.txt | more
+```
+
+* To display tabs
+```bash
+cat -t file.txt
+```
+
