@@ -1300,3 +1300,55 @@ cat -s file.txt | more
 cat -t file.txt
 ```
 
+* To make sure xargs correctly processes its input and prompt before executing each command.
+```bash
+echo 'one two three' | xargs -p touch
+touch one two three?...
+# press y for yes
+```
+
+* To run multiple commands with xargs, use `-I` flag. So xargs executes the commands for each line in the input.
+```bash
+cat args.txt | xargs -I % sh -c 'echo %; mkdir %'
+```
+
+* To display only repeated lines in a file
+```bash
+uniq -d
+``` 
+
+* To display only non-repeated lines in a file
+```bash
+uniq -u
+```
+
+* To ignore case when using uniq
+```bash
+uniq -i
+```
+
+
+* To convert lower case letters to upper case letters
+```bash
+tr “[:lower:]” “[:upper:]” < real.txt
+```
+
+* To convert braces into parenthesis
+```bash
+tr '{}' '()' < real.txt
+```
+
+* To squueze repetition of a character or character set
+```bash
+tr -s [:space:] ' ' < real.txt
+# any repetition of a, b, or c will be compressed into the character 'a'
+# e.g. cbbabbabbccc will become a 
+tr -s [abc] 'a' < real.txt
+```
+
+* To delete a character or a set of characters
+```bash
+tr -d [:space:] < real.txt
+```
+
+* tr character setss

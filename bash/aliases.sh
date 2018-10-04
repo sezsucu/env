@@ -39,7 +39,10 @@ alias localDate='TZ=$LOCAL_TIME_ZONE date  "+$ISO_DATE_FMT"'
 alias utcDate='TZ=Etc/UTC date -u "+$ISO_DATE_FMT"'
 alias localTime='TZ=$LOCAL_TIME_ZONE date  "+%H:%M:%S"'
 
+# display pid too
 alias jobs='jobs -l'
+# display idle time and the associated pid
+alias who='who -u'
 
 if [ `command -v curl` ]; then
     alias download='curl -L -C - -O --retry 5'
@@ -50,3 +53,4 @@ elif [ `command -v wget` ]; then
 else
     alias download='echo "No wget or curl found"'
 fi
+
