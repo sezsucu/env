@@ -53,7 +53,8 @@ A curated list of bash scripts and resources
 * `at`: to run a job for later execution
 * `atq`: to list the jobs to be executed later
 * `atrm`: to remove a job from the at queue
-* `cal`: display a calendar
+* `cal`: to display a calendar
+* `chown`: to change the owner of a file 
 
 
 ## Minor Things To Remember
@@ -1351,4 +1352,12 @@ tr -s [abc] 'a' < real.txt
 tr -d [:space:] < real.txt
 ```
 
-* tr character setss
+* To compare two files
+```bash
+cmp file1.txt file2.txt
+```
+
+* To compare two files but only set the process exit code
+```bash
+cmp -s file1.txt file2.txt
+```
