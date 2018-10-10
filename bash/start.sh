@@ -6,6 +6,8 @@
 # envPlatform: Mac or Linux
 
 # Never use an uninitialised variable
+# unfortunately because of a bug I had to be disabled, keeping it here
+# for occasional debugging
 # set -u
 
 # Find where we are installed at
@@ -59,6 +61,8 @@ if [ ! -d $envDataDir ]; then
     mkdir $envDataDir/bash
     mkdir $envDataDir/ssh
     mkdir $envDataDir/emacs
+    mkdir $envDataDir/emacs/backup
+    mkdir $envDataDir/emacs/modules
 fi
 
 ISO_DATE_FMT='%Y-%m-%d %H:%M:%S %Z'
@@ -176,4 +180,5 @@ case "$-" in
     *) # non-interactive
         ;;
 esac
+
 

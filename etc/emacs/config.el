@@ -61,7 +61,7 @@
 (setq delete-old-versions t)            ; clean up a little
 (setq kept-new-versions 2)              ; keep 6 new
 (setq kept-old-versions 1)              ; keep only 2 old
-(defvar backup-dir (substitute-in-file-name "$envDataDir/emacs"))
+(defvar backup-dir (substitute-in-file-name "$envDataDir/emacs/backup"))
 (setq backup-directory-alist (list (cons ".*" backup-dir)))
 
 ;;Setup Autosave Files
@@ -171,26 +171,17 @@
 (add-hook 'c++-mode-hook 'my-cc-c++-hook)
 
 
-;;Python Mode
-(if
-    (not (require 'python-mode nil 'noerror) )
-    (and 
-     (load (substitute-in-file-name "$envHomeDir/etc/emacs/load/python-mode.el") )
-     (autoload 'python-mode "python-mode" "Python Mode." t) 
-     (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-     (add-to-list 'interpreter-mode-alist '("python" . python-mode))   
-     )
-  )
-
 ;;Css Mode
-(if 
+(if
     (not (require 'css-mode nil 'noerror) )
     (and
-     (load (substitute-in-file-name "$envHomeDir/etc/emacs/load/css-mode.el") )
-     (add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
-     )
-  )
-
+        (file-exists-p (substitute-in-file-name "$envDataDir/emacs/modules/css-mode.el"))
+        (and
+         (load (substitute-in-file-name "$envDataDir/emacs/modules/css-mode.el") )
+         (add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
+         )
+    )
+)
 
 
 (defun iwb ()

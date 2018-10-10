@@ -1361,3 +1361,4 @@ cmp file1.txt file2.txt
 ```bash
 cmp -s file1.txt file2.txt
 ```
+
