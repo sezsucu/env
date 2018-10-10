@@ -55,7 +55,7 @@ fi
 # setup the data dir used for temp data files
 # bash: history file
 # ssh: authorized_keys file
-# emacs: backup files
+# emacs: backup files and module files
 if [ ! -d $envDataDir ]; then
     mkdir $envDataDir
     mkdir $envDataDir/bash
