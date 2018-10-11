@@ -73,7 +73,7 @@ else
     test -r "/etc/SuSE-release" && DISTRO_VER=`cat /etc/SuSE-release` && DISTRO="SuSe"
     test -r "/etc/gentoo-release" && DISTRO_VER=`cat /etc/gentoo-release` && DISTRO="Gentoo"
     test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
-    LOAD=`w | grep up | awk '{print $9" "$10" "$11}'`
+    LOAD=`w | grep up | awk '{print $8" "$9" "$10}'`
     LOAD15=$(echo $LOAD | cut -f 3 -d ',');
 fi
 
