@@ -14,6 +14,7 @@ source "$envHomeDir/bash/lib.sh"
 
 setupColors
 
+IP4_UP="";
 IP_ADDRESS="";
 MY_CLIENT_IP="";
 CPU_MODEL="";
@@ -25,7 +26,7 @@ MEM_FREE_PCNT="";
 DISTRO="";
 DISTRO_VER="";
 KERNEL=`uname -r`
-LOAD=`w | grep up | awk '{print $10" "$11" "$12}'`
+
 if [ "$envPlatform" = "Mac" ]; then
     DISTRO="Mac"
     IP_ADDRESS=`ifconfig | grep 'inet ' | grep -v '127.0.0.1' | cut -c 7-17 | head -1`
@@ -48,6 +49,8 @@ if [ "$envPlatform" = "Mac" ]; then
     MEM_FREE_PCNT=$((100*$MEM_FREE/$MEM_TOTAL))
     MEM_TOTAL=`bytesToDisplay $MEM_TOTAL`
     MEM_FREE=`bytesToDisplay $MEM_FREE`
+    LOAD=`w | grep up | awk '{print $12" "$11" "$12}'`
+    LOAD15=$(echo $LOAD | cut -f 3 -d ' ');
 else
     IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d t -f2 | cut -d : -f2 | cut -b -12 | head -1`
     CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
@@ -69,18 +72,41 @@ else
     test -r "/etc/SuSE-release" && DISTRO_VER=`cat /etc/SuSE-release` && DISTRO="SuSe"
     test -r "/etc/gentoo-release" && DISTRO_VER=`cat /etc/gentoo-release` && DISTRO="Gentoo"
     test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
+    LOAD=`w | grep up | awk '{print $9" "$10" "$11}'`
+    LOAD15=$(echo $LOAD | cut -f 3 -d ', ');
+fi
+
+if ping -q -c 1 -W 1 8.8.8.8 >/dev/null 2>&1; then
+    IP4_UP="true"
+else
+    IP4_UP="false"
 fi
 
 if [ ! -z "${SSH_CONNECTION+x}" ]; then
     MY_CLIENT_IP=`echo $SSH_CONNECTION | awk '{print $1}'`;
 fi
 
-printf "%14s: $Blue $IP_ADDRESS $NC \n" "IP Address";
-printf "%14s: $Red ${MY_CLIENT_IP:-local} $NC \n" "Client Ip" ;
+if [ ! -t 1 ]; then
+    NC=""
+    Red=""
+    Blue=""
+fi
+
+if [ $IP4_UP = "true" ]; then
+    printf "%14s: $NC $IP4_UP \n" "IP4 is Up";
+else
+    printf "%14s: $Red $IP4_UP $NC \n" "IP4 is Up";
+fi
+printf "%14s: $NC $IP_ADDRESS $NC \n" "IP Address";
+printf "%14s: $NC ${MY_CLIENT_IP:-local} $NC \n" "Client IP" ;
 printf "\n" ;
-printf "%14s: $Blue $DISTRO $DISTRO_VER $NC \n" "Distro" ;
-printf "%14s: $Blue $CPU_COUNT x $CPU_MODEL $CPU_SPEED $NC \n" "CPU" ;
-printf "%14s: $Red $MEM_TOTAL $NC \n" "Total Memory";
-printf "%14s: $Red $MEM_FREE ($MEM_FREE_PCNT %%) $NC \n" "Free Memory";
-printf "%14s: $Purple $LOAD $NC \n" "Load";
-printf "%14s: $Purple $KERNEL $NC \n" "Kernel";
+printf "%14s: $NC $DISTRO $DISTRO_VER $NC \n" "Distro" ;
+printf "%14s: $NC $CPU_COUNT x $CPU_MODEL $CPU_SPEED $NC \n" "CPU" ;
+printf "%14s: $NC $MEM_TOTAL $NC \n" "Total Memory";
+printf "%14s: $NC $MEM_FREE $NC ($MEM_FREE_PCNT %%)\n" "Free Memory";
+if [[ "$LOAD15" > "$CPU_COUNT" ]]; then
+    printf "%14s: $Red $LOAD $NC\n" "Load";
+else
+    printf "%14s: $NC $LOAD $NC\n" "Load";
+fi
+printf "%14s: $NC $KERNEL $NC \n" "Kernel";

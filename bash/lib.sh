@@ -165,6 +165,7 @@ setupConsoleColors()
     Purple='\e[1;35m'
     Red="\e[1;31m"
     White='\e[1;37m'
+    Green='\e[1;32m'
 
     BlackBG='\e[40m'
 }
@@ -179,6 +180,7 @@ setupXtermColors()
     Purple="$(tput bold ; tput setaf 5)"
     Red="$(tput bold ; tput setaf 1)"
     White="$(tput bold ; tput setaf 7)"
+    Green="$(tput bold ; tput setaf 2)"
 
     BlackBG="$(tput setab 0)"
 }
