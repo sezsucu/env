@@ -79,10 +79,10 @@ fi
 
 if [ `command -v curl` ]; then
     case "$(curl -s --max-time 2 -I http://google.com | sed 's/^[^ ]*  *\([0-9]\).*/\1/; 1q')" in
-      [23]) HTTP_OK="true";
-      ;;
-      *) HTTP_OK="false";
-      ;;
+      [23]) HTTP_OK="true"
+        ;;
+      *) HTTP_OK="false"
+        ;;
     esac
 fi
 
