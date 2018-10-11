@@ -77,7 +77,16 @@ else
     LOAD15=$(echo $LOAD | cut -f 3 -d ',');
 fi
 
-if [ `command -v git` ]; then
+if [ `command -v curl` ]; then
+    case "$(curl -s --max-time 2 -I http://google.com | sed 's/^[^ ]*  *\([0-9]\).*/\1/; 1q')" in
+      [23]) HTTP_OK="true";
+      ;;
+      *) HTTP_OK="false";
+      ;;
+    esac
+fi
+
+if [ `command -v ping` ]; then
     if ping -q -c 1 -W 1 8.8.8.8 >/dev/null 2>&1; then
         IP4_UP="true"
     else
@@ -91,6 +100,7 @@ if [ `command -v git` ]; then
     fi
 fi
 
+
 if [ ! -z "${SSH_CONNECTION+x}" ]; then
     MY_CLIENT_IP=`echo $SSH_CONNECTION | awk '{print $1}'`;
 fi
@@ -103,10 +113,16 @@ fi
 
 if [ $IP4_UP = "true" ]; then
     if [ $DNS_UP = "true" ]; then
-        printf "%14s: $NC $IP4_UP \n" "IP4 is Up";
+        if [ $HTTP_OK = "false" ]; then
+            printf "%14s: $NC $IP4_UP ($Red NO HTTP $NC) \n" "IP4 is Up";
+        else
+            printf "%14s: $NC $IP4_UP \n" "IP4 is Up";
+        fi
     else
         printf "%14s: $NC $IP4_UP ($Red DNS is DOWN $NC) \n" "IP4 is Up";
     fi
+elif [ `command -v ping` ]; then
+    printf "%14s: $Red $IP4_UP $NC \n" "IP4 is Up";
 else
     printf "%14s: $Red $IP4_UP $NC \n" "IP4 is Up";
 fi
