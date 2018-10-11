@@ -12,10 +12,10 @@ you need to include the following in your `~/.profile` or `~/.bashrc` files:
 **You can rename `~/env` to any directory you want**. The following are the environment
 variables defined from the start script:
 
-* **`envHomeDir`**: where this project resides
-* **`envDataDir`**: always defined as `~/.envData`
-* **`envArch`**: either `32` or `64` depending on the architecture of the CPU
-* **`envPlatform`**: either `Mac` or `Linux`
+* **`ENV_HOME_DIR`**: where this project resides
+* **`ENV_DATA_DIR`**: always defined as `~/.envData`
+* **`ENV_ARCH`**: either `32` or `64` depending on the architecture of the CPU
+* **`ENV_PLATFORM`**: either `Mac` or `Linux`
 * **`envHasPython`**: either `1` or `0`
 * **`envHasJava`**: either `1` or `0`
 
@@ -29,9 +29,9 @@ If you pass it without quote, bash script will first expand *~ and pass that to 
 ## Customizations
 Consider looking at the files below for customizations.
 ```
-$envHomeDir/bash/linux/aliasesForLinux.sh
-$envHomeDir/bash/mac/aliasesForMac.sh
-$envHomeDir/bash/aliases.sh
+$ENV_HOME_DIR/bash/linux/aliasesForLinux.sh
+$ENV_HOME_DIR/bash/mac/aliasesForMac.sh
+$ENV_HOME_DIR/bash/aliases.sh
 ```
 
 

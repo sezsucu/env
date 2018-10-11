@@ -10,7 +10,7 @@
 # CPU Load
 # Kernel Version
 
-source "$envHomeDir/bash/lib.sh"
+source "$ENV_HOME_DIR/bash/lib.sh"
 
 setupColors
 
@@ -28,7 +28,7 @@ DISTRO="";
 DISTRO_VER="";
 KERNEL=`uname -r`
 
-if [ "$envPlatform" = "Mac" ]; then
+if [ "$ENV_PLATFORM" = "Mac" ]; then
     DISTRO="Mac"
     IP_ADDRESS=`ifconfig | grep 'inet ' | grep -v '127.0.0.1' | cut -c 7-17 | head -1`
     CPU_MODEL=`/usr/sbin/system_profiler SPHardwareDataType | grep "Processor Name" | cut -d : -f2`

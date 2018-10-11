@@ -136,7 +136,7 @@ function findOverSize()
         elif [ "${sizeStr:length:1}" = "g" ]; then
             sizeStr=${sizeStr:0:length}"G"
         fi
-        if [ "$envPlatform" = "Mac" ]; then
+        if [ "$ENV_PLATFORM" = "Mac" ]; then
             eval find . -type f -name \"${2:-*}\" -size +$sizeStr -print0 | xargs -n1 -0 ls -lhG;
         else
             eval find . -type f -name \"${2:-*}\" -size +$sizeStr -print0 | xargs --no-run-if-empty -n1 -0 ls -lh --color;
@@ -313,9 +313,9 @@ function toEpochF()
     else
         local format=$1
         shift
-        if [ "$envPlatform" = "Mac" ]; then
+        if [ "$ENV_PLATFORM" = "Mac" ]; then
             date -j -f "$format" "$*" +"%s"
-        elif [ "$envPlatform" = "Linux" ]; then
+        elif [ "$ENV_PLATFORM" = "Linux" ]; then
             date -d "$*" '+%s'
         else
             echo "Not Supported"
@@ -331,9 +331,9 @@ function fromEpochF()
     else
         local format=$1
         shift
-        if [ "$envPlatform" = "Mac" ]; then
+        if [ "$ENV_PLATFORM" = "Mac" ]; then
             TZ=Etc/UTC date -r $1 "+$format"
-        elif [ "$envPlatform" = "Linux" ]; then
+        elif [ "$ENV_PLATFORM" = "Linux" ]; then
             TZ=Etc/UTC date -d "@$1" "+$format"
         else
             echo "Not Supported"
@@ -345,7 +345,7 @@ function fromEpochF()
 function toEpoch()
 {
     local lastArg="${@: -1}"
-    if [[ $lastArg =~ [a-zA-z]+ && $lastArg != 'UTC' && "$envPlatform" = "Mac" ]]; then
+    if [[ $lastArg =~ [a-zA-z]+ && $lastArg != 'UTC' && "$ENV_PLATFORM" = "Mac" ]]; then
         TZ=$LOCAL_TIME_ZONE date -j -f "$ISO_DATE_FMT" "$*" +"%s"
     else
         toEpochF "$ISO_DATE_FMT" $*

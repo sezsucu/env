@@ -1,9 +1,9 @@
 # By Sezgin Sucu
 
-# envHomeDir: programs and configuration files
-# envDataDir: host specific files or temp files
-# envArch: 32 or 64
-# envPlatform: Mac or Linux
+# ENV_HOME_DIR: programs and configuration files
+# ENV_DATA_DIR: host specific files or temp files
+# ENV_ARCH: 32 or 64
+# ENV_PLATFORM: Mac or Linux
 
 # Never use an uninitialised variable
 # unfortunately because of a bug I had to be disabled, keeping it here
@@ -13,10 +13,10 @@
 # Find where we are installed at
 INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-export envHomeDir=`dirname $INSTALL_DIR`;
-export envDataDir=$HOME/.envData
-export envArch
-export envPlatform
+export ENV_HOME_DIR=`dirname $INSTALL_DIR`;
+export ENV_DATA_DIR=$HOME/.envData
+export ENV_ARCH
+export ENV_PLATFORM
 #export envHasPython=`command -v python3`
 #export envHasJava=`command -v java`
 #export envHasJavaDev=`command -v javac`
@@ -25,21 +25,21 @@ export envPlatform
 MACHINE_ARC=`uname -m`;
 case "$MACHINE_ARC" in
     "x86_64")
-	envArch="64"
+	ENV_ARCH="64"
         ;;
     "*")
-	envArch="32"
+	ENV_ARCH="32"
 	;;
 esac
 
 # check the platform
-envPlatform="Linux"
+ENV_PLATFORM="Linux"
 unameStr=`uname`
 if [ "$unameStr" = "Darwin" ]; then
-    envPlatform="Mac";
+    ENV_PLATFORM="Mac";
 fi
 
-source $envHomeDir/bash/settings.sh
+source $ENV_HOME_DIR/bash/settings.sh
 if [ -f /etc/timezone ]; then
   LOCAL_TIME_ZONE=`cat /etc/timezone`
 elif [ -h /etc/localtime ]; then
@@ -56,26 +56,26 @@ fi
 # bash: history file
 # ssh: authorized_keys file
 # emacs: backup files and module files
-if [ ! -d $envDataDir ]; then
-    mkdir $envDataDir
-    mkdir $envDataDir/bash
-    mkdir $envDataDir/ssh
-    mkdir $envDataDir/emacs
-    mkdir $envDataDir/emacs/backup
-    mkdir $envDataDir/emacs/modules
+if [ ! -d $ENV_DATA_DIR ]; then
+    mkdir $ENV_DATA_DIR
+    mkdir $ENV_DATA_DIR/bash
+    mkdir $ENV_DATA_DIR/ssh
+    mkdir $ENV_DATA_DIR/emacs
+    mkdir $ENV_DATA_DIR/emacs/backup
+    mkdir $ENV_DATA_DIR/emacs/modules
 fi
 
 ISO_DATE_FMT='%Y-%m-%d %H:%M:%S %Z'
 export TZ=Etc/UTC
 
 # functions, utilities, etc..
-source $envHomeDir/bash/lib.sh
+source $ENV_HOME_DIR/bash/lib.sh
 
-. $envHomeDir/bash/aliases.sh
-if [ "$envPlatform" = "Mac" ]; then
-    . $envHomeDir/bash/mac/aliasesForMac.sh
+. $ENV_HOME_DIR/bash/aliases.sh
+if [ "$ENV_PLATFORM" = "Mac" ]; then
+    . $ENV_HOME_DIR/bash/mac/aliasesForMac.sh
 else
-    . $envHomeDir/bash/linux/aliasesForLinux.sh
+    . $ENV_HOME_DIR/bash/linux/aliasesForLinux.sh
 fi
 
 # [Other Environment Variables]
@@ -87,13 +87,13 @@ export LESSCHARSET='utf-8'
 export TMOUT=0
 
 # [Hosts]
-export HOSTFILE=$envDataDir/bash/hosts
-if [ -e $envDataDir/bash/hostVars.sh ]; then
-    source $envDataDir/bash/hostVars.sh;
+export HOSTFILE=$ENV_DATA_DIR/bash/hosts
+if [ -e $ENV_DATA_DIR/bash/hostVars.sh ]; then
+    source $ENV_DATA_DIR/bash/hostVars.sh;
 fi
 
 # [History]
-export HISTFILE=$envDataDir/bash/history
+export HISTFILE=$ENV_DATA_DIR/bash/history
 export HISTSIZE=10000
 export HISTIGNORE="&:bg:fg:lsl:lsll:lsa:ls:history:exit"
 export HISTCONTROL="ignoreboth"
@@ -133,10 +133,10 @@ disableCore
 #enableCore
 
 # [PATH]
-prependPath PATH $envHomeDir/bin/$envPlatform/$envArch
-prependPath PATH $envHomeDir/bin
-if [ -e $envDataDir/bash/pathVars.sh ]; then
-    source $envDataDir/bash/pathVars.sh;
+prependPath PATH $ENV_HOME_DIR/bin/$ENV_PLATFORM/$ENV_ARCH
+prependPath PATH $ENV_HOME_DIR/bin
+if [ -e $ENV_DATA_DIR/bash/pathVars.sh ]; then
+    source $ENV_DATA_DIR/bash/pathVars.sh;
 fi
 
 # [Locale]
@@ -172,9 +172,9 @@ fi
 case "$-" in
     *i*) # interactive
         # [Keyboard Bindings]
-        bind -f $envHomeDir/etc/inputrc
+        bind -f $ENV_HOME_DIR/etc/inputrc
         if [ -x xrdb ] ; then
-            xrdb -load $envHomeDir/etc/XDefaults
+            xrdb -load $ENV_HOME_DIR/etc/XDefaults
         fi
         ;;
     *) # non-interactive

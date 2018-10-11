@@ -6,7 +6,7 @@ alias sane="stty sane"
 alias edel='\rm *~'
 
 # to reread this file from the shell
-alias resetShell=". $envHomeDir/bash/start.sh"
+alias resetShell=". $ENV_HOME_DIR/bash/start.sh"
 
 # easier navigation
 alias cd..="cd .."
@@ -33,7 +33,7 @@ alias pg='ps | grep -i'
 alias paths='echo -e ${PATH//:/\\n}'
 alias libpaths='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 # programs
-alias emacs='emacs --load ${envHomeDir}/etc/emacs/config.el'
+alias emacs='emacs --load ${ENV_HOME_DIR}/etc/emacs/config.el'
 
 alias localDate='TZ=$LOCAL_TIME_ZONE date  "+$ISO_DATE_FMT"'
 alias utcDate='TZ=Etc/UTC date -u "+$ISO_DATE_FMT"'

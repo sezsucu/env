@@ -41,15 +41,15 @@
 ;;Constants
 (set-face-foreground 'font-lock-constant-face "green")
 
-;;Setup envHomeDir environment variable
-(or (stringp (getenv "envHomeDir"))
-    (setenv "envHomeDir" (expand-file-name "~/.env")))
-(or (stringp (getenv "envDataDir"))
-    (setenv "envHomeDir" (expand-file-name "~/.envData")))
+;;Setup ENV_HOME_DIR environment variable
+(or (stringp (getenv "ENV_HOME_DIR"))
+    (setenv "ENV_HOME_DIR" (expand-file-name "~/.env")))
+(or (stringp (getenv "ENV_DATA_DIR"))
+    (setenv "ENV_HOME_DIR" (expand-file-name "~/.envData")))
 
 ;;Abbreviations
 (setq-default abbrev-mode t)
-(read-abbrev-file (substitute-in-file-name "$envHomeDir/etc/emacs/abbreviations.el") )
+(read-abbrev-file (substitute-in-file-name "$ENV_HOME_DIR/etc/emacs/abbreviations.el") )
 (setq save-abbrevs t)
 
 ;;Enable wheel-mouse scrolling
@@ -61,7 +61,7 @@
 (setq delete-old-versions t)            ; clean up a little
 (setq kept-new-versions 2)              ; keep 6 new
 (setq kept-old-versions 1)              ; keep only 2 old
-(defvar backup-dir (substitute-in-file-name "$envDataDir/emacs/backup"))
+(defvar backup-dir (substitute-in-file-name "$ENV_DATA_DIR/emacs/backup"))
 (setq backup-directory-alist (list (cons ".*" backup-dir)))
 
 ;;Setup Autosave Files
@@ -175,9 +175,9 @@
 (if
     (not (require 'css-mode nil 'noerror) )
     (and
-        (file-exists-p (substitute-in-file-name "$envDataDir/emacs/modules/css-mode.el"))
+        (file-exists-p (substitute-in-file-name "$ENV_DATA_DIR/emacs/modules/css-mode.el"))
         (and
-         (load (substitute-in-file-name "$envDataDir/emacs/modules/css-mode.el") )
+         (load (substitute-in-file-name "$ENV_DATA_DIR/emacs/modules/css-mode.el") )
          (add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
          )
     )
