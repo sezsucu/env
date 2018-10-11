@@ -73,7 +73,7 @@ else
     test -r "/etc/gentoo-release" && DISTRO_VER=`cat /etc/gentoo-release` && DISTRO="Gentoo"
     test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
     LOAD=`w | grep up | awk '{print $9" "$10" "$11}'`
-    LOAD15=$(echo $LOAD | cut -f 3 -d ', ');
+    LOAD15=$(echo $LOAD | cut -f 3 -d ',');
 fi
 
 if ping -q -c 1 -W 1 8.8.8.8 >/dev/null 2>&1; then
