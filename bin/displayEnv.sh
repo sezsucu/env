@@ -15,6 +15,7 @@ source "$envHomeDir/bash/lib.sh"
 setupColors
 
 IP4_UP="";
+DNS_UP="";
 IP_ADDRESS="";
 MY_CLIENT_IP="";
 CPU_MODEL="";
@@ -76,10 +77,18 @@ else
     LOAD15=$(echo $LOAD | cut -f 3 -d ',');
 fi
 
-if ping -q -c 1 -W 1 8.8.8.8 >/dev/null 2>&1; then
-    IP4_UP="true"
-else
-    IP4_UP="false"
+if [ `command -v git` ]; then
+    if ping -q -c 1 -W 1 8.8.8.8 >/dev/null 2>&1; then
+        IP4_UP="true"
+    else
+        IP4_UP="false"
+    fi
+
+    if ping -q -c 1 -W 1 google.com >/dev/null 2>&1; then
+        DNS_UP="true"
+    else
+        DNS_UP="false"
+    fi
 fi
 
 if [ ! -z "${SSH_CONNECTION+x}" ]; then
@@ -93,7 +102,11 @@ if [ ! -t 1 ]; then
 fi
 
 if [ $IP4_UP = "true" ]; then
-    printf "%14s: $NC $IP4_UP \n" "IP4 is Up";
+    if [ $DNS_UP = "true" ]; then
+        printf "%14s: $NC $IP4_UP \n" "IP4 is Up";
+    else
+        printf "%14s: $NC $IP4_UP ($Red DNS is DOWN $NC) \n" "IP4 is Up";
+    fi
 else
     printf "%14s: $Red $IP4_UP $NC \n" "IP4 is Up";
 fi
