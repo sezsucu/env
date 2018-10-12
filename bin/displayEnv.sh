@@ -124,10 +124,10 @@ if [ $IP4_UP = "true" ]; then
 elif [ `command -v ping` ]; then
     printf "%14s: $Red $IP4_UP $NC \n" "IP4 is Up";
 else
-    printf "%14s: $Red $IP4_UP $NC \n" "IP4 is Up";
+    printf "%14s: $Red $IP4_UP (no ping) $NC \n" "IP4 is Up";
 fi
 printf "%14s: $NC $IP_ADDRESS $NC \n" "IP Address";
-printf "%14s: $NC ${MY_CLIENT_IP:-local} $NC \n" "Client IP" ;
+printf "%14s: $NC ${MY_CLIENT_IP:-local} $NC \n" "SSH Client IP" ;
 printf "\n" ;
 printf "%14s: $NC $DISTRO $DISTRO_VER $NC \n" "Distro" ;
 printf "%14s: $NC $CPU_COUNT x $CPU_MODEL $CPU_SPEED $NC \n" "CPU" ;
