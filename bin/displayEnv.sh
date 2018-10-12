@@ -62,8 +62,8 @@ else
 
     MEM_FREE=`cat /proc/meminfo | grep MemFree | cut -d: -f2 | cut -dk -f1`;
     MEM_TOTAL=`cat /proc/meminfo | grep MemTotal | cut -d: -f2 | cut -dk -f1`;
-    MEM_TOTAL=$(echo "$[$MEM_TOTAL*1/1024]");
-    MEM_FREE=$(echo "$[$MEM_FREE*1/1024]" );
+#    MEM_TOTAL=$(echo "$[$MEM_TOTAL*1/1024]");
+#    MEM_FREE=$(echo "$[$MEM_FREE*1/1024]" );
     MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
     MEM_TOTAL=`bytesToDisplay $MEM_TOTAL`
     MEM_FREE=`bytesToDisplay $MEM_FREE`
