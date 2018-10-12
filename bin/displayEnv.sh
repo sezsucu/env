@@ -67,12 +67,18 @@ else
 
     DISTRO="Unknown Distro"
     DISTRO_VER="Unknown Distro"
-    test -r "/etc/slackware-version" && DISTRO_VER=`cat /etc/slackware-version` && DISTRO="Slackware"
-    test -r "/etc/debian_version" && DISTRO_VER=`cat /etc/debian_version` && DISTRO="Debian"
-    test -r "/etc/redhat-release" && DISTRO_VER=`cat /etc/redhat-release` && DISTRO="Redhat"
-    test -r "/etc/SuSE-release" && DISTRO_VER=`cat /etc/SuSE-release` && DISTRO="SuSe"
-    test -r "/etc/gentoo-release" && DISTRO_VER=`cat /etc/gentoo-release` && DISTRO="Gentoo"
-    test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
+    if [ -f "/etc/os-release" ]; then
+        . "/etc/os-release"
+        DISTRO_VER=$VERSION
+        DISTRO=$NAME
+    else
+        test -r "/etc/slackware-version" && DISTRO_VER=`cat /etc/slackware-version` && DISTRO="Slackware"
+        test -r "/etc/debian_version" && DISTRO_VER=`cat /etc/debian_version` && DISTRO="Debian"
+        test -r "/etc/redhat-release" && DISTRO_VER=`cat /etc/redhat-release` && DISTRO="Redhat"
+        test -r "/etc/SuSE-release" && DISTRO_VER=`cat /etc/SuSE-release` && DISTRO="SuSe"
+        test -r "/etc/gentoo-release" && DISTRO_VER=`cat /etc/gentoo-release` && DISTRO="Gentoo"
+        test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
+    fi
     LOAD=`w | grep up | awk '{print $8" "$9" "$10}'`
     LOAD15=$(echo $LOAD | cut -f 3 -d ',');
 fi
