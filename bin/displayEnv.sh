@@ -29,7 +29,8 @@ DISTRO_VER="";
 KERNEL=`uname -r`
 
 if [ "$ENV_PLATFORM" = "Mac" ]; then
-    DISTRO="Mac"
+    DISTRO="Mac OS X"
+    DISTRO_VER=$(sw_vers | grep ProductVersion | cut -f 2)
     IP_ADDRESS=`ifconfig | grep 'inet ' | grep -v '127.0.0.1' | cut -c 7-17 | head -1`
     CPU_MODEL=`/usr/sbin/system_profiler SPHardwareDataType | grep "Processor Name" | cut -d : -f2`
     CPU_SPEED=`/usr/sbin/system_profiler SPHardwareDataType | grep "Processor Speed" | cut -d : -f2`
@@ -64,6 +65,8 @@ else
     MEM_TOTAL=$(echo "$[$MEM_TOTAL*1/1024]");
     MEM_FREE=$(echo "$[$MEM_FREE*1/1024]" );
     MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
+    MEM_TOTAL=`bytesToDisplay $MEM_TOTAL`
+    MEM_FREE=`bytesToDisplay $MEM_FREE`
 
     DISTRO="Unknown Distro"
     DISTRO_VER="Unknown Distro"
