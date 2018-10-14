@@ -1362,3 +1362,10 @@ cmp file1.txt file2.txt
 cmp -s file1.txt file2.txt
 ```
 
+* To create a patch and apply. [A good tutorial](https://linuxacademy.com/blog/linux/introduction-using-diff-and-patch/) 
+```bash
+diff -urN originalFile.txt updatedFile.txt > my.patch
+patch originalFile.txt -i my.patch -o updatedFile.txt
+# or in place patching
+patch --verbose originalFile.txt < my.patch
+```

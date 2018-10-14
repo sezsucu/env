@@ -1,5 +1,10 @@
 #!/bin/bash
 
+path=$(which xdg-open || which gnome-open)
+
+#open https://www.jetbrains.com/idea/download/
+#exit 1
+
 function showHelp ()
 {
     echo "install.sh [-f][-d <installDirName>]"

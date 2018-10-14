@@ -1,5 +1,28 @@
 # By Sezgin Sucu
 
+ISO_DATE_FMT='%Y-%m-%d %H:%M:%S %Z'
+export ENV_PLATFORM
+# check the platform
+ENV_PLATFORM="Linux"
+unameStr=`uname`
+if [ "$unameStr" = "Darwin" ]; then
+    ENV_PLATFORM="Mac";
+fi
+
+export ENV_ARCH
+# check the architecture
+MACHINE_ARC=`uname -m`;
+case "$MACHINE_ARC" in
+    "x86_64")
+	ENV_ARCH="64"
+        ;;
+    "*")
+	ENV_ARCH="32"
+	;;
+esac
+
+
+
 # prependPath VARNAME /path/to/existing/dir
 # prepends the second argument to the ENVVAR and exports ENVVAR
 # it prepends the path if VARNAME does not have it already

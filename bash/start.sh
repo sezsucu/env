@@ -6,8 +6,7 @@
 # ENV_PLATFORM: Mac or Linux
 
 # Never use an uninitialised variable
-# unfortunately because of a bug I had to be disabled, keeping it here
-# for occasional debugging
+# unfortunately because of a bug I had to disable, keep it for debugging
 # set -u
 
 # Find where we are installed at
@@ -15,43 +14,6 @@ INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 export ENV_HOME_DIR=`dirname $INSTALL_DIR`;
 export ENV_DATA_DIR=$HOME/.envData
-export ENV_ARCH
-export ENV_PLATFORM
-#export envHasPython=`command -v python3`
-#export envHasJava=`command -v java`
-#export envHasJavaDev=`command -v javac`
-
-# check the architecture
-MACHINE_ARC=`uname -m`;
-case "$MACHINE_ARC" in
-    "x86_64")
-	ENV_ARCH="64"
-        ;;
-    "*")
-	ENV_ARCH="32"
-	;;
-esac
-
-# check the platform
-ENV_PLATFORM="Linux"
-unameStr=`uname`
-if [ "$unameStr" = "Darwin" ]; then
-    ENV_PLATFORM="Mac";
-fi
-
-source $ENV_HOME_DIR/bash/settings.sh
-if [ -f /etc/timezone ]; then
-  LOCAL_TIME_ZONE=`cat /etc/timezone`
-elif [ -h /etc/localtime ]; then
-    LOCAL_TIME_ZONE=`readlink /etc/localtime`
-    if [[ $LOCAL_TIME_ZONE =~ ^\/var\/db ]]; then
-        LOCAL_TIME_ZONE=`readlink /etc/localtime | sed "s/\/var\/db\/timezone\/zoneinfo\///"`
-    else
-        LOCAL_TIME_ZONE=`readlink /etc/localtime | sed "s/\/usr\/share\/zoneinfo\///"`
-    fi
-fi
-
-
 # setup the data dir used for temp data files
 # bash: history file
 # ssh: authorized_keys file
@@ -65,13 +27,25 @@ if [ ! -d $ENV_DATA_DIR ]; then
     mkdir $ENV_DATA_DIR/emacs/modules
 fi
 
-ISO_DATE_FMT='%Y-%m-%d %H:%M:%S %Z'
+#export envHasPython=`command -v python3`
+
+source $ENV_HOME_DIR/bash/settings.sh
+if [ -f /etc/timezone ]; then
+  LOCAL_TIME_ZONE=`cat /etc/timezone`
+elif [ -h /etc/localtime ]; then
+    LOCAL_TIME_ZONE=`readlink /etc/localtime`
+    if [[ $LOCAL_TIME_ZONE =~ ^\/var\/db ]]; then
+        LOCAL_TIME_ZONE=`readlink /etc/localtime | sed "s/\/var\/db\/timezone\/zoneinfo\///"`
+    else
+        LOCAL_TIME_ZONE=`readlink /etc/localtime | sed "s/\/usr\/share\/zoneinfo\///"`
+    fi
+fi
 export TZ=Etc/UTC
 
 # functions, utilities, etc..
 source $ENV_HOME_DIR/bash/lib.sh
-
 . $ENV_HOME_DIR/bash/aliases.sh
+
 if [ "$ENV_PLATFORM" = "Mac" ]; then
     . $ENV_HOME_DIR/bash/mac/aliasesForMac.sh
 else
@@ -79,7 +53,6 @@ else
 fi
 
 # [Other Environment Variables]
-#export HOSTNAME=`hostname`
 export PAGER=less
 export LESSCHARSET='utf-8'
 
