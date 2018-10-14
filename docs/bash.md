@@ -340,7 +340,7 @@ fi
 # substring of str starting at 0 length of 10
 ${str:0:10} 
 # length of str
-#str  
+${#str}  
 # replace first occurrence of pattern
 str/pattern/replacement
 # replace all occurrences of pattern
@@ -466,7 +466,7 @@ fi
 
 * Pattern matching
 ```bash
-if [[ "${fileName} == *.jpg ]]; then
+if [[ "${fileName}" == *.jpg ]]; then
     echo "ends with .jpg"
 fi
 fileName="a.tgz"
@@ -1339,7 +1339,7 @@ tr “[:lower:]” “[:upper:]” < real.txt
 tr '{}' '()' < real.txt
 ```
 
-* To squueze repetition of a character or character set
+* To squueze repetition of a character or character set from a file
 ```bash
 tr -s [:space:] ' ' < real.txt
 # any repetition of a, b, or c will be compressed into the character 'a'
@@ -1347,7 +1347,7 @@ tr -s [:space:] ' ' < real.txt
 tr -s [abc] 'a' < real.txt
 ```
 
-* To delete a character or a set of characters
+* To delete a character or a set of characters from a file
 ```bash
 tr -d [:space:] < real.txt
 ```
