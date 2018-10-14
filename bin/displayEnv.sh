@@ -54,7 +54,7 @@ if [ "$ENV_PLATFORM" = "Mac" ]; then
     LOAD=`w | grep up | awk '{print $12" "$11" "$12}'`
     LOAD15=$(echo $LOAD | cut -f 3 -d ' ');
 else
-    IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d t -f2 | cut -d : -f2 | cut -b -12 | head -1`
+    IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet ' | cut -d t -f2 | cut -d : -f2 | cut -b -12 | head -1`
     CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
     CPU_MODEL=`grep "model name" /proc/cpuinfo | cut -d : -f2 | head -1`;
     CPU_COUNT=`grep "processor" /proc/cpuinfo | cut -d : -f2 | tail -1`;
