@@ -1,34 +1,27 @@
 # By Sezgin Sucu
-
-# ENV_HOME_DIR: programs and configuration files
-# ENV_DATA_DIR: host specific files or temp files
-# ENV_ARCH: 32 or 64
-# ENV_PLATFORM: Mac or Linux
-
-# Never use an uninitialised variable
 # unfortunately because of a bug I had to disable, keep it for debugging
 # set -u
 
-# Find where we are installed at
+# find where we are installed at
 INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# where env is installed at
 export ENV_HOME_DIR=`dirname $INSTALL_DIR`;
+# the data directory
 export ENV_DATA_DIR=$HOME/.envData
 # setup the data dir used for temp data files
-# bash: history file
-# ssh: authorized_keys file
-# emacs: backup files and module files
 if [ ! -d $ENV_DATA_DIR ]; then
     mkdir $ENV_DATA_DIR
-    mkdir $ENV_DATA_DIR/bash
-    mkdir $ENV_DATA_DIR/ssh
+    mkdir $ENV_DATA_DIR/bash # history file
+    mkdir $ENV_DATA_DIR/ssh # authorized_keys file
     mkdir $ENV_DATA_DIR/emacs
-    mkdir $ENV_DATA_DIR/emacs/backup
-    mkdir $ENV_DATA_DIR/emacs/modules
+    mkdir $ENV_DATA_DIR/emacs/backup # emacs backup files
+    mkdir $ENV_DATA_DIR/emacs/modules # emacs modules
 fi
 
 #export envHasPython=`command -v python3`
 
+# custom settings
 source $ENV_HOME_DIR/bash/settings.sh
 if [ -f /etc/timezone ]; then
   LOCAL_TIME_ZONE=`cat /etc/timezone`
