@@ -20,7 +20,7 @@ fi
 function showLevel()
 {
     for (( i=0 ; i < $1 ; i++ )); do
-        printf " | "
+        printf "."
     done
 }
 
@@ -28,11 +28,17 @@ function showDir()
 {
     local path=$1
     local level=$2
+    local k=0
     for file in $path/*; do
         if [ -d "$file" ]; then
             showLevel $level
-            echo '-' `basename $file`
+            if (( k > 0 )); then
+                echo '|' `basename $file`
+            else
+                echo '\' `basename $file`
+            fi
             showDir $file $((level+1))
+            ((k++))
         fi
     done
 }

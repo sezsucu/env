@@ -1369,3 +1369,12 @@ patch originalFile.txt -i my.patch -o updatedFile.txt
 # or in place patching
 patch --verbose originalFile.txt < my.patch
 ```
+
+* To remove the last character in a string
+```bash
+if [[ "$path" =~ .*\/$ ]]; then
+    len=${#path}
+    ((--len))
+    path=${path:0:$len}
+fi
+```
