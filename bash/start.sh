@@ -9,7 +9,7 @@ INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export ENV_HOME_DIR=`dirname $INSTALL_DIR`;
 # the data directory
 export ENV_DATA_DIR=$HOME/.envData
-# setup the data dir used for temp data files
+# setup the data dir
 if [ ! -d $ENV_DATA_DIR ]; then
     mkdir $ENV_DATA_DIR
     mkdir $ENV_DATA_DIR/bash # history file
