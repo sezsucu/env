@@ -54,7 +54,9 @@ A curated list of bash scripts and resources
 * `atq`: to list the jobs to be executed later
 * `atrm`: to remove a job from the at queue
 * `cal`: to display a calendar
-* `chown`: to change the owner of a file 
+* `chown`: to change the owner of a file
+* `split`: to split a file into pieces 
+* `csplit`: to split a file into pieces based on context
 
 
 ## Minor Things To Remember
@@ -1377,4 +1379,19 @@ if [[ "$path" =~ .*\/$ ]]; then
     ((--len))
     path=${path:0:$len}
 fi
+```
+
+* To split a file into equal pieces
+```bash
+split file
+```
+
+* To split a file into a given number of lines each
+```bash
+split -l 5000 bigFile.txt segmentName
+```
+
+* To split a file into a given number of bytes each
+```bash
+split -b 40k bigFile.data segmentName
 ```

@@ -82,7 +82,7 @@ else
         test -r "/etc/gentoo-release" && DISTRO_VER=`cat /etc/gentoo-release` && DISTRO="Gentoo"
         test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
     fi
-    LOAD=`w | grep up | awk '{print $8" "$9" "$10}'`
+    LOAD=`w | grep up | awk '{print $9" "$10" "$11}'`
     LOAD15=$(echo $LOAD | cut -f 3 -d ',');
 fi
 
