@@ -129,6 +129,15 @@ function findGrepi()
     findGrepExecute "${2:-*}" "grep -H -i '${1:-}'"
 }
 
+function getMd5()
+{
+    if [ $ENV_PLATFORM == "Mac" ]; then
+        echo $(md5 $1) | cut -f4 -d ' '
+    else
+        echo $(md5sum $1) | cut -f1 -d ' '
+    fi
+}
+
 # find all files that are over the given size
 # ex: findOverSize 10M
 # ex: findOverSize 10M "*.log"
