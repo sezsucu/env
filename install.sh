@@ -3,6 +3,7 @@
 path=$(which xdg-open || which gnome-open)
 
 #open https://www.jetbrains.com/idea/download/
+#open https://freeware.iconfactory.com/icons
 #exit 1
 
 function showHelp ()
