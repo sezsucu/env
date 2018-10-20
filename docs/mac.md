@@ -76,5 +76,13 @@ are set to None, icons can be moved to any position and may appear to be somewha
 it is too messy, you can always select "Clean Up", or "Arrange By" or "Sort By" to make
 icons snap to grid.
 
+#### For a quick review of a file press the space bar
+When you select a file in Finder, you can press space bar and have a quick look at the file content 
+using quick look plugins. Alternative is press `⌘ + Y`
+
+#### For a quick review of a group of files
+Select the files you want to do a quick look at, then press space bar or `⌘ + Y`. Now you 
+can use back and forward buttons to browse through the selected files.
+
  
 
