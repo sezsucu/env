@@ -1,3 +1,6 @@
+#### To search Help
+Press `⇧ + ⌘ + ?` to search Help in any program
+
 #### To copy a folder or  file
 
 In the finder window hold `(Option) ⌥` key and click and release the desired item.
@@ -84,5 +87,34 @@ using quick look plugins. Alternative is press `⌘ + Y`
 Select the files you want to do a quick look at, then press space bar or `⌘ + Y`. Now you 
 can use back and forward buttons to browse through the selected files.
 
- 
+#### To go home in finder
+Press `⇧ + ⌘ + H`
+
+#### Renaming multiple files
+Select as many files and folders as you need to rename and right click and choose "Rename XX Items". 
+Here you can choose replace text, add text or format, each with a different way to rename items.
+
+#### To duplicate a file
+While the item is selected, press `⌘ + D`
+
+#### To make an alias
+While the item is selected, press `⌘ + L`
+
+#### To open a file
+While the item is selected, press `⌘ + O`
+
+#### Copying a file
+Hold the `(Option) ⌥` key while dragging the selected items and release the mouse button.
+
+#### Create an alias by dragging title bar icon in a document
+You can create an alias by dragging title bar icon in a document.
+You can drag this title bar icon to any app on the Dock to open it with.
+
+#### Press space bar in order to make spring-loaded folders open immediately
+Instead of waiting for the spring-loaded folders to open while moving or copying 
+an item, you can also adjust the delay through preferences -> accessibility -> mouse and trackpad -> spring-loading delay.
+
+
+
+
 
