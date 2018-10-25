@@ -183,6 +183,13 @@ Simply press `⌘ + B`
 "Andrew Johnson" NOT "Diane Jane"
 ```
 
+#### To open the finder spotlight 
+Press `⌥ + ⌘ + Space` and a finder window will open up with the find mode.
+
+#### You can customize toolbar icons by pressing ⌘ and dragging toolbar icons
+You can right click on the toolbar and select "Customize Toolbar" to add new items,
+but you can also drag and move toolbar icons by pressing `⌘` while dragging toolbar icons.
+
 
 
 
