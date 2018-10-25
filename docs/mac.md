@@ -1,3 +1,5 @@
+### Finder
+
 #### To search Help
 Press `⇧ + ⌘ + ?` to search Help in any program
 
@@ -113,6 +115,74 @@ You can drag this title bar icon to any app on the Dock to open it with.
 #### Press space bar in order to make spring-loaded folders open immediately
 Instead of waiting for the spring-loaded folders to open while moving or copying 
 an item, you can also adjust the delay through preferences -> accessibility -> mouse and trackpad -> spring-loading delay.
+
+### Spotlight
+Press `⌘ + Space` for spotlight search
+
+#### You can do math calculations
+Just type `2 + 2` and it will tell you the answer
+
+#### You can do conversions
+Just type `2 meters in inches` and it will tell you the answer
+
+#### To find where a file or folder is located
+Hold `⌘` while clicking on the found item, the path will appear at the bottom of the preview pane
+
+#### To jump to the found item's icon in the finder
+Hold `⌘` and double-click on the found item, a finder window will open with the item selected,
+or you press `⌘ + Return` keys while the item is selected in the spotlight search results
+
+#### You can drag results into a folder
+Simply drag the file to copy
+
+#### To search the typed in phrase in google
+Simply press `⌘ + B`
+
+#### Kind keyword options
+* app, application, applications
+* contact, contacts
+* folder, folders
+* email, emails, mail message, mail messages
+* event, events
+* to do, to dos, todo, todos
+* image, images
+* movie, movies
+* music
+* audio
+* pdf, pdfs
+* preferences, system preferences
+* bookmark, bookmarks
+* font, fonts
+* presentation, presentations
+
+#### You can also type date:yesterday to search files you last opened yesterday
+* this year
+* this month
+* this week
+* today
+* yesterday
+* tomorrow
+* next week (for appointments, not files)
+* next month (for appointments, not files)
+* next year (for appointments, not files)
+
+#### There are many other ways to search spotlight
+* author:john
+* width:800
+* flash:1 (photos with flash on)
+* modified:7/7/16-8/8/18
+* modified:<=8/8/18
+* modified:<8/8/18
+* created:7/7/16-8/8/18
+
+#### Boolean searches
+```
+# any item that contains anyone of them
+"Andrew Johnson" OR "Diane Jane"
+# any item that contains first, but not the other 
+"Andrew Johnson" NOT "Diane Jane"
+```
+
 
 
 
