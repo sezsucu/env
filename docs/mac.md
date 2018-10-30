@@ -1,5 +1,32 @@
 ### Finder
 
+#### To force quit an application
+Press `⌥ + ⌘ + Esc`
+
+#### Split screen mode
+Click and hold the green button on the top-left corner of an application window. Wait till you see the shaded blue
+split screen. Once you release the mouse button Mac will give you an option to choose the other window to select 
+for the other half of the screen.
+
+#### To assign an application windows to all virtual spaces
+Right click on the app's Dock Icon and click options and select "Assign To" as "All Desktops".
+
+#### To hide an application's window
+Holding `⌥` click on the application's dock icon. It will hide it first, in the second click it will show it again.
+If you hold `⌥` and click on desktop all windows will be hid, or you can `⌥` click on another app's window and
+the current app's window will be hid. Or while doing `⌘ + Tab` click on `H` when you come across the app you want to hid
+or show. Single `H` will hid, and another `H` will bring it back.
+
+#### To bring a window of an app to front while hiding all others
+Holding `⌥ + ⌘` click on the app's dock icon. All other apps will be hidden, while that one will be the only window
+open.
+
+#### To show hidden files
+Press `⇧ + ⌘ + .`
+
+#### To go to home directory
+Press `⇧ + ⌘ + H`
+
 #### To search Help
 Press `⇧ + ⌘ + ?` to search Help in any program
 
