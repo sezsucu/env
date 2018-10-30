@@ -217,7 +217,13 @@ Press `⌥ + ⌘ + Space` and a finder window will open up with the find mode.
 You can right click on the toolbar and select "Customize Toolbar" to add new items,
 but you can also drag and move toolbar icons by pressing `⌘` while dragging toolbar icons.
 
+### Cocoa Apps
 
+#### You can hold ⌥ and select columns of text
+In Cocoa apps, you can select columns of text.
+
+#### You can hold ⌘ and select multiple sections of text
+In Cocoa apps, you can select multiple sections of text.
 
 
 

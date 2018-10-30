@@ -11,6 +11,7 @@ if [ $# == 0 ]; then
     path=`pwd`
 fi
 
+# remove the last '/' character if there is one
 if [[ "$path" =~ .*\/$ ]]; then
     len=${#path}
     ((--len))
