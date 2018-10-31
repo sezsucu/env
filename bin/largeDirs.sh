@@ -4,6 +4,7 @@
 # The size of a directory is computed such that only its direct files
 # are considered, not its sub-directories. This is quite easy to do on linux
 # using 'du -S . | sort -nr | head -15' but on mac it is not that easy.
+# Quite slow on mac though
 
 source "$ENV_HOME_DIR/bash/lib.sh"
 
@@ -32,6 +33,7 @@ function computeDir()
     local totalSize=0
     local fileSize=0
     totalSize=$(find "$path" -type f -maxdepth 1 -print0 | xargs -0 stat -f%z | awk '{b+=$1} END {print b}')
+    # local is very important here
     local i
     if [[ $totalSize -gt 0 ]]; then
         if [[ ${#sizes[@]} -lt $limit ]]; then
@@ -48,6 +50,7 @@ function computeDir()
         fi
     fi
 
+    # the only way to process files with whitespace in its names
     local filesStr=$(find "$path" -type d -maxdepth 1)
     local files
     IFS=$'\n' read -rd '' -a files <<<"$filesStr"
@@ -60,7 +63,6 @@ function computeDir()
         fi
     done
 }
-
 
 
 echo $path
