@@ -39,13 +39,22 @@ function showDir()
     for (( i=0 ; i < ${#files[@]} ; i++ )); do
         file=${files[$i]}
         if [[ "$file" != "$path" && -d "$file" ]]; then
-            showLevel $level
-            if (( k > 0 )); then
-                echo '|' $(basename "$file")
+            if [[ "$file" =~ .*.git$ ]]; then
+                showLevel $level
+                if (( k > 0 )); then
+                    echo '|' $(basename "$file") "(ignored)"
+                else
+                    echo '\' $(basename "$file") "(ignored)"
+                fi
             else
-                echo '\' $(basename "$file")
+                showLevel $level
+                if (( k > 0 )); then
+                    echo '|' $(basename "$file")
+                else
+                    echo '\' $(basename "$file")
+                fi
+                showDir "$file" $((level+1))
             fi
-            showDir "$file" $((level+1))
             ((k++))
         fi
     done
