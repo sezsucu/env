@@ -31,7 +31,7 @@ function showDir()
     local path=$1
     local level=$2
     local k=0
-    local filesStr=$(find "$path" -type d -maxdepth 1)
+    local filesStr=$(find "$path" -maxdepth 1 -type d)
     local files
     local file
     local i

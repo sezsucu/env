@@ -37,7 +37,7 @@ function computeDir()
     local path=$1
     local totalSize=0
     local fileSize=0
-    totalSize=$(find "$path" -type f -maxdepth 1 -print0 | xargs -0 stat -f%z | awk '{b+=$1} END {print b}')
+    totalSize=$(find "$path" -maxdepth 1 -type f -print0 | xargs -0 stat -f%z | awk '{b+=$1} END {print b}')
     # local is very important here
     local i
     if [[ $totalSize -gt 0 ]]; then
@@ -56,7 +56,7 @@ function computeDir()
     fi
 
     # the only way to process files with whitespace in its names
-    local filesStr=$(find "$path" -type d -maxdepth 1)
+    local filesStr=$(find "$path" -maxdepth 1 -type d)
     local files
     IFS=$'\n' read -rd '' -a files <<<"$filesStr"
     for (( i=0 ; i < ${#files[@]} ; i++ )); do
