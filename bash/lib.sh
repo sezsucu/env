@@ -40,7 +40,6 @@ prependPath()
     fi
 }
 
-
 function disableCore()
 {
    ulimit -S -c 0

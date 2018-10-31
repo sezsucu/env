@@ -31,7 +31,7 @@ fi
 
 declare -a sizes
 declare -a names
-limit=10
+limit=15
 function computeDir()
 {
     local path=$1
