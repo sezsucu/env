@@ -17,6 +17,7 @@ if [[ $# == 0 ]]; then
     fi
 fi
 
+echo "Outputting to $keyFile"
 openssl genrsa -out $keyFile 3072
 chmod 600 $keyFile
 
