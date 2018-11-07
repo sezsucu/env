@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# https://www.zimuel.it/blog/sign-and-verify-a-file-using-openssl
 
 function getFileName()
 {
@@ -30,6 +29,10 @@ function getFileName()
 
 function extractPublicRSAKey()
 {
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Usage: rsa.sh public /path/to/privateKey.file"
+        exit 1
+    fi
     keyFile=$(getFileName "$1")
     (>&2 echo "Using $keyFile")
     openssl rsa -in "$keyFile" -pubout
@@ -72,8 +75,9 @@ function signData()
 function verifyData()
 {
     keyFile=$(getFileName "$1")
+    sigFile="$2"
     (>&2 echo "Using $keyFile")
-    openssl dgst -sha256 -verify $keyFile -signature <&0
+    openssl dgst -sha256 -verify $keyFile -signature $sigFile <&0
 }
 
 command=$1
@@ -101,8 +105,12 @@ case "$command" in
         ;;
 
      ver*)
-        verifyData "$*"
+        verifyData $*
         ;;
     *)
-        echo "rsa.sh [(cre)ate|(pub)lic|(enc)rypt|(dec)rypt] fileName"
+        echo "rsa.sh [(cre)ate] [/path/to/privateKey.file]"
+        echo "rsa.sh [(pub)lic] /path/to/privateKey.file"
+        echo "rsa.sh [(enc)rypt|(dec)rypt] privateKey.file"
+        echo "rsa.sh [(sig)n] [/path/to/privateKey.file] < originalFile > signature.file"
+        echo "rsa.sh [(ver)ify] publicKey.file signature.file < originalFile"
 esac
