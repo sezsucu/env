@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 function getFileName()
 {
     keyFile=$1
@@ -171,8 +170,8 @@ case "$command" in
         echo "rsa.sh [(pub)lic] /path/to/privateKey.file"
         echo "encrypts or decrypts any size message using aes256"
         echo "rsa.sh [(enc)rypt|(dec)rypt] secretKey.file"
-        echo "encrypts or decrypts a small message"
-        echo "rsa.sh [(enc)rypt|(dec)rypt] privateKey.file"
+        echo "encrypts or decrypts a small message with a private or public key"
+        echo "rsa.sh [(enc)rypt|(dec)rypt] (privateKey.file|publicKey.file)"
         echo "creates a signature"
         echo "rsa.sh [(sig)n] [/path/to/privateKey.file] < originalFile > signature.file"
         echo "verifies the signature"
