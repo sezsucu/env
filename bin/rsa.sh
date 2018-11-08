@@ -103,6 +103,26 @@ function generateKey()
     openssl rand -base64 $1
 }
 
+function hideData()
+{
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Usage: rsa.sh (pro)tect /path/to/key.file < input > output"
+        exit 1
+    fi
+    keyFile=$1
+    openssl enc -aes-256-cbc -salt -base64 -pass file:$keyFile <&0 >&1
+}
+
+function revealData()
+{
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Usage: rsa.sh (pro)tect /path/to/key.file < input > output"
+        exit 1
+    fi
+    keyFile=$1
+    openssl enc -d -aes-256-cbc -base64 -pass file:$keyFile <&0 >&1
+}
+
 command=$1
 shift
 
@@ -113,6 +133,14 @@ case "$command" in
 
     pub*)
         extractPublicRSAKey "$*"
+        ;;
+
+    hid*)
+        hideData "$*"
+        ;;
+
+    rev*)
+        revealData "$*"
         ;;
 
     enc*)
