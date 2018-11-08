@@ -46,6 +46,55 @@ openssl rsa -in privateKey.pem -pubout -out public.key
 openssl sha1 -verify public.key -signature signedHash.bin file.txt
 ```
 
+### security.sh
+
+* To encrypt any size file
+```bash
+# it will ask a new password for you to enter
+crypt.sh enc < input.file > output.file
+```
+
+* To decrypt an encrypted file
+```bash
+# it will ask the password you used to encrypt the output.file
+crypt.sh dec < output.file > input.file
+```
+
+* To generate a 32-byte key to be used for encryption
+```bash
+crypt.sh gen 32 > key.txt
+```
+
+* To create a private/public key pair (4096-bit)
+```bash
+crypt.sh create mykey.pem
+```
+
+* To extract the public key from a private key
+```bash
+crypt.sh public mykey.pem > public.key
+```
+
+* To protect a private key with a password
+```bash
+crypt.sh add mykey.pem > password.protecte.mykey.pem
+```
+
+* To remove a password from a password protected private key
+```bash
+crypt.sh remove password.protecte.mykey.pem > mykey.pem
+```
+
+* To sign data with your private key
+```bash
+crypt.sh sign mykey.pem < input.file > signature.file
+```
+
+* To verify a signature file with your public key
+```bash
+crypt.sh verify public.key signature.file < input.file
+```
+
 
 
 

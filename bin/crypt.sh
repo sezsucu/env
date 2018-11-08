@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# https://wiki.openssl.org/index.php/Enc
+
 function getFileName()
 {
     keyFile=$1
@@ -29,7 +31,7 @@ function getFileName()
 function extractPublicRSAKey()
 {
     if [[ $# == 0 || "$1" == "" ]]; then
-        echo "Usage: rsa.sh public /path/to/privateKey.file"
+        echo "Usage: crypt.sh public /path/to/privateKey.file"
         exit 1
     fi
     keyFile=$(getFileName "$1")
@@ -48,38 +50,42 @@ function createRSAKey()
 function encryptData()
 {
     if [[ $# == 0 || "$1" == "" ]]; then
-        echo "Requires file name"
-        exit 1
-    fi
-    #keyFile=$(getFileName "$1")
-    keyFile=$1
-    #(>&2 echo "Using $keyFile")
-    read -r line < "$keyFile"
-    if [[ "$line" =~ .*PRIVATE.* ]]; then
-        openssl rsautl -inkey $keyFile -encrypt >&1
-    elif [[ "$line" =~ .*PUBLIC.* ]]; then
-        openssl rsautl -inkey $keyFile -pubin -encrypt >&1
+        openssl enc -aes-256-cbc -salt -base64 <&0 >&1
+    elif [[ $# == 1 ]]; then
+        #keyFile=$(getFileName "$1")
+        keyFile=$1
+        #(>&2 echo "Using $keyFile")
+        read -r line < "$keyFile"
+        if [[ "$line" =~ .*PRIVATE.* ]]; then
+            openssl rsautl -inkey $keyFile -encrypt >&1
+        elif [[ "$line" =~ .*PUBLIC.* ]]; then
+            openssl rsautl -inkey $keyFile -pubin -encrypt >&1
+        else
+            openssl enc -aes-256-cbc -salt -base64 -pass file:$keyFile <&0 >&1
+        fi
     else
-        openssl enc -aes-256-cbc -salt -base64 -pass file:$keyFile <&0 >&1
+        echo "Usage: crypt.sh enc [privateKey.file|publicKey.file|key.file] < input > output"
     fi
 }
 
 function decryptData()
 {
     if [[ $# == 0 || "$1" == "" ]]; then
-        echo "Requires file name"
-        exit 1
-    fi
-    keyFile=$1
-    #keyFile=$(getFileName "$1")
-    #(>&2 echo "Using $keyFile")
-    read -r line < "$keyFile"
-    if [[ "$line" =~ .*PRIVATE.* ]]; then
-        openssl rsautl -inkey $keyFile -decrypt <&0
-    elif [[ "$line" =~ .*PUBLIC.* ]]; then
-        openssl rsautl -inkey $keyFile -pubin -decrypt <&0
+        openssl enc -d -aes-256-cbc -base64 <&0 >&1
+    elif [[ $# == 1 ]]; then
+        keyFile=$1
+        #keyFile=$(getFileName "$1")
+        #(>&2 echo "Using $keyFile")
+        read -r line < "$keyFile"
+        if [[ "$line" =~ .*PRIVATE.* ]]; then
+            openssl rsautl -inkey $keyFile -decrypt <&0
+        elif [[ "$line" =~ .*PUBLIC.* ]]; then
+            openssl rsautl -inkey $keyFile -pubin -decrypt <&0
+        else
+            openssl enc -d -aes-256-cbc -base64 -pass file:$keyFile <&0 >&1
+        fi
     else
-        openssl enc -d -aes-256-cbc -base64 -pass file:$keyFile <&0 >&1
+        echo "Usage: crypt.sh dec [privateKey.file|key.file] < input > output"
     fi
 }
 
@@ -115,7 +121,7 @@ function removePassword()
 function generateKey()
 {
     if [[ $# == 0 || "$1" == "" ]]; then
-        echo "Usage: rsa.sh (gen)erate 32"
+        echo "Usage: crypt.sh (gen)erate 32"
         exit 1
     fi
     openssl rand -base64 $1
@@ -163,21 +169,21 @@ case "$command" in
         ;;
     *)
         echo "generate random n-byte key"
-        echo "rsa.sh [(gen)erate] n"
+        echo "crypt.sh [(gen)erate] n"
         echo "creates a private key"
-        echo "rsa.sh [(cre)ate] [/path/to/privateKey.file]"
+        echo "crypt.sh [(cre)ate] [/path/to/privateKey.file]"
         echo "extracts the public key from the private key"
-        echo "rsa.sh [(pub)lic] /path/to/privateKey.file"
+        echo "crypt.sh [(pub)lic] /path/to/privateKey.file"
         echo "encrypts or decrypts any size message using aes256"
-        echo "rsa.sh [(enc)rypt|(dec)rypt] secretKey.file"
+        echo "crypt.sh [(enc)rypt|(dec)rypt] secretKey.file"
         echo "encrypts or decrypts a small message with a private or public key"
-        echo "rsa.sh [(enc)rypt|(dec)rypt] (privateKey.file|publicKey.file)"
+        echo "crypt.sh [(enc)rypt|(dec)rypt] (privateKey.file|publicKey.file)"
         echo "creates a signature"
-        echo "rsa.sh [(sig)n] [/path/to/privateKey.file] < originalFile > signature.file"
+        echo "crypt.sh [(sig)n] [/path/to/privateKey.file] < originalFile > signature.file"
         echo "verifies the signature"
-        echo "rsa.sh [(ver)ify] /path/to/publicKey.file signature.file < originalFile"
+        echo "crypt.sh [(ver)ify] /path/to/publicKey.file signature.file < originalFile"
         echo "add a password to an existing key"
-        echo "rsa.sh [(add)] /path/to/privateKey.without.password > passwordProtectedPrivate.file"
+        echo "crypt.sh [(add)] /path/to/privateKey.without.password > passwordProtectedPrivate.file"
         echo "remove a password from a key"
-        echo "rsa.sh [(rem)ove] /path/to/passwordProtectedPrivate.file > privateKey.without.password"
+        echo "crypt.sh [(rem)ove] /path/to/passwordProtectedPrivate.file > privateKey.without.password"
 esac
