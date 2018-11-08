@@ -48,21 +48,40 @@ function createRSAKey()
 
 function encryptData()
 {
-    keyFile=$(getFileName "$1")
-    (>&2 echo "Using $keyFile")
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Requires file name"
+        exit 1
+    fi
+    #keyFile=$(getFileName "$1")
+    keyFile=$1
+    #(>&2 echo "Using $keyFile")
     read -r line < "$keyFile"
     if [[ "$line" =~ .*PRIVATE.* ]]; then
         openssl rsautl -inkey $keyFile -encrypt >&1
     elif [[ "$line" =~ .*PUBLIC.* ]]; then
         openssl rsautl -inkey $keyFile -pubin -encrypt >&1
+    else
+        openssl enc -aes-256-cbc -salt -base64 -pass file:$keyFile <&0 >&1
     fi
 }
 
 function decryptData()
 {
-    keyFile=$(getFileName "$1")
-    (>&2 echo "Using $keyFile")
-    openssl rsautl -inkey $keyFile -decrypt <&0
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Requires file name"
+        exit 1
+    fi
+    keyFile=$1
+    #keyFile=$(getFileName "$1")
+    #(>&2 echo "Using $keyFile")
+    read -r line < "$keyFile"
+    if [[ "$line" =~ .*PRIVATE.* ]]; then
+        openssl rsautl -inkey $keyFile -decrypt <&0
+    elif [[ "$line" =~ .*PUBLIC.* ]]; then
+        openssl rsautl -inkey $keyFile -pubin -decrypt <&0
+    else
+        openssl enc -d -aes-256-cbc -base64 -pass file:$keyFile <&0 >&1
+    fi
 }
 
 function signData()
@@ -103,25 +122,6 @@ function generateKey()
     openssl rand -base64 $1
 }
 
-function hideData()
-{
-    if [[ $# == 0 || "$1" == "" ]]; then
-        echo "Usage: rsa.sh (pro)tect /path/to/key.file < input > output"
-        exit 1
-    fi
-    keyFile=$1
-    openssl enc -aes-256-cbc -salt -base64 -pass file:$keyFile <&0 >&1
-}
-
-function revealData()
-{
-    if [[ $# == 0 || "$1" == "" ]]; then
-        echo "Usage: rsa.sh (pro)tect /path/to/key.file < input > output"
-        exit 1
-    fi
-    keyFile=$1
-    openssl enc -d -aes-256-cbc -base64 -pass file:$keyFile <&0 >&1
-}
 
 command=$1
 shift
@@ -135,14 +135,6 @@ case "$command" in
         extractPublicRSAKey "$*"
         ;;
 
-    hid*)
-        hideData "$*"
-        ;;
-
-    rev*)
-        revealData "$*"
-        ;;
-
     enc*)
         encryptData "$*"
         ;;
@@ -151,23 +143,23 @@ case "$command" in
         decryptData "$*"
         ;;
 
-     sig*)
+    sig*)
         signData "$*"
         ;;
 
-     ver*)
+    ver*)
         verifyData $*
         ;;
 
-     rem*)
+    rem*)
         removePassword $*
         ;;
 
-     add*)
+    add*)
         addPassword $*
         ;;
 
-     gen*)
+    gen*)
         generateKey $*
         ;;
     *)
@@ -177,6 +169,8 @@ case "$command" in
         echo "rsa.sh [(cre)ate] [/path/to/privateKey.file]"
         echo "extracts the public key from the private key"
         echo "rsa.sh [(pub)lic] /path/to/privateKey.file"
+        echo "encrypts or decrypts any size message using aes256"
+        echo "rsa.sh [(enc)rypt|(dec)rypt] secretKey.file"
         echo "encrypts or decrypts a small message"
         echo "rsa.sh [(enc)rypt|(dec)rypt] privateKey.file"
         echo "creates a signature"
