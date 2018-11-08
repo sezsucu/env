@@ -225,6 +225,15 @@ In Cocoa apps, you can select columns of text.
 #### You can hold ⌘ and select multiple sections of text
 In Cocoa apps, you can select multiple sections of text.
 
+### Misc Tools
+
+#### otool
+* `-L`: names and versions of libraries of shared libraries an object file uses
+* `-M`: displays the module table of a shared library
+* `-t`: displays TEXT section of an object file
+* `-V`: very verbose
+* `-v`: verbose
+
 
 
 

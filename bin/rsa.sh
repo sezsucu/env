@@ -80,6 +80,29 @@ function verifyData()
     openssl dgst -sha256 -verify $keyFile -signature $sigFile <&0
 }
 
+function addPassword()
+{
+    keyFile=$(getFileName "$1")
+    (>&2 echo "Using $keyFile")
+    openssl rsa -aes256 -in $keyFile >&1
+}
+
+function removePassword()
+{
+    keyFile=$(getFileName "$1")
+    (>&2 echo "Using $keyFile")
+    openssl rsa -in $keyFile >&1
+}
+
+function generateKey()
+{
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Usage: rsa.sh (gen)erate 32"
+        exit 1
+    fi
+    openssl rand -base64 $1
+}
+
 command=$1
 shift
 
@@ -107,10 +130,33 @@ case "$command" in
      ver*)
         verifyData $*
         ;;
+
+     rem*)
+        removePassword $*
+        ;;
+
+     add*)
+        addPassword $*
+        ;;
+
+     gen*)
+        generateKey $*
+        ;;
     *)
+        echo "generate random n-byte key"
+        echo "rsa.sh [(gen)erate] n"
+        echo "creates a private key"
         echo "rsa.sh [(cre)ate] [/path/to/privateKey.file]"
+        echo "extracts the public key from the private key"
         echo "rsa.sh [(pub)lic] /path/to/privateKey.file"
+        echo "encrypts or decrypts a small message"
         echo "rsa.sh [(enc)rypt|(dec)rypt] privateKey.file"
+        echo "creates a signature"
         echo "rsa.sh [(sig)n] [/path/to/privateKey.file] < originalFile > signature.file"
-        echo "rsa.sh [(ver)ify] publicKey.file signature.file < originalFile"
+        echo "verifies the signature"
+        echo "rsa.sh [(ver)ify] /path/to/publicKey.file signature.file < originalFile"
+        echo "add a password to an existing key"
+        echo "rsa.sh [(add)] /path/to/privateKey.without.password > passwordProtectedPrivate.file"
+        echo "remove a password from a key"
+        echo "rsa.sh [(rem)ove] /path/to/passwordProtectedPrivate.file > privateKey.without.password"
 esac

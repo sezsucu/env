@@ -1395,3 +1395,12 @@ split -l 5000 bigFile.txt segmentName
 ```bash
 split -b 40k bigFile.data segmentName
 ```
+
+* To dump the contents of a file in character format
+```bash
+od -c input.file
+# no offset info 
+od -An -c input.file
+# jump 1000 bytes and show in hexadecimal format
+od -j1000 -x input.file
+```
