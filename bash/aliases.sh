@@ -54,3 +54,8 @@ else
     alias download='echo "No wget or curl found"'
 fi
 
+if [ "$ENV_PLATFORM" = "Mac" ]; then
+    . $ENV_HOME_DIR/bash/support/aliasesForMac.sh
+else
+    . $ENV_HOME_DIR/bash/support/aliasesForLinux.sh
+fi

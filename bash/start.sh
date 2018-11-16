@@ -37,13 +37,8 @@ export TZ=Etc/UTC
 
 # functions, utilities, etc..
 source $ENV_HOME_DIR/bash/lib.sh
-. $ENV_HOME_DIR/bash/aliases.sh
+source $ENV_HOME_DIR/bash/aliases.sh
 
-if [ "$ENV_PLATFORM" = "Mac" ]; then
-    . $ENV_HOME_DIR/bash/mac/aliasesForMac.sh
-else
-    . $ENV_HOME_DIR/bash/linux/aliasesForLinux.sh
-fi
 
 # [Other Environment Variables]
 export PAGER=less
