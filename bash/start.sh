@@ -5,10 +5,8 @@
 # find where we are installed at
 INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# where env is installed at
-export ENV_HOME_DIR=`dirname $INSTALL_DIR`;
-# the data directory
-export ENV_DATA_DIR=$HOME/.envData
+export ENV_HOME_DIR=`dirname $INSTALL_DIR` # where env is installed at
+export ENV_DATA_DIR=$HOME/.envData # the data directory
 # setup the data dir
 if [ ! -d $ENV_DATA_DIR ]; then
     mkdir $ENV_DATA_DIR
