@@ -55,8 +55,12 @@ function enableCore()
 # ex: findFiles "*~"
 function findFiles()
 {
-    #eval find . -name \"${1:-}\" -ls | awk "{\$1 = \"\"; \$2 = \"\"; \$3 = \"\"; \$4 = \"\"; \$6 = \"\"; print \$0;}" | tr -s " " ;
-    eval find . -name \"${1:-}\"
+    if [[ $# == 0 ]]; then
+        echo "Usage: findFiles '*~'"
+    else
+        eval find . -name \"$1\"
+        #eval find . -name \"$1\" -ls | awk "{\$1 = \"\"; \$2 = \"\"; \$3 = \"\"; \$4 = \"\"; \$6 = \"\"; print \$0;}" | tr -s " " ;
+    fi
 }
 
 # find a file with pattern $1 in name and Execute $2 on it:
@@ -72,36 +76,6 @@ function findGrepExecute()
 {
     eval find . \\\( -path .\/.git -o -path .\/.idea -o -path .\/.svn -o -path .\/.DS_Store \\\) -prune -o -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\+ ;
     #eval find . -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\; ;
-}
-
-# Find files with a given pattern $2 in name which is younger than $1 minutes (default) or days
-# ex: findRecentlyModified 180
-# ex: findRecentlyModified 180m # 180 minutes, same as without m
-# ex: findRecentlyModified 10d # 10 days
-# ex: findRecentlyModified 180 "*.cc"
-function findRecentlyModified()
-{
-    if [ $# -eq 0 ]
-      then
-        echo 'Usage: findRecentlyModified 180 or findRecentlyModified 180 "*.cc"'
-        echo 'Find files with a given pattern $2 (defaults to all files) in name which is younger than $1 minutes'
-    else
-        local time=$1
-        local length=${#time}
-        if [[ $time =~ ^[0-9]+[dD]$ ]]; then
-            ((length--))
-            time=${time:0:length}
-            ((time*=1440))
-        elif [[ $time =~ ^[0-9]+[hH]$ ]]; then
-            ((length--))
-            time=${time:0:length}
-            ((time*=60))
-        elif [[ $time =~ ^[0-9]+[mM]$ ]]; then
-            ((length--))
-            time=${time:0:length}
-        fi
-        eval find . -type f -name \"${2:-*}\" -mmin -$time ;
-    fi
 }
 
 # find a file with pattern $2 in name and grep files that contain $1
