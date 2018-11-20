@@ -15,10 +15,12 @@ if [ ! -d $ENV_DATA_DIR ]; then
     mkdir $ENV_DATA_DIR/emacs
     mkdir $ENV_DATA_DIR/emacs/backup # emacs backup files
     mkdir $ENV_DATA_DIR/emacs/modules # emacs modules
+    touch $ENV_DATA_DIR/bash/hostVars.sh # host variables for convenience
 fi
 
 #export envHasPython=`command -v python3`
 
+# [Dependency Files]
 # custom settings
 source $ENV_HOME_DIR/bash/settings.sh
 if [ -f /etc/timezone ]; then
@@ -31,36 +33,28 @@ elif [ -h /etc/localtime ]; then
         LOCAL_TIME_ZONE=`readlink /etc/localtime | sed "s/\/usr\/share\/zoneinfo\///"`
     fi
 fi
-export TZ=Etc/UTC
-
-# functions, utilities, etc..
+# functions, support stuff (lib should come before aliases)
 source $ENV_HOME_DIR/bash/lib.sh
+# aliases
 source $ENV_HOME_DIR/bash/aliases.sh
+# host variables in the form of web='web.test.com', so you can ssh $web
+source $ENV_DATA_DIR/bash/hostVars.sh;
 
 
 # [Other Environment Variables]
+export TZ=Etc/UTC # use UTC by default everywhere
 export PAGER=less
 export LESSCHARSET='utf-8'
-
-# never logout due to inactivity
-export TMOUT=0
-
-# [Hosts]
-export HOSTFILE=$ENV_DATA_DIR/bash/hosts
-if [ -e $ENV_DATA_DIR/bash/hostVars.sh ]; then
-    source $ENV_DATA_DIR/bash/hostVars.sh;
-fi
+export TMOUT=0 # never logout due to inactivity
 
 # [History]
 export HISTFILE=$ENV_DATA_DIR/bash/history
 export HISTSIZE=10000
 export HISTIGNORE="&:bg:fg:lsl:lsll:lsa:ls:history:exit"
 export HISTCONTROL="ignoreboth"
-# append to the history file, rather than overwrite it
-shopt -s histappend
+shopt -s histappend # append to the history file, rather than overwrite it
 shopt -s histreedit
-# allow me to edit the old command
-shopt -s histverify
+shopt -s histverify # allow me to edit the old command
 
 # [Security]
 umask 022
@@ -107,8 +101,7 @@ setupColors;
 resetTitle;
 
 # [Prompt]
-envHasGit=`command -v git`
-if [ $envHasGit ]; then
+if [ `command -v git` ]; then
     case $TERM in
         xterm*)
         PS1="\n\[$Blue\]\u\[$NC\][\$(localTime)]\[$Red\]\$(git_prompt)\[$NC\]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
@@ -120,10 +113,10 @@ if [ $envHasGit ]; then
 else
     case $TERM in
         xterm*)
-        PS1="\n\[$Blue\]\u@\[$Red\]\h\[$NC\][\t]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
+        PS1="\n\[$Blue\]\u\[$NC\][\t]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
             ;;
         *)
-            PS1="\n\[$Blue\]\u@\[$Red\]\h\[$NC\][\t]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
+            PS1="\n\[$Blue\]\u\[$NC\][\t]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
             ;;
     esac
 fi
