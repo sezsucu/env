@@ -20,9 +20,15 @@ elif [ "${sizeStr:length:1}" = "m" ]; then
     sizeStr=${sizeStr:0:length}"M"
 elif [ "${sizeStr:length:1}" = "g" ]; then
     sizeStr=${sizeStr:0:length}"G"
+elif [[ "${sizeStr:length:1}" =~ [[:digit:]] ]]; then
+    echo "Using ${sizeStr}k"
+    sizeStr=${sizeStr}"k"
+elif [[ ! "${sizeStr:length:1}" =~ [kmg] ]]; then
+    echo "Incorrect argument: $sizeStr"
+    exit 1
 fi
 if [ "$ENV_PLATFORM" = "Mac" ]; then
-    eval find . -type f -name \"${2:-*}\" -size +$sizeStr -print0 | xargs -n1 -0 ls -lhG;
+    eval find . \\\( -name ".git" -o -name ".idea" \\\) -prune -o -type f -name \"${2:-*}\" -size +$sizeStr -print0 | xargs -n1 -0 ls -lhG;
 else
-    eval find . -type f -name \"${2:-*}\" -size +$sizeStr -print0 | xargs --no-run-if-empty -n1 -0 ls -lh --color;
+    eval find . \\\( -name ".git" -o -name ".idea" \\\) -prune -o -type f -name \"${2:-*}\" -size +$sizeStr -print0 | xargs --no-run-if-empty -n1 -0 ls -lh --color;
 fi

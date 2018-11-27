@@ -26,5 +26,6 @@ elif [[ $time =~ ^[0-9]+[mM]$ ]]; then
     time=${time:0:length}
 fi
 
-eval find . -type f -name \"${2:-*}\" -mmin -$time ;
+(>&2 echo "Ignoring directories .git, idea")
+eval find . \\\( -name ".git" -o -name ".idea" \\\) -prune -o -type f -name \"${2:-*}\" -mmin -$time -print;
 
