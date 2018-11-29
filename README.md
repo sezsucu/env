@@ -10,6 +10,11 @@ sudo apt-get update
 sudo apt install emacs25
 sudo apt install git
 sudo apt install python
+
+
+cygwin 
+install packages: emacs, curl, openssl
+
 ```
 
 

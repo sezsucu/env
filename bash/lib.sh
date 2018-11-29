@@ -1,13 +1,13 @@
-# By Sezgin Sucu
-
 # Mac or Linux
 export ENV_PLATFORM="Linux"
 
 # 32 or 64
 export ENV_ARCH="32"
 unameStr=`uname`
-if [ "$unameStr" = "Darwin" ]; then
+if [[ "$unameStr" = "Darwin" ]]; then
     ENV_PLATFORM="Mac";
+elif [[ "$unameStr" =~ [Cc][Yy][Gg][Ww][Ii][Nn] ]]; then
+    ENV_PLATFORM="Cygwin";
 fi
 if [ `uname -m` = "x86_64" ]; then
 	ENV_ARCH="64"
@@ -281,7 +281,7 @@ function toEpochF()
         shift
         if [ "$ENV_PLATFORM" = "Mac" ]; then
             date -j -f "$format" "$*" +"%s"
-        elif [ "$ENV_PLATFORM" = "Linux" ]; then
+        elif [[ "$ENV_PLATFORM" = "Linux" || "$ENV_PLATFORM" = "Cygwin" ]]; then
             date -d "$*" '+%s'
         else
             echo "Not Supported"
@@ -299,7 +299,7 @@ function fromEpochF()
         shift
         if [ "$ENV_PLATFORM" = "Mac" ]; then
             TZ=Etc/UTC date -r $1 "+$format"
-        elif [ "$ENV_PLATFORM" = "Linux" ]; then
+        elif [[ "$ENV_PLATFORM" = "Linux" || "$ENV_PLATFORM" = "Cygwin" ]]; then
             TZ=Etc/UTC date -d "@$1" "+$format"
         else
             echo "Not Supported"

@@ -8,7 +8,7 @@
 
 source "$ENV_HOME_DIR/bash/lib.sh"
 
-if [[ $ENV_PLATFORM = "Linux" ]]; then
+if [[ $ENV_PLATFORM = "Linux" || $ENV_PLATFORM = "Cygwin" ]]; then
     du -S ${1:-'.'} | sort -nr | head -15
     exit 1
 fi

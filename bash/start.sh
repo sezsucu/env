@@ -1,40 +1,25 @@
-#@IgnoreInspection BashAddShebang
-# unfortunately because of a bug I had to disable, keep it for debugging
+# unfortunately because of a bug I had to disable
 # set -u
 
-# find where we are installed at
+# where we are installed at
 INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 export ENV_HOME_DIR=`dirname $INSTALL_DIR` # where env is installed at
 export ENV_DATA_DIR=$HOME/.envData # the data directory
 if [ ! -d $ENV_DATA_DIR ]; then
-    mkdir $ENV_DATA_DIR
-    mkdir $ENV_DATA_DIR/bash # history file
-    mkdir $ENV_DATA_DIR/ssh # authorized_keys file
-    mkdir $ENV_DATA_DIR/emacs
-    mkdir $ENV_DATA_DIR/emacs/backup # emacs backup files
+    mkdir -p $ENV_DATA_DIR/bash # history file, bashVars.sh
+    mkdir -p $ENV_DATA_DIR/emacs/backup # emacs backup files
     touch $ENV_DATA_DIR/bash/bashVars.sh # host variables for convenience
 fi
-
 #export envHasPython=`command -v python3`
 
 # custom settings
 source $ENV_HOME_DIR/bash/settings.sh
-if [ -f /etc/timezone ]; then
-  LOCAL_TIME_ZONE=`cat /etc/timezone`
-elif [ -h /etc/localtime ]; then
-    LOCAL_TIME_ZONE=`readlink /etc/localtime`
-    if [[ $LOCAL_TIME_ZONE =~ ^\/var\/db ]]; then
-        LOCAL_TIME_ZONE=`readlink /etc/localtime | sed "s/\/var\/db\/timezone\/zoneinfo\///"`
-    else
-        LOCAL_TIME_ZONE=`readlink /etc/localtime | sed "s/\/usr\/share\/zoneinfo\///"`
-    fi
-fi
 # functions, support stuff (lib should come before aliases)
 source $ENV_HOME_DIR/bash/lib.sh
 # aliases
 source $ENV_HOME_DIR/bash/aliases.sh
-# host variables in the form of web='web.test.com', so you can ssh $web
+# variables in the form of web='web.test.com', so you can ssh $web
 source $ENV_DATA_DIR/bash/bashVars.sh;
 
 
@@ -70,7 +55,9 @@ set -o notify
 set show-all-if-ambiguous On
 
 # disable messaging, turn off talk and write
-mesg n
+if [[ `command -v mesg` ]]; then
+    mesg n
+fi
 
 # don't attempt to search PATH for completions when on an empty line
 shopt -s no_empty_cmd_completion
@@ -98,7 +85,7 @@ setupColors;
 resetTitle;
 
 # [Prompt]
-if [ `command -v git` ]; then
+if [ "`command -v git`" ]; then
     case $TERM in
         xterm*)
         PS1="\n\[$Blue\]\u\[$NC\][\$(localTime)]\[$Red\]\$(git_prompt)\[$NC\]:\[$BlackBG\]\[$White\]\w \[$NC\]\n% "
