@@ -1,4 +1,4 @@
-# By Sezgin Sucu
+#@IgnoreInspection BashAddShebang
 # unfortunately because of a bug I had to disable, keep it for debugging
 # set -u
 
@@ -7,20 +7,17 @@ INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 export ENV_HOME_DIR=`dirname $INSTALL_DIR` # where env is installed at
 export ENV_DATA_DIR=$HOME/.envData # the data directory
-# setup the data dir
 if [ ! -d $ENV_DATA_DIR ]; then
     mkdir $ENV_DATA_DIR
     mkdir $ENV_DATA_DIR/bash # history file
     mkdir $ENV_DATA_DIR/ssh # authorized_keys file
     mkdir $ENV_DATA_DIR/emacs
     mkdir $ENV_DATA_DIR/emacs/backup # emacs backup files
-    mkdir $ENV_DATA_DIR/emacs/modules # emacs modules
-    touch $ENV_DATA_DIR/bash/hostVars.sh # host variables for convenience
+    touch $ENV_DATA_DIR/bash/bashVars.sh # host variables for convenience
 fi
 
 #export envHasPython=`command -v python3`
 
-# [Dependency Files]
 # custom settings
 source $ENV_HOME_DIR/bash/settings.sh
 if [ -f /etc/timezone ]; then
@@ -38,7 +35,7 @@ source $ENV_HOME_DIR/bash/lib.sh
 # aliases
 source $ENV_HOME_DIR/bash/aliases.sh
 # host variables in the form of web='web.test.com', so you can ssh $web
-source $ENV_DATA_DIR/bash/hostVars.sh;
+source $ENV_DATA_DIR/bash/bashVars.sh;
 
 
 # [Other Environment Variables]

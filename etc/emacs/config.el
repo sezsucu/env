@@ -172,16 +172,16 @@
 
 
 ;;Css Mode
-(if
-    (not (require 'css-mode nil 'noerror) )
-    (and
-        (file-exists-p (substitute-in-file-name "$ENV_DATA_DIR/emacs/modules/css-mode.el"))
-        (and
-         (load (substitute-in-file-name "$ENV_DATA_DIR/emacs/modules/css-mode.el") )
-         (add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
-         )
-    )
-)
+;;(if
+;;    (not (require 'css-mode nil 'noerror) )
+;;    (and
+;;        (file-exists-p (substitute-in-file-name "$ENV_DATA_DIR/emacs/modules/css-mode.el"))
+;;        (and
+;;         (load (substitute-in-file-name "$ENV_DATA_DIR/emacs/modules/css-mode.el") )
+;;         (add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
+;;         )
+;;    )
+;;)
 
 
 (defun iwb ()

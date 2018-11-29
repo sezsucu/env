@@ -24,6 +24,11 @@ findFiles `*~`
 If you pass it without quote, bash will expand *~ and pass the matching files to the function, not the
 '*~'.
 
+### Important directories
+* `~/.envData/bash`: history file location
+* `~/.envData/emacs/backup`: emacs backup files location
+* `~/.envData/emacs/modules`: any module file located here will be loaded
+
 ## Customizations
 Consider looking at the files below for customizations.
 ```
@@ -43,6 +48,6 @@ of platforms.
 
 ## Important commands
 
-###
+### 
 
 
