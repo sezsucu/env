@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# https://wiki.openssl.org/index.php/Enc
-
 function getFileName()
 {
     keyFile=$1

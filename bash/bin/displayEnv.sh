@@ -102,12 +102,18 @@ elif [ "$ENV_PLATFORM" = "Cygwin" ]; then
     DISTRO="Cygwin"
     DISTRO_VER=`uname -r`
     LOAD=`wmic cpu get loadpercentage | grep -v Load | head -1`
+    length=${#LOAD}
+    if [[ $length > 1 ]]; then
+        LOAD=${LOAD:0:2}
+    fi
     LOAD15=$LOAD
     if [[ $LOAD15 > 95 ]]; then
         LOAD15=$CPU_COUNT
     else
         LOAD15=0
     fi
+
+    LOAD="$LOAD %%"
 fi
 
 if [ `command -v curl` ]; then
