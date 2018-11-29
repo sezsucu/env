@@ -70,10 +70,9 @@ disableCore
 #enableCore
 
 # [PATH]
-prependPath PATH $ENV_HOME_DIR/bin/$ENV_PLATFORM/$ENV_ARCH
-prependPath PATH $ENV_HOME_DIR/bin
-if [ -e $ENV_DATA_DIR/bash/pathVars.sh ]; then
-    source $ENV_DATA_DIR/bash/pathVars.sh;
+prependPath PATH $ENV_HOME_DIR/bash/bin
+if [ -e $ENV_HOME_DIR/bin/$ENV_PLATFORM/$ENV_ARCH ]; then
+    prependPath PATH $ENV_HOME_DIR/bin/$ENV_PLATFORM/$ENV_ARCH
 fi
 
 # [Locale]
