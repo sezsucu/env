@@ -260,17 +260,6 @@ function unpack()
      fi
 }
 
-# To generate TAGS to be used in emacs
-function generateTags()
-{
-    local ETAGS_COMMAND=`which etags`
-    if [ -e TAGS ]; then
-        \rm TAGS
-    fi
-    eval find . -name "*.cxx" -o -name "*.hxx" -o -name "*.cpp" -o -name "*.cc" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.c" | xargs $ETAGS_COMMAND --append --declarations --language=c++
-}
-
-
 function toEpochF()
 {
     if [ $# -eq 0 ]; then
