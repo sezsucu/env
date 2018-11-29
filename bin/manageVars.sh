@@ -26,6 +26,7 @@ function removeVar ()
     if [[ -e $ENV_DATA_DIR/bash/bashVars.sh && -n "$(grep ${name}= $ENV_DATA_DIR/bash/bashVars.sh)" ]]; then
         echo "Removed $name in $ENV_DATA_DIR/bash/bashVars.sh"
         sed -i".bak" "/export $name=/d" $ENV_DATA_DIR/bash/bashVars.sh
+        #unset local
     else
         echo "No such var: $name"
     fi
