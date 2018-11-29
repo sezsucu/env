@@ -53,7 +53,7 @@ if [ "$ENV_PLATFORM" = "Mac" ]; then
     MEM_FREE=`bytesToDisplay $MEM_FREE`
     LOAD=`w | grep up | awk '{print $12" "$11" "$12}'`
     LOAD15=$(echo $LOAD | cut -f 3 -d ' ');
-else
+elif [ "$ENV_PLATFORM" = "Linux" ]; then
     IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet ' | cut -d t -f2 | cut -d : -f2 | cut -d ' ' -f2 | head -1`
     CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
     CPU_MODEL=`grep "model name" /proc/cpuinfo | cut -d : -f2 | head -1`;
@@ -82,6 +82,25 @@ else
         test -r "/etc/gentoo-release" && DISTRO_VER=`cat /etc/gentoo-release` && DISTRO="Gentoo"
         test -r "/etc/turbolinux-release" && DISTRO_VER=`cat /etc/turbolinux-release` && DISTRO="TurboLinux"
     fi
+    LOAD=`w | grep up | awk '{print $10" "$11" "$12}'`
+    LOAD15=$(echo $LOAD | cut -f 3 -d ',');
+elif [ "$ENV_PLATFORM" = "Cygwin" ]; then
+    IP_ADDRESS=`ipconfig.exe  | grep -i "IPv4 address" | head -n 1 | cut -d ':' -f2 | cut -d ' ' -f2`
+    CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
+    CPU_MODEL=`grep "model name" /proc/cpuinfo | cut -d : -f2 | head -1`;
+    CPU_COUNT=`grep "processor" /proc/cpuinfo | cut -d : -f2 | tail -1`;
+    CPU_COUNT=$(echo "$[$CPU_COUNT+1]" );
+
+    MEM_FREE=`cat /proc/meminfo | grep MemFree | cut -d: -f2 | cut -dk -f1`;
+    MEM_TOTAL=`cat /proc/meminfo | grep MemTotal | cut -d: -f2 | cut -dk -f1`;
+    MEM_TOTAL=$(echo "$[$MEM_TOTAL*1024]");
+    MEM_FREE=$(echo "$[$MEM_FREE*1024]" );
+    MEM_FREE_PCNT=$(echo "$[100*$MEM_FREE/$MEM_TOTAL]" );
+    MEM_TOTAL=`bytesToDisplay $MEM_TOTAL`
+    MEM_FREE=`bytesToDisplay $MEM_FREE`
+
+    DISTRO="Cygwin"
+    DISTRO_VER=`uname -r`
     LOAD=`w | grep up | awk '{print $9" "$10" "$11}'`
     LOAD15=$(echo $LOAD | cut -f 3 -d ',');
 fi
@@ -96,16 +115,30 @@ if [ `command -v curl` ]; then
 fi
 
 if [ `command -v ping` ]; then
-    if ping -q -c 1 -W 1 8.8.8.8 >/dev/null 2>&1; then
-        IP4_UP="true"
-    else
-        IP4_UP="false"
-    fi
+    if [[ `which ping` = "/cygdrive/c/Windows/system32/ping" ]]; then
+        if ping -n 1 -w 1000 8.8.8.8 >/dev/null 2>&1; then
+            IP4_UP="true"
+        else
+            IP4_UP="false"
+        fi
 
-    if ping -q -c 1 -W 1 google.com >/dev/null 2>&1; then
-        DNS_UP="true"
+        if ping -n 1 -w 1000 google.com >/dev/null 2>&1; then
+            DNS_UP="true"
+        else
+            DNS_UP="false"
+        fi
     else
-        DNS_UP="false"
+        if ping -q -c 1 -W 1 8.8.8.8 >/dev/null 2>&1; then
+            IP4_UP="true"
+        else
+            IP4_UP="false"
+        fi
+
+        if ping -q -c 1 -W 1 google.com >/dev/null 2>&1; then
+            DNS_UP="true"
+        else
+            DNS_UP="false"
+        fi
     fi
 fi
 
