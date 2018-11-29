@@ -27,7 +27,6 @@ alias rmf='rm -rf'
 
 # process management
 alias ps='ps aux'
-alias pg='ps | grep -i'
 
 #paths
 alias paths='echo -e ${PATH//:/\\n}'
