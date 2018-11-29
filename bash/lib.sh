@@ -165,7 +165,7 @@ setupColors()
 }
 
 # X Window Related
-getXServer()
+function getXServer()
 {
     case $TERM in
        xterm )
