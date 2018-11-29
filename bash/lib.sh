@@ -191,8 +191,6 @@ function setupDisplay ()
 # Setting X Title
 function resetTitle()
 {
-    #export PROMPT_COMMAND='echo -ne "\033]0;${USER}@[`uname -m`]${HOSTNAME}: ${PWD}\007"'
-    #export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
     export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME}\007"'
 }
 
