@@ -13,19 +13,19 @@ function addVar ()
 {
     local name=$1
     local value=$2
-    if [[ -e $ENV_DATA_DIR/bash/customVars.sh && -n "$(grep ${name}= $ENV_DATA_DIR/bash/customVars.sh)" ]]; then
-        echo "Found $name in $ENV_DATA_DIR/bash/customVars.sh, updating its value"
-        sed -i".bak" "/export $name=/d" $ENV_DATA_DIR/bash/customVars.sh
+    if [[ -e $ENV_DATA_DIR/bash/bashVars.sh && -n "$(grep ${name}= $ENV_DATA_DIR/bash/bashVars.sh)" ]]; then
+        echo "Found $name in $ENV_DATA_DIR/bash/bashVars.sh, updating its value"
+        sed -i".bak" "/export $name=/d" $ENV_DATA_DIR/bash/bashVars.sh
     fi
-    echo "export $name='$value'" >> $ENV_DATA_DIR/bash/customVars.sh
+    echo "export $name='$value'" >> $ENV_DATA_DIR/bash/bashVars.sh
 }
 
 function removeVar ()
 {
     local name=$1
-    if [[ -e $ENV_DATA_DIR/bash/customVars.sh && -n "$(grep ${name}= $ENV_DATA_DIR/bash/customVars.sh)" ]]; then
-        echo "Removed $name in $ENV_DATA_DIR/bash/customVars.sh"
-        sed -i".bak" "/export $name=/d" $ENV_DATA_DIR/bash/customVars.sh
+    if [[ -e $ENV_DATA_DIR/bash/bashVars.sh && -n "$(grep ${name}= $ENV_DATA_DIR/bash/bashVars.sh)" ]]; then
+        echo "Removed $name in $ENV_DATA_DIR/bash/bashVars.sh"
+        sed -i".bak" "/export $name=/d" $ENV_DATA_DIR/bash/bashVars.sh
     else
         echo "No such var: $name"
     fi
@@ -33,12 +33,16 @@ function removeVar ()
 
 function listVars ()
 {
-    if [ -e $ENV_DATA_DIR/bash/customVars.sh ]; then
-        cat $ENV_DATA_DIR/bash/customVars.sh
+    if [ -e $ENV_DATA_DIR/bash/bashVars.sh ]; then
+        cat $ENV_DATA_DIR/bash/bashVars.sh
     else
         echo "Empty List"
     fi
 }
+
+if [[ $# == 0 ]]; then
+    showHelp
+fi
 
 varName=""
 add=0
