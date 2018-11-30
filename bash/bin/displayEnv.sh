@@ -182,7 +182,9 @@ else
 fi
 printf "%14s: $NC $IP_ADDRESS $NC \n" "IP Address";
 printf "%14s: $NC ${MY_CLIENT_IP:-local} $NC \n" "SSH Client IP" ;
+
 printf "\n" ;
+
 printf "%14s: $NC $DISTRO $DISTRO_VER $NC \n" "Distro" ;
 printf "%14s: $NC $CPU_COUNT x $CPU_MODEL $CPU_SPEED $NC \n" "CPU" ;
 printf "%14s: $NC $MEM_TOTAL $NC \n" "Total Memory";
@@ -193,6 +195,8 @@ else
     printf "%14s: $NC $LOAD $NC\n" "Load";
 fi
 printf "%14s: $NC $KERNEL $NC \n" "Kernel";
+
+printf "\n" ;
 
 FILESYSTEMS=(`df -h | grep -vE "^Filesystem|shm|boot|none" | awk '{ print $1, $4, $5, $6 }'`)
 for (( i=0; i<${#FILESYSTEMS[@]}; i+=4 )); do
