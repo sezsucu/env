@@ -158,6 +158,7 @@ if [ ! -z "${SSH_CONNECTION+x}" ]; then
     MY_CLIENT_IP=`echo $SSH_CONNECTION | awk '{print $1}'`;
 fi
 
+
 if [ ! -t 1 ]; then
     NC=""
     Red=""
@@ -192,3 +193,19 @@ else
     printf "%14s: $NC $LOAD $NC\n" "Load";
 fi
 printf "%14s: $NC $KERNEL $NC \n" "Kernel";
+
+FILESYSTEMS=(`df -h | grep -vE "^Filesystem|shm|boot|none" | awk '{ print $1, $4, $5, $6 }'`)
+for (( i=0; i<${#FILESYSTEMS[@]}; i+=4 )); do
+    fileSystemName=${FILESYSTEMS[$i]}
+    available=${FILESYSTEMS[$i+1]}
+    usePercentage=${FILESYSTEMS[$i+2]}
+    mountPoint=${FILESYSTEMS[$i+3]}
+    length=${#usePercentage}
+    ((length--))
+    usePercentage=${usePercentage:0:length}
+    if [[ $usePercentage > 74 ]]; then
+        printf "%14s: $Red $available $usePercentage%% %14s $NC \n" $mountPoint $fileSystemName;
+    else
+        printf "%14s: $NC $available $usePercentage%% %14s $NC \n" $mountPoint $fileSystemName;
+    fi
+done
