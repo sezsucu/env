@@ -9,7 +9,6 @@ export ENV_DATA_DIR=$HOME/.envData # the data directory
 if [ ! -d $ENV_DATA_DIR ]; then
     mkdir -p $ENV_DATA_DIR/bash # history file, bashVars.sh
     mkdir -p $ENV_DATA_DIR/emacs/backup # emacs backup files
-    touch $ENV_DATA_DIR/bash/bashVars.sh # host variables for convenience
 fi
 #export envHasPython=`command -v python3`
 
@@ -20,7 +19,11 @@ source $ENV_HOME_DIR/bash/lib.sh
 # aliases
 source $ENV_HOME_DIR/bash/aliases.sh
 # variables in the form of web='web.test.com', so you can ssh $web
-source $ENV_DATA_DIR/bash/bashVars.sh;
+if [[ -e $ENV_DATA_DIR/bash/bashVars.sh ]]; then
+    source $ENV_DATA_DIR/bash/bashVars.sh;
+else
+    touch $ENV_DATA_DIR/bash/bashVars.sh # host variables for convenience
+fi
 
 
 # [Other Environment Variables]
