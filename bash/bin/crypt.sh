@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
 
-function getFileName()
-{
-    keyFile=$1
-    if [[ $# == 0 ]]; then
-        if [[ -d ~/.ssh ]]; then
-            keyFile=~/.ssh/privateKey.pem
-            if [[ -e ~/.ssh/privateKey.pem ]]; then
-                i=1
-                keyFile=~/.ssh/privateKey$i.pem
-                while [[ -e ~/.ssh/privateKey${i}.pem ]]; do
-                    ((i++))
-                    keyFile=~/.ssh/privateKey$i.pem
-                done
-            fi
-        else
-            keyFile="privateKey.pem"
-        fi
-    fi
-
-    if [[ ! $keyFile =~ \. && ! $keyFile =~ \/ ]]; then
-        keyFile=~/.ssh/privateKey_$keyFile.pem
-    fi
-
-    echo $keyFile
-}
+#function getFileName()
+#{
+#    keyFile=$1
+#    if [[ $# == 0 ]]; then
+#        if [[ -d ~/.ssh ]]; then
+#            keyFile=~/.ssh/privateKey.pem
+#            if [[ -e ~/.ssh/privateKey.pem ]]; then
+#                i=1
+#                keyFile=~/.ssh/privateKey$i.pem
+#                while [[ -e ~/.ssh/privateKey${i}.pem ]]; do
+#                    ((i++))
+#                    keyFile=~/.ssh/privateKey$i.pem
+#                done
+#            fi
+#        else
+#            keyFile="privateKey.pem"
+#        fi
+#    fi
+#
+#    if [[ ! $keyFile =~ \. && ! $keyFile =~ \/ ]]; then
+#        keyFile=~/.ssh/privateKey_$keyFile.pem
+#    fi
+#
+#    echo $keyFile
+#}
 
 function extractPublicRSAKey()
 {
@@ -32,14 +32,23 @@ function extractPublicRSAKey()
         echo "Usage: crypt.sh public /path/to/privateKey.file"
         exit 1
     fi
-    keyFile=$(getFileName "$1")
+    #keyFile=$(getFileName "$1")
+    keyFile=$1
     (>&2 echo "Using $keyFile")
     openssl rsa -in "$keyFile" -pubout
 }
 
 function createRSAKey()
 {
-    keyFile=$(getFileName "$1")
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Usage: crypt.sh create /path/to/privateKey.pem"
+        exit 1
+    fi
+    keyFile=$1
+    if [[ -e "$keyFile" ]]; then
+        echo "ERROR: File already exists '$keyFile'"
+        exit 1
+    fi
     openssl genrsa -out $keyFile 4096
     chmod 600 $keyFile
     echo "Generated $keyFile"
@@ -89,14 +98,22 @@ function decryptData()
 
 function signData()
 {
-    keyFile=$(getFileName "$1")
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Usage: crypt.sh sign /path/to/privateKey.file"
+        exit 1
+    fi
+    keyFile=$1
     (>&2 echo "Using $keyFile")
     openssl dgst -sha256 -sign $keyFile <&0
 }
 
 function verifyData()
 {
-    keyFile=$(getFileName "$1")
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Usage: crypt.sh verify /path/to/privateKey.file "
+        exit 1
+    fi
+    keyFile="$1"
     sigFile="$2"
     (>&2 echo "Using $keyFile")
     openssl dgst -sha256 -verify $keyFile -signature $sigFile <&0
@@ -104,14 +121,22 @@ function verifyData()
 
 function addPassword()
 {
-    keyFile=$(getFileName "$1")
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Usage: crypt.sh verify /path/to/privateKey.file "
+        exit 1
+    fi
+    keyFile=$1
     (>&2 echo "Using $keyFile")
     openssl rsa -aes256 -in $keyFile >&1
 }
 
 function removePassword()
 {
-    keyFile=$(getFileName "$1")
+    if [[ $# == 0 || "$1" == "" ]]; then
+        echo "Usage: crypt.sh verify /path/to/privateKey.file "
+        exit 1
+    fi
+    keyFile=$1
     (>&2 echo "Using $keyFile")
     openssl rsa -in $keyFile >&1
 }
@@ -166,22 +191,24 @@ case "$command" in
         generateKey $*
         ;;
     *)
-        echo "generate random n-byte key"
-        echo "crypt.sh [(gen)erate] n"
+        echo "crypt.sh (cre)ate /path/to/privateKey.pem"
         echo "creates a private key"
-        echo "crypt.sh [(cre)ate] [/path/to/privateKey.file]"
+        echo "crypt.sh (pub)lic /path/to/privateKey.file > publicKey.txt"
         echo "extracts the public key from the private key"
-        echo "crypt.sh [(pub)lic] /path/to/privateKey.file"
-        echo "encrypts or decrypts any size message using aes256"
-        echo "crypt.sh [(enc)rypt|(dec)rypt] secretKey.file"
+        echo "crypt.sh ((enc)rypt|(dec)rypt) (privateKey.pem|publicKey.txt)"
         echo "encrypts or decrypts a small message with a private or public key"
-        echo "crypt.sh [(enc)rypt|(dec)rypt] (privateKey.file|publicKey.file)"
+        echo "crypt.sh [(sig)n] /path/to/privateKey.file < originalFile > signature.file"
         echo "creates a signature"
-        echo "crypt.sh [(sig)n] [/path/to/privateKey.file] < originalFile > signature.file"
+        echo "crypt.sh (ver)ify /path/to/publicKey.file signature.file < originalFile"
         echo "verifies the signature"
-        echo "crypt.sh [(ver)ify] /path/to/publicKey.file signature.file < originalFile"
+        echo "crypt.sh (add) /path/to/privateKey.without.password > passwordProtectedPrivate.file"
         echo "add a password to an existing key"
-        echo "crypt.sh [(add)] /path/to/privateKey.without.password > passwordProtectedPrivate.file"
+        echo "crypt.sh (rem)ove /path/to/passwordProtectedPrivate.file > privateKey.without.password"
         echo "remove a password from a key"
-        echo "crypt.sh [(rem)ove] /path/to/passwordProtectedPrivate.file > privateKey.without.password"
+        echo ""
+        echo "crypt.sh (gen)erate n > secretKey.txt"
+        echo "generate random n-byte key"
+        echo "crypt.sh (enc)rypt secretKey.txt < bigMessage.txt > enc.bin"
+        echo "encrypts any size message using aes256"
+        echo "crypt.sh (dec)rypt secretKey.txt < enc.bin > mesg.txt"
 esac

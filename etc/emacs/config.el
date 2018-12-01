@@ -53,7 +53,7 @@
 (setq save-abbrevs t)
 
 ;;Enable wheel-mouse scrolling
-(mouse-wheel-mode t)
+;;(mouse-wheel-mode t)
 
 ;;Setup Backup
 (setq make-backup-files t)
