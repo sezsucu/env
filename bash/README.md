@@ -115,18 +115,105 @@ crypt.sh remove protectedPrivate.pem > privateKey.pem
 
 #### Generate a secret key
 ```bash
-crypt.sh generate 32 > 32-byte.secretKey.txt
+crypt.sh generate 32 > secretKey.txt
 ```
 
-#### Encrypt a big message using a secret key
+#### Encrypt a big message using a secret key file
 ```bash
 crypt.sh encrypt secretKey.txt < bigMesg.txt > enc.txt
 ```
 
-#### Decrypt an encrypted message using a secret key
+#### Decrypt an encrypted message using a secret key file
 ```bash
 crypt.sh decrypt secretKey.txt < enc.txt > bigMesg.txt
 ```
+
+#### Encrypt a big message using a password
+```bash
+crypt.sh encrypt < bigMesg.txt > enc.txt
+```
+
+#### Decrypt an encrypted message using a password
+```bash
+crypt.sh decrypt < enc.txt > bigMesg.txt
+```
+
+### displayEnv.sh
+Displays general system information which includes
+
+* Platform: Cygwin, Linux, Mac
+* env home directory
+* env data directory
+* Whether IP is up or not
+* Whether HTTP is working or not
+* Whether DNS is working or not
+* IP address
+* If remotely connected, SSH client ip address
+* Distro name and version
+* CPU count, model and speed
+* Total memory
+* Free memory and its percentage
+* CPU Load
+* Kernel version
+* For each file system available space and use percentage
+
+### dirTree.sh
+Display the directory structure for the given path or the current directory in a nice visual way.
+
+### largeDirs.sh
+Displays the top 15 directories in terms of disk space they occupy. 
+Only the direct files are considered, not the contents of its sub directories.
+
+### manageVars.sh
+Used to manage variables in bashVars.sh file. This file is a set of key value pairs where
+each key is a variable exported by default. For example, say there is a long host name for a dev
+machine you regularly use. Instead of typing the host name everytime, you can set dev to this
+dev machine's host name. This way you can quickly ssh by simply doing `ssh $dev` assuming you
+set dev to the machine's host name. This file is automatically included in each bash session.
+
+* `-l`: to list all variable names and their values
+* `-a varName 'varValue'`: to add the given varName with the varValue
+* `-d varName`: to delete the varName 
+
+**Keep the var names and var values simple**
+
+### findRecentlyModified.sh
+Finds recently modified files within a given time frame from now. By default time unit is minutes,
+so below it finds recently modified files within the last 2 hours:
+```bash
+findRecentlyModified.sh 120
+```
+You can use other time units, namely d or D for days, m or M for minutes and h or H for hours.
+```bash
+findRecentlyModified.sh 120m # 120 minutes
+findRecentlyModified.sh 120M # 120 minutes
+findRecentlyModified.sh 120 # 120 minutes
+findRecentlyModified.sh 2H # 2 hours
+findRecentlyModified.sh 2h # 2 hours
+findRecentlyModified.sh 1d # 1 day
+findRecentlyModified.sh 1D # 1 day
+```
+
+To find specific file names provide a second argument
+```bash
+findRecentlyModified.sh 2h '*.cc' # all cc files modified within the last 2 hours
+```
+
+By default this tool ignores a number of directories documented in the file.
+
+#### findOverSize.sh
+Finds files which are larger than the given size. By default kilobyte is used if no explicit size unit is provided.
+For example below it finds all files that are larger than 20 kilobytes.
+```bash
+findOverSize.sh 20
+```
+You can use other size units, namely g or G for gigabytes, m or M for megabytes, k or K for kilobytes.
+You can provide a second argument to narrow the search, e.g. only log files large than 2GB.
+```bash
+findOverSize.sh 2G "*.log"
+```
+
+
 
 
 
