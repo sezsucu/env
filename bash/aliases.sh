@@ -2,9 +2,6 @@
 # to sanitize the terminal
 alias sane="stty sane"
 
-# delete all emacs stuff in the current dir
-alias edel='\rm *~'
-
 # to reread this file from the shell
 alias resetShell=". $ENV_HOME_DIR/bash/start.sh"
 
@@ -12,25 +9,22 @@ alias resetShell=". $ENV_HOME_DIR/bash/start.sh"
 alias cd..="cd .."
 alias ..="cd .."
 
-# disk usage
+# how large current directory is
 alias dus='du -sh'
 
 #displays top 15 largest files
-#alias largeFiles='find . -ls | sort -nrk7 | head -15'
 alias largeFiles='find . -ls | awk "{printf \$7; \$1 = \"\"; \$2 = \"\"; \$3 = \"\"; \$4 = \"\"; \$6 = \"\"; \$7 = \"\"; print \$0;}" | sort -nr | tr -s " " | head -15 | awk "function toDisplay(x) { split( \"b K M G T\", v ); s = 1; while( x >= 1024 ){ x /= 1024; s++; } return sprintf(\"%d%s\", int(x), v[s]); } {printf toDisplay(\$1); \$1 = \"\"; print \$0;}" '
 
 # make sure we don't mess things up
 alias cp='cp -i'
 alias rm='rm -i'
 alias mv='mv -i'
-alias rmf='rm -rf'
 
 # process management
 alias ps='ps aux'
 
 #paths
 alias paths='echo -e ${PATH//:/\\n}'
-alias libpaths='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 # programs
 alias emacs='emacs --load ${ENV_HOME_DIR}/etc/emacs/config.el'
 
@@ -54,7 +48,19 @@ else
 fi
 
 if [ "$ENV_PLATFORM" = "Mac" ]; then
-    . $ENV_HOME_DIR/bash/support/aliasesForMac.sh
+    alias ls='ls -FG'
+    alias lsa='ls -AFGr'
+    alias lsl='ls -AslhGr'
+
+    alias duh='du -h -d 1'
+    alias df='df -h'
+    # more Linux-like stat
+    alias stat='stat -x -t "%Y-%m-%d %T.000000000 %z"'
 else
-    . $ENV_HOME_DIR/bash/support/aliasesForLinux.sh
+    alias ls='ls -F --color'
+    alias lsa='ls -AF --color'
+    alias lsl='ls -Aslh --color'
+
+    alias duh='du -h --max-depth=1'
+    alias df='df -hT'
 fi

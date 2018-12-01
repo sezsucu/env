@@ -1,5 +1,9 @@
 # The default, in case we can't figure out the real local time zone
-LOCAL_TIME_ZONE="Etc/UTC"
+if [[ -z "${TZ}" ]]; then
+    LOCAL_TIME_ZONE="Etc/UTC"
+else
+    LOCAL_TIME_ZONE=$TZ
+fi
 if [ -f /etc/timezone ]; then
   LOCAL_TIME_ZONE=`cat /etc/timezone`
 elif [ -h /etc/localtime ]; then

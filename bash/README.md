@@ -9,13 +9,7 @@ you need to include the following in your `~/.profile` or `~/.bashrc` files:
 . ~/env/bash/start.sh
 ```
 
-**You can rename `~/env` to any directory you want**. The following are the environment
-variables defined from the start script:
-
-* **`ENV_HOME_DIR`**: where this project resides
-* **`ENV_DATA_DIR`**: always defined as `~/.envData`
-* **`ENV_ARCH`**: either `32` or `64` depending on the architecture of the CPU
-* **`ENV_PLATFORM`**: either `Mac` or `Linux` or `Cygwin`
+**You can rename `~/env` to any directory you want**. 
 
 **When passing parameters to library functions make sure that you quote them**. For example
 ```bash
@@ -24,15 +18,20 @@ findFiles `*~`
 If you pass it without quote, bash will expand *~ and pass the matching files to the function, not the
 '*~'.
 
-### Important directories
+### Environment variables
+
+* **`ENV_HOME_DIR`**: where this project resides
+* **`ENV_DATA_DIR`**: always defined as `~/.envData`
+* **`ENV_ARCH`**: either `32` or `64` depending on the architecture of the CPU
+* **`ENV_PLATFORM`**: `Mac` or `Linux` or `Cygwin`
+
+### Data directories and files
 * `~/.envData/bash`: history file and bashVars.sh file location
 * `~/.envData/emacs/backup`: emacs backup files location
 
-## Customizations
+### Customizations
 Consider looking at the files below for customizations.
 ```
-$ENV_HOME_DIR/bash/support/aliasesForLinux.sh
-$ENV_HOME_DIR/bash/support/aliasesForMac.sh
 $ENV_HOME_DIR/bash/aliases.sh
 $ENV_HOME_DIR/bash/settings.sh
 ```
@@ -47,6 +46,20 @@ of platforms.
 
 ## Important commands
 
-### 
+### Aliases
+
+* `lsl`: detailed list of files
+* `lsa`: non-detailed list of files
+* `sane`: use it when your screen is messed up, can't see what you type
+* `largeFiles`: lists the top 15 largest files
+* `resetShell`: reread the start.sh, so changes are reflected
+* `..`: go one directory up
+* `dus`: how much current directory occupies in size
+* `duh`: this directory and its direct subdirectories reported
+* `paths`: show PATH environment variable as a list of paths
+* `localDate`: time and date in local time zone (except on Cygwin and WSL (Linux on Windows))
+* `utcDate`: time and date in UTC time zone
+* `localTime`: time in local time zone
+* `download`: fetch a given url and download it
 
 
