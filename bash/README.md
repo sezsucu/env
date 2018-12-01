@@ -15,7 +15,7 @@ variables defined from the start script:
 * **`ENV_HOME_DIR`**: where this project resides
 * **`ENV_DATA_DIR`**: always defined as `~/.envData`
 * **`ENV_ARCH`**: either `32` or `64` depending on the architecture of the CPU
-* **`ENV_PLATFORM`**: either `Mac` or `Linux`
+* **`ENV_PLATFORM`**: either `Mac` or `Linux` or `Cygwin`
 
 **When passing parameters to library functions make sure that you quote them**. For example
 ```bash
@@ -25,7 +25,7 @@ If you pass it without quote, bash will expand *~ and pass the matching files to
 '*~'.
 
 ### Important directories
-* `~/.envData/bash`: history file location
+* `~/.envData/bash`: history file and bashVars.sh file location
 * `~/.envData/emacs/backup`: emacs backup files location
 
 ## Customizations
@@ -38,8 +38,8 @@ $ENV_HOME_DIR/bash/settings.sh
 ```
 
 ### Local time zone
-By default, `start.sh` will attempt to figure out the local time zone, but if it fails
-it will use the `LOCAL_TIME_ZONE` located in `settings.sh`. By default this value is `Etc/UTC`.
+By default, `settings.sh` will attempt to figure out the local time zone, but if it fails
+it will use the default value of `LOCAL_TIME_ZONE` which is `Etc/UTC`.
 This value is being used in various locations for display purposes. By default, we set `TZ` to
 `Etc/UTC` and prefer to work with UTC mostly. We use the local time zone in certain locations,
 such as the bash prompt. `LOCAL_TIME_ZONE` is also used in certain functions due to limitations

@@ -165,6 +165,11 @@ if [ ! -t 1 ]; then
     Blue=""
 fi
 
+printf "%14s: $ENV_PLATFORM ($ENV_ARCH bit)\n" "System"
+printf "%14s: $ENV_HOME_DIR \n" "Home Directory"
+printf "%14s: $ENV_DATA_DIR \n" "Data Directory"
+printf "\n"
+
 if [ $IP4_UP = "true" ]; then
     if [ $DNS_UP = "true" ]; then
         if [ $HTTP_OK = "false" ]; then
