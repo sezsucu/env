@@ -14,9 +14,7 @@ fi
 
 # custom settings
 source $ENV_HOME_DIR/bash/settings.sh
-# functions, support stuff (lib should come before aliases)
 source $ENV_HOME_DIR/bash/lib.sh
-# aliases
 source $ENV_HOME_DIR/bash/aliases.sh
 # variables in the form of web='web.test.com', so you can ssh $web
 if [[ -e $ENV_DATA_DIR/bash/bashVars.sh ]]; then

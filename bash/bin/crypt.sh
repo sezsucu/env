@@ -32,7 +32,6 @@ function extractPublicRSAKey()
         echo "Usage: crypt.sh public /path/to/privateKey.file"
         exit 1
     fi
-    #keyFile=$(getFileName "$1")
     keyFile=$1
     (>&2 echo "Using $keyFile")
     openssl rsa -in "$keyFile" -pubout
@@ -59,9 +58,7 @@ function encryptData()
     if [[ $# == 0 || "$1" == "" ]]; then
         openssl enc -aes-256-cbc -salt -base64 <&0 >&1
     elif [[ $# == 1 ]]; then
-        #keyFile=$(getFileName "$1")
         keyFile=$1
-        #(>&2 echo "Using $keyFile")
         read -r line < "$keyFile"
         if [[ "$line" =~ .*PRIVATE.* ]]; then
             openssl rsautl -inkey $keyFile -encrypt >&1
@@ -81,8 +78,6 @@ function decryptData()
         openssl enc -d -aes-256-cbc -base64 <&0 >&1
     elif [[ $# == 1 ]]; then
         keyFile=$1
-        #keyFile=$(getFileName "$1")
-        #(>&2 echo "Using $keyFile")
         read -r line < "$keyFile"
         if [[ "$line" =~ .*PRIVATE.* ]]; then
             openssl rsautl -inkey $keyFile -decrypt <&0
