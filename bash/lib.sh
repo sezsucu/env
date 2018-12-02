@@ -17,6 +17,32 @@ fi
 
 ISO_DATE_FMT='%Y-%m-%d %H:%M:%S %Z'
 
+# tries to display the given url in a browser window
+function displayUrl()
+{
+    if [[ "$ENV_PLATFORM" == "Mac" ]]; then
+        open $*
+    elif [[ "$ENV_PLATFORM" == "Cygwin" ]]; then
+        cygstart $*
+    elif [[ "$ENV_PLATFORM" == "Linux" ]]; then
+        if [[ "`command -v xdg-open`" ]]; then
+            xdg-open $*
+        else
+            (>&2 echo "Try installing xdg-open (e.g. sudo apt-get install xdg-utils)")
+            echo "Visit: " $*
+        fi
+    elif [[ "$ENV_PLATFORM" == "WSL" ]]; then
+        if [[ "`command -v powershell.exe`" ]]; then
+            powershell.exe start $*
+        else
+            (>&2 echo "No powershell.exe found, install it and/or add it to path")
+            echo "Visit: " $*
+        fi
+    else
+        echo "Visit: " $*
+    fi
+}
+
 # prependPath VARNAME /path/to/existing/dir
 # prepends the second argument to the ENVVAR and exports ENVVAR
 # it prepends the path if VARNAME does not have it already
@@ -260,6 +286,7 @@ function unpack()
      fi
 }
 
+# returns the epoch number from the given date, according to the given format
 function toEpochF()
 {
     if [ $# -eq 0 ]; then
@@ -278,6 +305,7 @@ function toEpochF()
     fi
 }
 
+# returns the date from the given epoch number, but you can specify the format
 function fromEpochF()
 {
     if [ $# -eq 0 ]; then
@@ -296,7 +324,7 @@ function fromEpochF()
     fi
 }
 
-
+# returns the epoch number for the given time
 function toEpoch()
 {
     local lastArg="${@: -1}"
@@ -307,6 +335,7 @@ function toEpoch()
     fi
 }
 
+# returns the date from the given epoch number
 function fromEpoch()
 {
     fromEpochF "$ISO_DATE_FMT" $*
