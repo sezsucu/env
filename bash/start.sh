@@ -57,7 +57,7 @@ set -o notify
 # show the list at first TAB, instead of beeping and and waiting for a second TAB
 set show-all-if-ambiguous On
 
-# disable messaging, turn off talk and write
+# disable messaging, turn off talk and write (not installed on cygwin by default)
 if [[ `command -v mesg` ]]; then
     mesg n
 fi

@@ -205,9 +205,17 @@ By default this tool ignores a number of directories documented in the file.
 Finds files which are larger than the given size. By default kilobyte is used if no explicit size unit is provided.
 For example below it finds all files that are larger than 20 kilobytes.
 ```bash
-findOverSize.sh 20
+findOverSize.sh 20 # 20 kilobytes
 ```
 You can use other size units, namely g or G for gigabytes, m or M for megabytes, k or K for kilobytes.
+```bash
+findOverSize.sh 20K # 20 kilobytes
+findOverSize.sh 20k # 20 kilobytes
+findOverSize.sh 20m # 20 megabytes
+findOverSize.sh 20M # 20 megabytes
+findOverSize.sh 1g # 1 gigabytes
+findOverSize.sh 1G # 1 gigabytes
+```
 You can provide a second argument to narrow the search, e.g. only log files large than 2GB.
 ```bash
 findOverSize.sh 2G "*.log"
