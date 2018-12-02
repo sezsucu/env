@@ -216,6 +216,7 @@ function pack () {
        case $file in
           *.tar)     tar chvf $file $*  ;;
           *.tar.bz2) tar chjf $file $*  ;;
+          *.tbz2) tar chjf $file $*  ;;
           *.tar.gz)  tar chzf $file $*  ;;
           *.tgz)     tar chzf $file $*  ;;
           *.zip)     zip $file $*      ;;
@@ -227,6 +228,7 @@ function pack () {
        case $file in
           *.tar)     tar chvf $file $*  ;;
           *.tar.bz2) tar chjf $file $*  ;;
+          *.tbz2) tar chjf $file $*  ;;
           *.tar.gz)  tar chzf $file $*  ;;
           *.tgz)     tar chzf $file $*  ;;
           *.zip)     zip $file $*      ;;
@@ -268,7 +270,7 @@ function toEpochF()
         shift
         if [ "$ENV_PLATFORM" = "Mac" ]; then
             date -j -f "$format" "$*" +"%s"
-        elif [[ "$ENV_PLATFORM" = "Linux" || "$ENV_PLATFORM" = "Cygwin" ]]; then
+        elif [[ "$ENV_PLATFORM" = "Linux" || "$ENV_PLATFORM" = "Cygwin" || "$ENV_PLATFORM" = "WSL" ]]; then
             date -d "$*" '+%s'
         else
             echo "Not Supported"
@@ -286,7 +288,7 @@ function fromEpochF()
         shift
         if [ "$ENV_PLATFORM" = "Mac" ]; then
             TZ=Etc/UTC date -r $1 "+$format"
-        elif [[ "$ENV_PLATFORM" = "Linux" || "$ENV_PLATFORM" = "Cygwin" ]]; then
+        elif [[ "$ENV_PLATFORM" = "Linux" || "$ENV_PLATFORM" = "Cygwin" || "$ENV_PLATFORM" = "WSL" ]]; then
             TZ=Etc/UTC date -d "@$1" "+$format"
         else
             echo "Not Supported"

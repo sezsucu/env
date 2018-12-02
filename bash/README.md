@@ -23,7 +23,7 @@ If you pass it without quote, bash will expand *~ and pass the matching files to
 * **`ENV_HOME_DIR`**: where this project resides
 * **`ENV_DATA_DIR`**: always defined as `~/.envData`
 * **`ENV_ARCH`**: either `32` or `64` depending on the architecture of the CPU
-* **`ENV_PLATFORM`**: `Mac` or `Linux` or `Cygwin`
+* **`ENV_PLATFORM`**: `Mac` or `Linux` or `Cygwin` or `WSL`
 
 ### Data directories and files
 * `~/.envData/bash`: history file and bashVars.sh file location
@@ -64,6 +64,8 @@ of platforms.
 * `edel`: to remove emacs *~ files
 
 ### pack
+Compresses a given file or a set of files based on the compression method used.
+
 ```bash
 pack compressed.tar.gz *
 pack compressed.tgz *
@@ -75,6 +77,8 @@ pack compressed.gz huge.txt
 ```
 
 ### unpack
+Decompresses an archive file.
+
 ```bash
 unpack compressed.tar.gz
 unpack archive.tar
@@ -83,6 +87,8 @@ unpack compressed.zip
 unpack compressed.bz2
 unpack compressed.gz
 ```
+
+### toEpoch
 
 ### crypt.sh
 
