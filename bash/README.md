@@ -66,6 +66,7 @@ of platforms.
 * `resetTitle`: to reset the title to its default value
 * `enableCore`: to enable cores again (by default it is off)
 * `disableCore`: to disable cores again
+* `getMd5`: gets the md5 of a given file
 
 ### finding files
 ```bash
@@ -73,6 +74,14 @@ of platforms.
 findFiles '*.cc'
 # find all *.sh files that contain word Environment
 findGrep Environment '*.sh'
+# find all *.sh files that contain word environment in a case-insensitive manner
+findGrepi Environment '*.sh'
+```
+
+### removing files
+```bash
+# remove all class files
+removeFiles '*.class'
 ```
 
 ### pack

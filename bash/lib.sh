@@ -101,6 +101,7 @@ function findGrepi()
     findGrepExecute "${2:-*}" "grep -H -i '${1:-}'"
 }
 
+# returns the md5 of a given file
 function getMd5()
 {
     if [ $ENV_PLATFORM == "Mac" ]; then
