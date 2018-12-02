@@ -89,6 +89,16 @@ unpack compressed.gz
 ```
 
 ### toEpoch
+Convert a date to epoch number.
+```bash
+toEpoch `date`
+```
+
+### fromEpoch
+Converts an epoch number to date
+```bash
+fromEpoch 1543786787
+```
 
 ### crypt.sh
 
