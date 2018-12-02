@@ -8,6 +8,8 @@ if [[ "$unameStr" = "Darwin" ]]; then
     ENV_PLATFORM="Mac";
 elif [[ "$unameStr" =~ [Cc][Yy][Gg][Ww][Ii][Nn] ]]; then
     ENV_PLATFORM="Cygwin";
+elif [[ $(uname -r) == *Microsoft ]]; then
+    ENV_PLATFORM="WSL";
 fi
 if [ `uname -m` = "x86_64" ]; then
 	ENV_ARCH="64"
@@ -88,7 +90,6 @@ function findGrep()
         echo 'Usage: findGrep "envvar" or findGrep "envvar "*.sh"'
         echo 'Find a file with pattern $2 (defaults to all files) in name and grep files that contain $1'
     else
-        #findGrepExecute "${2:-*}" "grep -c -H '${1:-}'"
         findGrepExecute "${2:-*}" "grep -H '${1:-}'"
     fi
 }
@@ -98,7 +99,6 @@ function findGrep()
 # ex: findGrepi "envvar" "*.sh"
 function findGrepi()
 {
-    #findGrepExecute "${2:-*}" "grep -c -H -i '${1:-}'"
     findGrepExecute "${2:-*}" "grep -H -i '${1:-}'"
 }
 
@@ -214,10 +214,10 @@ function pack () {
    shift
    if [[ $# == 1 && -f $1 ]]; then
        case $file in
-          *.tar)     tar cvf $file $*  ;;
-          *.tar.bz2) tar cjf $file $*  ;;
-          *.tar.gz)  tar czf $file $*  ;;
-          *.tgz)     tar czf $file $*  ;;
+          *.tar)     tar chvf $file $*  ;;
+          *.tar.bz2) tar chjf $file $*  ;;
+          *.tar.gz)  tar chzf $file $*  ;;
+          *.tgz)     tar chzf $file $*  ;;
           *.zip)     zip $file $*      ;;
           *.bz2)     bzip2 -c $1 > $file ;;
           *.gz)      gzip -c $1 > $file  ;;
@@ -225,10 +225,10 @@ function pack () {
        esac
    else
        case $file in
-          *.tar)     tar cvf $file $*  ;;
-          *.tar.bz2) tar cjf $file $*  ;;
-          *.tar.gz)  tar czf $file $*  ;;
-          *.tgz)     tar czf $file $*  ;;
+          *.tar)     tar chvf $file $*  ;;
+          *.tar.bz2) tar chjf $file $*  ;;
+          *.tar.gz)  tar chzf $file $*  ;;
+          *.tgz)     tar chzf $file $*  ;;
           *.zip)     zip $file $*      ;;
           *)         echo "File type not recognized" ;;
        esac

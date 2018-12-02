@@ -7,10 +7,10 @@ A [customized bash framework](bash/README.md).
 ## Ubuntu
 ```bash
 sudo apt-get update
-sudo apt install emacs25
-sudo apt install git
-sudo apt install python
-
+sudo apt-get install emacs25
+sudo apt-get install git
+sudo apt-get install python
+sudo apt-get install xdg-utils
 
 cygwin 
 install packages: emacs, curl, openssl

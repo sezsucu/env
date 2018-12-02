@@ -53,7 +53,7 @@ if [ "$ENV_PLATFORM" = "Mac" ]; then
     MEM_FREE=`bytesToDisplay $MEM_FREE`
     LOAD=`w | grep up | awk '{print $12" "$11" "$12}'`
     LOAD15=$(echo $LOAD | cut -f 3 -d ' ');
-elif [ "$ENV_PLATFORM" = "Linux" ]; then
+elif [[ "$ENV_PLATFORM" = "Linux" || "$ENV_PLATFORM" == "WSL" ]]; then
     IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet ' | cut -d t -f2 | cut -d : -f2 | cut -d ' ' -f2 | head -1`
     CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
     CPU_MODEL=`grep "model name" /proc/cpuinfo | cut -d : -f2 | head -1`;

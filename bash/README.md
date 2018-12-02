@@ -63,6 +63,27 @@ of platforms.
 * `download`: fetch a given url and download it
 * `edel`: to remove emacs *~ files
 
+### pack
+```bash
+pack compressed.tar.gz *
+pack compressed.tgz *
+pack archive.tar dir1 dir2
+pack compressed.tar.bz2 *
+pack compressed.zip *
+pack compressed.bz2 huge.txt
+pack compressed.gz huge.txt
+```
+
+### unpack
+```bash
+unpack compressed.tar.gz
+unpack archive.tar
+unpack compressed.tgz
+unpack compressed.zip
+unpack compressed.bz2
+unpack compressed.gz
+```
+
 ### crypt.sh
 
 #### To create a private key
@@ -141,7 +162,7 @@ crypt.sh decrypt < enc.txt > bigMesg.txt
 ### displayEnv.sh
 Displays general system information which includes
 
-* Platform: Cygwin, Linux, Mac
+* Platform: Cygwin, Linux, Mac, WSL (Linux on Windows)
 * env home directory
 * env data directory
 * Whether IP is up or not
