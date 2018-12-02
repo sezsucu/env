@@ -21,7 +21,7 @@ ISO_DATE_FMT='%Y-%m-%d %H:%M:%S %Z'
 # prepends the second argument to the ENVVAR and exports ENVVAR
 # it prepends the path if VARNAME does not have it already
 # the path should exist in the system
-prependPath()
+function prependPath()
 {
     # check if $1 already has this path
     local hasThisPath=f
@@ -60,7 +60,7 @@ function findFiles()
     if [[ $# == 0 ]]; then
         echo "Usage: findFiles '*~'"
     else
-        eval find . -name \"$1\"
+        eval find -L . -name \"$1\"
         #eval find . -name \"$1\" -ls | awk "{\$1 = \"\"; \$2 = \"\"; \$3 = \"\"; \$4 = \"\"; \$6 = \"\"; print \$0;}" | tr -s " " ;
     fi
 }
@@ -70,13 +70,12 @@ function findFiles()
 # to remove all Emacs backup files: findExecute "*~" 'rm -f'
 function findExecute()
 {
-    # eval find . -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\;  ;
     eval find . -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\; ;
 }
 
 function findGrepExecute()
 {
-    eval find . \\\( -path .\/.git -o -path .\/.idea -o -path .\/.svn -o -path .\/.DS_Store \\\) -prune -o -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\+ ;
+    eval find -L . \\\( -path .\/.git -o -path .\/.idea -o -path .\/.svn -o -path .\/.DS_Store \\\) -prune -o -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\+ ;
     #eval find . -type f -name \"${1:-}\" -exec ${2:-ls} '{}' \\\; ;
 }
 
@@ -123,7 +122,7 @@ function removeFiles()
 }
 
 #For Regular Consoles
-setupConsoleColors()
+function setupConsoleColors()
 {
     NC='\033[0m'
 
@@ -137,7 +136,7 @@ setupConsoleColors()
 }
 
 #For Xterm Consoles
-setupXtermColors()
+function setupXtermColors()
 {
 
     NC="$(tput sgr0)"       # No Color
@@ -152,7 +151,7 @@ setupXtermColors()
 }
 
 #For Any console
-setupColors()
+function setupColors()
 {
     case "$TERM" in
         *term | rxvt)

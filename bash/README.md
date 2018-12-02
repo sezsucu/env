@@ -62,6 +62,18 @@ of platforms.
 * `localTime`: time in local time zone
 * `download`: fetch a given url and download it
 * `edel`: to remove emacs *~ files
+* `setTitle`: to set a custom title for the terminal window you are working on
+* `resetTitle`: to reset the title to its default value
+* `enableCore`: to enable cores again (by default it is off)
+* `disableCore`: to disable cores again
+
+### finding files
+```bash
+# find all cc files (follows symbolic links)
+findFiles '*.cc'
+# find all *.sh files that contain word Environment
+findGrep Environment '*.sh'
+```
 
 ### pack
 Compresses a given file or a set of files based on the compression method used.
