@@ -17,8 +17,8 @@ fi
 
 ISO_DATE_FMT='%Y-%m-%d %H:%M:%S %Z'
 
-# tries to display the given url in a browser window
-function displayUrl()
+# tries to open a given path with the OS's default app
+function openResource()
 {
     if [[ "$ENV_PLATFORM" == "Mac" ]]; then
         open $*

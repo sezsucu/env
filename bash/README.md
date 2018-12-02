@@ -67,7 +67,7 @@ of platforms.
 * `enableCore`: to enable cores again (by default it is off)
 * `disableCore`: to disable cores again
 * `getMd5`: gets the md5 of a given file
-* `displayUrl`: tries to display the given url in a browser window, if can't prints on the terminal
+* `openResource`: tries to open the given path with the OS's assigned app, if can't open it, it prints on the terminal
 * `download`: download a url to a local file (if curl or wget is available)
 * `responseHeaders`: shows reponse headers of a given url (only if curl is available)
 * `allHeaders`: shows all HTTP headers of a given url (only if curl is available)
