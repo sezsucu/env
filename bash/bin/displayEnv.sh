@@ -56,7 +56,7 @@ if [ "$ENV_PLATFORM" = "Mac" ]; then
 elif [[ "$ENV_PLATFORM" = "Linux" || "$ENV_PLATFORM" == "WSL" ]]; then
     if [ "`command -v ip`" ]; then
         interface=`ip route get 8.8.8.8 | grep -Po '(?<=(dev )).*(?= src| proto)' | cut -f1 -d ' '`
-        IP_ADDRESS=`ip addr show $interface | grep 'inet ' | cut -d t -f2 | cut -d : -f2 | cut -d ' ' -f2 | head -1`
+        IP_ADDRESS=`ip addr show $interface | grep 'inet ' | cut -d t -f2 | cut -d : -f2 | cut -d ' ' -f2 | head -1 | cut -d '/' -f1`
     elif [ "`command -v /sbin/ifconfig`" ]; then
         IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet ' | cut -d t -f2 | cut -d : -f2 | cut -d ' ' -f2 | head -1`
     else
