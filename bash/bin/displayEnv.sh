@@ -216,9 +216,9 @@ printf "%14s: $NC $KERNEL $NC \n" "Kernel";
 printf "\n" ;
 
 if [[ "$ENV_PLATFORM" = "Mac" ]]; then
-    FILESYSTEMS=(`df -h | grep -vE "^Filesystem|shm|boot|none|devfs|map" | awk '{ print $1, $4, $5, $9 }'`)
+    FILESYSTEMS=(`df -h | grep -vE "^Filesystem|shm|boot|none|devfs|map|\/snap" | awk '{ print $1, $4, $5, $9 }'`)
 else
-    FILESYSTEMS=(`df -h | grep -vE "^Filesystem|shm|boot|none|devfs|map" | awk '{ print $1, $4, $5, $6 }'`)
+    FILESYSTEMS=(`df -h | grep -vE "^Filesystem|shm|boot|none|devfs|map|\/snap" | awk '{ print $1, $4, $5, $6 }'`)
 fi
 for (( i=0; i<${#FILESYSTEMS[@]}; i+=4 )); do
     fileSystemName=${FILESYSTEMS[$i]}
