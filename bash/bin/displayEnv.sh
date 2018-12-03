@@ -10,7 +10,10 @@
 # CPU Load
 # Kernel Version
 
-source "$ENV_HOME_DIR/bash/lib.sh"
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ENV_ARCH="64"
+ENV_PLATFORM="Linux"
+source "$ROOT_DIR/../lib.sh"
 
 setupColors
 
@@ -173,8 +176,10 @@ if [ ! -t 1 ]; then
 fi
 
 printf "%14s: $ENV_PLATFORM ($ENV_ARCH bit)\n" "System"
-printf "%14s: $ENV_HOME_DIR \n" "Home Directory"
-printf "%14s: $ENV_DATA_DIR \n" "Data Directory"
+if [[ ! -z "$ENV_HOME_DIR" ]]; then
+    printf "%14s: $ENV_HOME_DIR \n" "Home Directory"
+    printf "%14s: $ENV_DATA_DIR \n" "Data Directory"
+fi
 printf "\n"
 
 if [ $IP4_UP = "true" ]; then
