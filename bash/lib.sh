@@ -50,16 +50,13 @@ function openResource()
 function prependPath()
 {
     # check if $1 already has this path
-    local hasThisPath=f
     local envVar=""
     eval envVar=\"\$$1\"
-    #for i in $(echo $envVar | tr ":" "\n")
     # the one below handles white space better
-    hasThisPath=$(echo $envVar | tr ":" "\n" | while read i
+    local hasThisPath=$(echo $envVar | tr ":" "\n" | while read i
     do
         if [ "$i" = "$2" ]; then
-            hasThisPath="t"
-            echo $hasThisPath
+            echo "t"
             break;
         fi
     done
