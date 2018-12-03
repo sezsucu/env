@@ -3,7 +3,7 @@
 alias sane="stty sane"
 
 # to remove emacs files
-alias edel="\rm *~"
+alias edel="\rm *~ .*~"
 
 # to reread this file from the shell
 alias resetShell=". $ENV_HOME_DIR/bash/start.sh"

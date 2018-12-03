@@ -7,6 +7,12 @@ function doCygwin()
 {
     openResource https://git-scm.com/
     openResource https://www.python.org/downloads/windows/
+    openResource https://www.virtualbox.org/wiki/Downloads
+}
+
+function doWSL()
+{
+    echo "Linux stuff"
 }
 
 function doLinux()
@@ -17,6 +23,7 @@ function doLinux()
 function doMac()
 {
     echo "Mac stuff"
+    https://www.virtualbox.org/wiki/Downloads
 }
 
 case $ENV_PLATFORM in
@@ -30,7 +37,7 @@ case $ENV_PLATFORM in
         doMac
         ;;
     WSL )
-        doLinux
+        doWSL
         ;;
 esac
 
