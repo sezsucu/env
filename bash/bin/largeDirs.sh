@@ -6,7 +6,9 @@
 # using 'du -S . | sort -nr | head -15' but on mac it is not that easy.
 # Quite slow on mac though
 
-source "$ENV_HOME_DIR/bash/lib.sh"
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ENV_PLATFORM="Linux"
+source "$ROOT_DIR/../lib.sh"
 
 if [[ $ENV_PLATFORM = "Linux" || $ENV_PLATFORM = "Cygwin" || $ENV_PLATFORM = "WSL" ]]; then
     du -S ${1:-'.'} | sort -nr | head -15

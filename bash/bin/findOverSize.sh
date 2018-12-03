@@ -5,6 +5,10 @@
 # ex: findOverSize 10M "*.log"
 # ex: findOverSize 10k
 
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ENV_PLATFORM="Linux"
+source "$ROOT_DIR/../lib.sh"
+
 if [ $# -eq 0 ]; then
     echo 'Usage: findOverSize 10M or findOverSize 10k "*.cc"'
     echo 'Find all files that are over the given size'
@@ -28,7 +32,7 @@ elif [[ ! "${sizeStr:length:1}" =~ [kmg] ]]; then
     exit 1
 fi
 if [ "$ENV_PLATFORM" = "Mac" ]; then
-    eval find . \\\( -name ".git" -o -name ".idea" \\\) -prune -o -type f -name \"${2:-*}\" -size +$sizeStr -print0 | xargs -n1 -0 ls -lhG;
+    eval find -L . \\\( -name ".git" -o -name ".idea" \\\) -prune -o -type f -name \"${2:-*}\" -size +$sizeStr -print0 | xargs -n1 -0 ls -lhG;
 else
-    eval find . \\\( -name ".git" -o -name ".idea" \\\) -prune -o -type f -name \"${2:-*}\" -size +$sizeStr -print0 | xargs --no-run-if-empty -n1 -0 ls -lh --color;
+    eval find -L . \\\( -name ".git" -o -name ".idea" \\\) -prune -o -type f -name \"${2:-*}\" -size +$sizeStr -print0 | xargs --no-run-if-empty -n1 -0 ls -lh --color;
 fi
