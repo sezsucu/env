@@ -54,7 +54,14 @@ if [ "$ENV_PLATFORM" = "Mac" ]; then
     LOAD=`w | grep up | awk '{print $12" "$11" "$12}'`
     LOAD15=$(echo $LOAD | cut -f 3 -d ' ');
 elif [[ "$ENV_PLATFORM" = "Linux" || "$ENV_PLATFORM" == "WSL" ]]; then
-    IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet ' | cut -d t -f2 | cut -d : -f2 | cut -d ' ' -f2 | head -1`
+    if [ "`command -v ip`" ]; then
+        interface=`ip route get 8.8.8.8 | grep -Po '(?<=(dev )).*(?= src| proto)' | cut -f1 -d ' '`
+        IP_ADDRESS=`ip addr show $interface | grep 'inet ' | cut -d t -f2 | cut -d : -f2 | cut -d ' ' -f2 | head -1`
+    elif [ "`command -v /sbin/ifconfig`" ]; then
+        IP_ADDRESS=`/sbin/ifconfig eth0 | grep 'inet ' | cut -d t -f2 | cut -d : -f2 | cut -d ' ' -f2 | head -1`
+    else
+        IP_ADDRESS="Couldn't detect it"
+    fi
     CPU_SPEED=`grep "cpu MHz" /proc/cpuinfo | cut -d : -f2 | head -1`;
     CPU_MODEL=`grep "model name" /proc/cpuinfo | cut -d : -f2 | head -1`;
     CPU_COUNT=`grep "processor" /proc/cpuinfo | cut -d : -f2 | tail -1`;

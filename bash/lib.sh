@@ -62,6 +62,7 @@ function prependPath()
     done
     echo "f"
     )
+    echo $hasThisPath
     # if $2 path exists and $1 does not have this path
     if [ -d "$2" -a "$hasThisPath" = "f" ]; then
 	    eval $1=\"$2\$\{$1:+':'\$$1\}\" && export $1 ;
