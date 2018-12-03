@@ -12,11 +12,13 @@ function doCygwin()
 
 function doWSL()
 {
+    openResource https://www.virtualbox.org/wiki/Downloads
     echo "Linux stuff"
 }
 
 function doLinux()
 {
+    openResource https://www.virtualbox.org/wiki/Downloads
     echo "Linux stuff"
 }
 
