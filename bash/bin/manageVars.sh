@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [[ ! -z $ENV_DATA_DIR ]]; then
+    echo "env is not installed properly: Undefined ENV_DATA_DIR environment variable"
+    exit 1
+fi
+ENV_DATA_DIR=$ENV_DATA_DIR
+
 function showHelp ()
 {
     echo "manageVars.sh [-a varName varValue][-h][-d varName]"
