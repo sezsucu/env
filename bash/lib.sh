@@ -60,7 +60,7 @@ function prependPath()
             break;
         fi
     done
-    echo $hasThisPath
+    echo "f"
     )
     # if $2 path exists and $1 does not have this path
     if [ -d "$2" -a "$hasThisPath" = "f" ]; then
