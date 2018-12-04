@@ -4,19 +4,13 @@ A set of scripts, documentation, programs for a productive development environme
 ## env
 A [customized bash framework](bash/README.md).
 
-## Ubuntu
-```bash
-sudo apt-get update
-sudo apt-get install emacs25
-sudo apt-get install git
-sudo apt-get install python
-sudo apt-get install xdg-utils
-sudo apt-get install curl
+## Windows
+[Setup for Windows](docs/windows.md).
 
-cygwin 
-install packages: emacs, curl, openssl
+## Mac
+[Setup for Mac](docs/mac.md).
 
-```
-
+## Linux
+[Setup for Linux](docs/linux.md).
 
 
