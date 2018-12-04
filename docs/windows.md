@@ -12,6 +12,14 @@ the machine you can go to **Machine** menu and select **Settings**. Select **Sto
 and choose the CD/DVD drive there and then **Choose Virtual Optical Disk Drive** and
 choose the Ubuntu ISO and start the machine again.
 
+## Other programs to install
+* [git](https://git-scm.com/).
+* [python](https://www.python.org/downloads/windows/)
+* [JRE](https://www.java.com/en/download/)
+* [JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+* [Intellij IDEA](https://www.jetbrains.com/idea/download/#section=windows)
+* [Visual Studio Code](https://code.visualstudio.com/download)
+
 ## Cygwin
 Install [Cygwin](https://cygwin.com/install.html). Make sure the following packages are
 installed:

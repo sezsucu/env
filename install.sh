@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ENV_PLATFORM="Linux"
 source $ROOT_DIR/bash/lib.sh
 
 function doCygwin()
