@@ -283,7 +283,3 @@ You can provide a second argument to narrow the search, e.g. only log files larg
 findOverSize.sh 2G "*.log"
 ```
 
-
-
-
-
