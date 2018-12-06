@@ -8,4 +8,5 @@ sudo apt-get install git
 sudo apt-get install python
 sudo apt-get install xdg-utils
 sudo apt-get install curl
+sudo apt install unzip
 ```

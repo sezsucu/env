@@ -26,5 +26,6 @@ installed:
 
 * emacs
 * curl
-* openssl  
+* openssl
+
  
