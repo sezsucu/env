@@ -9,6 +9,8 @@
 **File | Settings | Tools | Terminal | Shell Path**. Use bash, instead of windows default
 command line.
 
+## Change the font to Inconsolata
+
 ## Command shortcuts
 * `ALT-1`: Project
 * `ALT-9`: Version Control
@@ -152,6 +154,25 @@ using Dynamic Code Evaluation, you can do that.
 
 ### Productivity Guide
 **Help | Productivity Guide**
+
+### To restore the default settings
+Remove `<SYSTEM DRIVE>\Users\<USER ACCOUNT NAME>\.<PRODUCT><VERSION>`
+
+### To monitor the IDE performance
+**Help | Activity Monitor**
+
+### Quick switch scheme
+``Ctrl-` ``
+
+### Open a file
+`Ctrl-Shift-N`
+
+### Settings
+`Ctrl-Alt-S`
+
+### EditorConfig plugin
+[EditorConfig Format](https://editorconfig.org/)
+
 
 
 
