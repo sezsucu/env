@@ -10,6 +10,7 @@
 command line.
 
 ## Change the font to Inconsolata
+**Inconsolata**
 
 ## Command shortcuts
 * `ALT-1`: Project
@@ -173,7 +174,8 @@ Remove `<SYSTEM DRIVE>\Users\<USER ACCOUNT NAME>\.<PRODUCT><VERSION>`
 ### EditorConfig plugin
 [EditorConfig Format](https://editorconfig.org/)
 
-
+### Semantic higlighting
+Different colors based on parameter position
 
 
 
