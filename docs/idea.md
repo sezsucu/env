@@ -8,6 +8,8 @@
 ## Change the terminal path
 **File | Settings | Tools | Terminal | Shell Path**. Use bash, instead of windows default
 command line.
+* `C:\cygwin64\Cygwin.bat` : Cygwin
+* `C:\Windows\System32\bash.exe` : WSL
 
 ## Change the font to Inconsolata
 **Inconsolata**
@@ -176,6 +178,25 @@ Remove `<SYSTEM DRIVE>\Users\<USER ACCOUNT NAME>\.<PRODUCT><VERSION>`
 
 ### Semantic higlighting
 Different colors based on parameter position
+
+### Customize Menus and Toolbars
+**File | Settings | Appearance & Behavior | Menus and Toolbars**
+
+### Show tool window bars
+If you hid the tool window bars, you can make them appear by pressing `Alt`
+twice and holding `Alt`.
+
+### Add to favorite
+`Shift-Alt-F`, you can also add it through File menu.
+
+### Quicklists
+**File | Settings | Quick Lists**
+You can create quick lists here and then assign keyboard shortcuts to it.
+
+
+
+
+
 
 
 
