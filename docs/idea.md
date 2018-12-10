@@ -193,7 +193,29 @@ twice and holding `Alt`.
 **File | Settings | Quick Lists**
 You can create quick lists here and then assign keyboard shortcuts to it.
 
+### Tuning Intellij Idea
+* `idea64.exe.vmoptions`: VM options
+* `idea.properties`: various Idea Options
 
+### Path variables
+* `$USER_HOME$`
+* `$PROJECT_DIR$`
+* `$MODULE_DIR$`
+* You can create path variables in **File | Settings | Path Variables**
+* You can ignore path variables, in case you don't want to define them
+
+### Invalidate caches
+
+### Resource files
+The following file types are considered as resources by default
+* DTD
+* GIF
+* JPEG
+* JPG
+* PROPERTIES
+* HTML
+* PNG
+* XML
 
 
 

@@ -19,6 +19,7 @@ choose the Ubuntu ISO and start the machine again.
 * [JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * [Intellij IDEA](https://www.jetbrains.com/idea/download/#section=windows)
 * [Visual Studio Code](https://code.visualstudio.com/download)
+* [Ant](https://ant.apache.org/bindownload.cgi)[Ant Installation](https://www.mkyong.com/ant/how-to-install-apache-ant-on-windows/)
 
 ## Cygwin
 Install [Cygwin](https://cygwin.com/install.html). Make sure the following packages are
@@ -27,5 +28,16 @@ installed:
 * emacs
 * curl
 * openssl
+* unzip (Info-Zip)
+* zip (Info-Zip)
+
+## Java
+* [Set the JAVA_HOME](https://docs.oracle.com/cd/E19182-01/820-7851/inst_cli_jdk_javahome_t/)
+
+## Environment Variables
+* **JAVA_HOME** `C:\Program Files\Java\jdk-11.0.1`
+* **ANT_HOME** `C:\Users\YOUR_USER_NAME\apache-ant-1.10.5`
+* **PATH** `C:\Program Files\Java\jdk-11.0.1\bin`, `%ANT_HOME%\bin`,
+`C:\Users\YOUR_USER_NAME\apache-maven-3.6.0\bin`
 
  
